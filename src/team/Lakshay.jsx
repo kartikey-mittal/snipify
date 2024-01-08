@@ -1,12 +1,12 @@
 import React from "react"
 import Navbar from "../Navbar";
-import Home from "../learner/Home";
+import HomeLakshay from "../learner/HomeLakshay";
 
 const Lakshay = () => {
   return (
     <div>
       <Navbar/>
-      <Home/>
+     <HomeLakshay/>
 
     
 
