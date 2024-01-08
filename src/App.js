@@ -10,6 +10,7 @@ import Lakshay from "./team/Lakshay";
 import Kartikey from "./team/Kartikey";
 import LoginPage from "./login/LoginPage";
 import Home from "./learner/Home";
+import Test1 from "./learner/Test1";
 
 function App() {
   return (
@@ -20,11 +21,12 @@ function App() {
         <Route path="/login" element={<LoginPage/>}   />
 
         <Route path="/home" element={<Home/>}   />
-        
+        <Route path="/t2" element={<Test1/>}   />
         <Route path="/test/Lakshay" element={<Lakshay />} />
         <Route path="/test/Benjamin" element={<Benjamin />} />
         <Route path="/test/Kartikey" element={<Kartikey />} />
         <Route path="/test/Aviral" element={<Aviral />} />
+
 
 
       </Routes>
