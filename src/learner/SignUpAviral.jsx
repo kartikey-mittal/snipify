@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Logo from '../assets/snipify_onboard.png'
 
-const LoginPage = () => {
+const SignUp = () => {
   const [selectedButton, setSelectedButton] = useState(null);
 
   const handleButtonClick = (buttonName) => {
@@ -36,7 +36,7 @@ const LoginPage = () => {
       height: '80vh',
       width: '100%',
       backgroundColor: 'white',
-      margin: 20,
+      margin: 30,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
@@ -65,7 +65,7 @@ const LoginPage = () => {
       backgroundColor: 'white',
       width: '100%',
       gap: 40,
-      marginTop: 20,
+      marginTop: 30,
     },
     button: {
       width: '100px',
@@ -127,8 +127,25 @@ const LoginPage = () => {
 
       <div style={styles.rightSection}>
         <div style={styles.formContainer}>
-          <div style={styles.loginTitle}>Login</div>
+          <div style={styles.loginTitle}>SignUp</div>
           <div style={styles.loginSubtitle}>ready to onboard in community :)</div>
+
+          
+
+          {/* Form */}
+
+          <div style={styles.emailLabel}>Name</div>
+          <input type="password" style={{ ...styles.inputField, marginLeft: '30px' }} placeholder="Enter your full Name" />
+
+
+          <div style={styles.passwordLabel}>Email</div>
+          <input type="text" style={{ ...styles.inputField, marginLeft: '30px' }} placeholder="Enter your email" />
+
+
+          <div style={styles.passwordLabel}>Password</div>
+          <input type="password" style={{ ...styles.inputField, marginLeft: '30px' }} placeholder="Enter your Password" />
+
+          
 
           {/* Buttons */}
           <div style={styles.buttonGrid}>
@@ -148,6 +165,7 @@ const LoginPage = () => {
                 ...styles.button,
                 border: `1px solid ${selectedButton === 'skilled' ? 'blue' : '#7D716A'}`,
                 borderWidth: selectedButton === 'skilled' ? '2px' : '1px',
+                
               }}
               onClick={() => handleButtonClick('skilled')}
             >
@@ -156,20 +174,14 @@ const LoginPage = () => {
             <div></div>
           </div>
 
-          {/* Form */}
-          <div style={styles.emailLabel}>Email</div>
-          <input type="text" style={{ ...styles.inputField, marginLeft: '20px' }} placeholder="Enter your email" />
-
-
-          <div style={styles.passwordLabel}>Password</div>
-          <input type="password" style={{ ...styles.inputField, marginLeft: '20px' }} placeholder="Enter your Password" />
+          
 
           {/* Continue Button */}
-          <div style={{...styles.continueButton,marginLeft: '20px',marginTop:'50px' }}>Continue</div>
+          <div style={{...styles.continueButton,marginLeft: '30px',marginTop:'50px' }}>Continue</div>
         </div>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default SignUp;

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Skills from '../assets/skills.png'
 const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', 'skills', 'Python', 'React'];
+const professionData=['Student','Working Professional','Freelancer'];
 
 const HomeAviral = () => {
+    const [currentStep, setCurrentStep] = useState('profile');
     const [selectedSkill, setSelectedSkill] = useState(null);
     const [isSkillClicked, setIsSkillClicked] = useState(false);
 
@@ -21,6 +23,11 @@ const HomeAviral = () => {
 
     const handleContinueClick = () => {
         // Handle continue button click logic here
+        if (currentStep === 'profile') {
+            setCurrentStep('profession');
+          } else if (currentStep === 'profession') {
+            setCurrentStep('skills');
+          }
     };
 
     const homeStyle = {
@@ -75,6 +82,8 @@ const HomeAviral = () => {
         marginLeft: 40
     };
 
+    
+
     const continueButtonStyle = {
         fontFamily: 'DMM',
         fontSize: 15,
@@ -90,6 +99,34 @@ const HomeAviral = () => {
         cursor: isSkillClicked ? 'pointer' : 'not-allowed',
     };
 
+    const styles={
+        emailLabel: {
+            
+            color: '#7D716A',
+            fontFamily: 'DMM',
+            fontSize: 15,
+            marginTop: 50,
+            fontWeight:500
+          },
+          passwordLabel: {
+            
+            color: '#7D716A',
+            fontFamily: 'DMM',
+            fontSize: 15,
+            marginTop: 20,
+            fontWeight:500
+          },
+          inputField: {
+              borderRadius: 10,
+              margin: 5,
+              padding: '10px',
+              width: '20vw',
+              borderColor: '#7D716A',
+              borderWidth: '0.5px',
+              fontFamily: 'DMM',
+            },
+    };
+
     return (
         <div style={homeStyle}>
             <div style={contentStyle}>
@@ -99,7 +136,10 @@ const HomeAviral = () => {
 
                         <img src={Skills} alt="Logo" style={{height:'80%',width:'80 %',}} /> {/* Stretch the SVG logo */}
                         </div>
-                        <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
+
+
+                        {/* Skills */}
+                        {/* <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
                             <div style={{ margin: "30px", textAlign: "left" }}>
                                 <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2',color:'1E1E1E' }}>Select your Skill</h2>
                                 <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start shaping lives of coding enthusiasts</p>
@@ -128,7 +168,83 @@ const HomeAviral = () => {
                                     Continue
                                 </button>
                             </div>
+                        </div> */}
+
+                                 {/* ************************************************* */}
+
+                        {/* PROFESSION */}
+
+                        {/* <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
+                            <div style={{ margin: "30px", textAlign: "left" }}>
+                                <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2',color:'1E1E1E' }}>Profession</h2>
+                                <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>What is your Profession ?</p>
+                            </div>
+                            <div style={skillContainerStyle}>
+                                {professionData.map((skill, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => handleSkillClick(index)}
+                                        style={{
+                                            ...skillButtonStyle,
+                                            backgroundColor: selectedSkill === index ? selectedBgColor : bgColor,
+                                            color: selectedSkill === index ? selectedTextColor : textColor,
+                                        }}
+                                    >
+                                        {skill}
+                                    </button>
+                                ))}
+                            </div>
+                            <div style={{ marginTop: '140px' }}>
+                                <button
+                                    onClick={handleContinueClick}
+                                    style={continueButtonStyle}
+                                    disabled={!isSkillClicked}
+                                >
+                                    Continue
+                                </button>
+                            </div>
+                        </div> */}
+
+
+
+                                    {/* ************************************************* */}
+
+
+
+
+
+                                     {/* PROFILE */}
+
+                        <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
+                            <div style={{ margin: "30px", textAlign: "left" }}>
+                                <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2',color:'1E1E1E' }}>Profile</h2>
+                                <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start helping other's with your skills</p>
+                            </div>
+                            <div style={{textAlign:"left",paddingLeft:30}}>
+                            <div style={styles.emailLabel}>Email</div>
+                                <input type="text" style={{ ...styles.inputField,marginTop:10 }} placeholder="Enter your email" />
+
+
+                                <div style={styles.passwordLabel}>Password</div>
+                                <input type="password" style={{ ...styles.inputField,marginTop:10 }} placeholder="Enter your Password" />
+                                </div>
+                            <div style={{ marginTop: '60px' }}>
+                                <button
+                                    onClick={handleContinueClick}
+                                    style={continueButtonStyle}
+                                    disabled={!isSkillClicked}
+                                >
+                                    Continue
+                                </button>
+                            </div>
                         </div>
+
+
+
+                                    {/* ************************************************* */}
+
+
+
                     </div>
                 </div>
             </div>
