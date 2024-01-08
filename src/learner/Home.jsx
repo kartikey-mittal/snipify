@@ -110,10 +110,9 @@ const Home = () => {
         : 'Drag and Drop\nor Click to Upload';
 
 
-    const buttonWidth = '10%';
+
     const bgColor = 'white';
     const textColor = 'black';
-    const bwwidth = 0.2;
     const selectedBgColor = '#4285F4';
     const selectedTextColor = 'white';
     const initialBorderRadius = 50;

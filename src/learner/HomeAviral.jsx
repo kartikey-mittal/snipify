@@ -1,7 +1,24 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Button from '../components/Buttonitis';
 
+const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js',"skills",'Python', 'React',];
+
+
 const HomeAviral = () => {
+    const [selectedSkill, setSelectedSkill] = useState(null);
+    
+    const selectedBgColor = '#4285F4';
+    const selectedTextColor = 'white';
+    const initialBorderRadius = 50;
+    const borderColor = 'black';
+    const borderWidth = '0.2px';
+    const bgColor="white";
+    const textColor="black";
+
+    const handleSkillClick = (index) => {
+        setSelectedSkill(index);
+    };
+
     const homeStyle = {
         height: '80vh', // Set height to 80% of the viewport height
         display: 'flex',
@@ -21,85 +38,89 @@ const HomeAviral = () => {
         backgroundColor:'#F3F6FC'
     };
 
-    const headingStyle = {
-        width: '100%',
-        backgroundColor: '#FFF4E8',
-        fontSize: 25,
-        fontFamily: 'DMM',
-        fontWeight: 500,
-        paddingTop: 5,
-        paddingBottom: 5,
-        
-    };
+    
 
     const mainboxStyle = {
         width: '90%',
-        height: '85%',
-        backgroundColor: 'white',
+        height: '90%',
+        backgroundColor: "#EEF4FE",
         borderRadius: 15,
         margin: 'auto', // Center horizontally
         marginTop: '20px', // Add space from the heading
-        border: '1px solid blue', // Add border with blue color
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
     };
 
-    const buttonWidth = '10%';
-    const bgColor="white";
-    const textColor="black";
-    const bwwidth=0.2;
+   
 
     return (
         <div style={homeStyle}>
             <div style={contentStyle}>
-                <div style={headingStyle}>⚡⚡Hi Kartikey Mittal, what is your question today?</div>
+                
                 <div style={mainboxStyle}>
-                    <div style={{padding:'10px 20px'  ,textAlign:"left"}}>
-                        <div style={{display:"flex"}}>
-                    <button style={{backgroundColor:"#4285f4",borderRadius:"50%",width:30,height:30 ,marginRight:20,marginTop:15 ,border:"none"}}>1</button>
-                    <h3 style={{fontWeight:500}}>What is your Question?</h3>
-                    </div>
-             
-                    <div style={{marginTop:2,display:"flex",justifyContent:"space-around"}}>
-                    <label style={{ width: 500, height: 150, backgroundColor: "#F2F1EB" }}>
-                        <input
-                           
-                            type="text"
-                            placeholder="Type your question here"
-                            style={{ width: "100%", height: "100%", paddingLeft: 20, fontWeight: "400",fontSize:15, boxSizing: "border-box",backgroundColor: "#F2F1EB",borderRadius:5 }}
-                        />
-                        </label>
-                        <label style={{ width: 341, height: 151, backgroundColor: "#F2F1EB" }}>
-                        <input
-                            type="text"
-                            placeholder="Drag and Drop images or upload"
-                            style={{ width: "100%", height: "100%", paddingLeft: 20, fontWeight: "400",fontSize:15, boxSizing: "border-box",backgroundColor: "#F2F1EB",borderRadius:5 }}
-                        />
-                        </label>
-                    </div>
-                    
-                    <div style={{marginTop:20,marginLeft:40}}>
-                    <Button label="Continue"  />
-                    </div>
-                    <div style={{display:"flex",marginTop:5}}>
-                    <button style={{backgroundColor:"#4285F4",borderRadius:"50%",width:30,height:30 ,marginRight:20,marginTop:15,border:"none"}}>2</button>
-                    <h3 style={{fontWeight:500}}>Add Details</h3>
-                    </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', width: "50%", gap: 5 }}>
-                    
-                    <Button label="Javascript is the best" bgColor={bgColor} bwwidth={bwwidth} textColor={textColor} style={{ width: buttonWidth }} />
-                    <Button label="C++" bgColor={bgColor} bwwidth={bwwidth} textColor={textColor} style={{ width: buttonWidth }} />
-                    <Button label="C++" bgColor={bgColor} bwwidth={bwwidth} textColor={textColor} style={{ width: buttonWidth }} />
-                    <Button label="C++" bgColor={bgColor} bwwidth={bwwidth} textColor={textColor} style={{ width: buttonWidth }} />
-                    <Button label="C++" bgColor={bgColor} bwwidth={bwwidth} textColor={textColor} style={{ width: buttonWidth }} />
-                    
-                    
-                </div>
+                    {/* eded */}
+                    <div style={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
+                        <div style={{width: 394, height: 500, backgroundColor: "red",marginTop:20,borderRadius:20}}></div>
+                        <div style={{width: 394, height: 500, backgroundColor: "white",marginTop:20,borderRadius:20}}>
+                            <div style={{margin:"30px 30px",textAlign:"left"}}>
+                                <h2 style={{fontWeight:500,fontFamily: 'DMM',wordSpacing:1,letterSpacing:1}}>Select your Skill</h2>
+                                <p style={{fontFamily: 'DMM'}}>and start shaping lives of coding enthuiast</p>
+                            </div>
 
-                </div>
-                <div style={{position:"absolute",left:220,bottom:60}}>
-                <Button label="Connect"/>
-            
-                </div>
+                            
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    width: '100%',
+                                    gap: 10,
+                                    marginLeft: 30,
+                                }}
+                            >
+                                {skillsData.map((skill, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => handleSkillClick(index)}
+                                        style={{
+                                            backgroundColor: selectedSkill === index ? selectedBgColor : bgColor,
+                                            color: selectedSkill === index ? selectedTextColor : textColor,
+                                            borderRadius: initialBorderRadius,
+                                            border: `1px solid ${borderColor}`,
+                                            borderWidth: borderWidth,
+                                            fontFamily: 'DMM',
+                                            padding: '10px',
+                                            outline: 'none',
+                                            margin: '5px',
+                                            minWidth:'100px',
+                                            whiteSpace: 'nowrap',
+                                        }}
+                                    >
+                                        {skill}
+                                    </button>
+                                ))}
+                            </div>
+                            <div style={{ marginTop: 60}}>
+                            <button
+                                style={{
+                                    fontFamily: 'DMM',
+                                    fontSize: 15,
+                                    color: 'white',
+                                    backgroundColor: '#4285F4',
+                                    borderRadius: 50,
+                                    border: 'none',
+                                    outline: 'none',
+                                    padding: 10,
+                                    paddingLeft: 15,
+                                    paddingRight: 15,
+                                }}
+                            >
+                                Continue
+                            </button>
+                        
+                        </div>
+                        </div>
+                    </div>
+
+                    {/* ss */}
                 </div>
             </div>
         </div>
