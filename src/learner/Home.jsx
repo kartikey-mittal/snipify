@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../components/Buttonitis';
+import Navbar from '../Navbar';
+
 
 const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js',"skills",'Python', 'React',];
 
@@ -9,6 +11,15 @@ const Home = () => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [uploadStatus, setUploadStatus] = useState({ success: false, fileName: '' });
     const [textInput, setTextInput] = useState('');
+
+    const isContinueButtonDisabled = !textInput.trim();
+
+// Calculate opacity based on whether there is text in the input
+     const continueButtonOpacity = isContinueButtonDisabled ? 0.5 : 1
+     const isConnectButtonDisabled = selectedSkill === null;
+
+// Calculate opacity based on whether a skill is selected
+const connectButtonOpacity = isConnectButtonDisabled ? 0.5 : 1;
 
     const handleSkillClick = (index) => {
         setSelectedSkill(index);
@@ -49,8 +60,7 @@ const Home = () => {
         setTextInput(e.target.value);
     };
 
-    const isContinueButtonDisabled = !textInput.trim();
-    const isConnectButtonDisabled = selectedSkill === null;
+    
 
 
     const homeStyle = {
@@ -120,6 +130,9 @@ const Home = () => {
     const borderWidth = '0.2px';
 
     return (
+        <>
+        <Navbar/>
+
         <div style={homeStyle}>
             <div style={contentStyle}>
                 <div style={headingStyle}>⚡⚡Hi Kartikey Mittal, what is your question today?</div>
@@ -152,28 +165,30 @@ const Home = () => {
                         >
                             <label style={{ width: 500, height: 150 }}>
                                 <input
-                                    type="text"
-                                    placeholder="Type your question here.."
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        paddingTop: 5,
-                                        paddingBottom: 15,
-                                        paddingLeft: 20,
-                                        fontWeight: '400',
-                                        fontSize: 15,
-                                        boxSizing: 'border-box',
-                                        backgroundColor: '#F9F9F9',
-                                        borderRadius: 15,
-                                        border: `2px solid ${borderColor}`,
-                                        outline: 'none',
-                                        borderWidth: '0.5px',
-                                        lineHeight: '1.5',
-                                        whiteSpace: 'pre-wrap',
-                                    }}
-                                    onFocus={(e) => (e.target.style.border = '2px solid #7D716A')}
-                                    onBlur={(e) => (e.target.style.border = `2px solid ${borderColor}`)}
-                                />
+                                type="text"
+                                placeholder="Type your question here.."
+                                value={textInput}
+                                onChange={handleTextInputChange}
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    paddingTop: 5,
+                                    paddingBottom: 15,
+                                    paddingLeft: 20,
+                                    fontWeight: '400',
+                                    fontSize: 15,
+                                    boxSizing: 'border-box',
+                                    backgroundColor: '#F9F9F9',
+                                    borderRadius: 15,
+                                    border: `2px solid ${borderColor}`,
+                                    outline: 'none',
+                                    borderWidth: '0.5px',
+                                    lineHeight: '1.5',
+                                    whiteSpace: 'pre-wrap',
+                                }}
+                                onFocus={(e) => (e.target.style.border = '2px solid #7D716A')}
+                                onBlur={(e) => (e.target.style.border = `2px solid ${borderColor}`)}
+                            />
                             </label>
                             {/* ------------------------drag and  drop ---------------------- */}
                             <div
@@ -208,22 +223,25 @@ const Home = () => {
                         </div>
 
                         <div style={{ marginTop: 20, marginLeft: 40 }}>
-                            <button
-                                style={{
-                                    fontFamily: 'DMM',
-                                    fontSize: 15,
-                                    color: 'white',
-                                    backgroundColor: '#4285F4',
-                                    borderRadius: 50,
-                                    border: 'none',
-                                    outline: 'none',
-                                    padding: 10,
-                                    paddingLeft: 15,
-                                    paddingRight: 15,
-                                }}
-                            >
-                                Continue
-                            </button>
+                        <button
+                            style={{
+                                fontFamily: 'DMM',
+                                fontSize: 15,
+                                color: 'white',
+                                backgroundColor: '#4285F4',
+                                borderRadius: 50,
+                                border: 'none',
+                                outline: 'none',
+                                padding: 10,
+                                paddingLeft: 15,
+                                paddingRight: 15,
+                                opacity: continueButtonOpacity,
+                                cursor: isContinueButtonDisabled ? 'not-allowed' : 'pointer',
+                            }}
+                            disabled={isContinueButtonDisabled}
+                        >
+                            Continue
+                        </button>
                         </div>
 
 
@@ -262,25 +280,28 @@ const Home = () => {
                                 }}
                             >
                                 {skillsData.map((skill, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => handleSkillClick(index)}
-                                        style={{
-                                            backgroundColor: selectedSkill === index ? selectedBgColor : bgColor,
-                                            color: selectedSkill === index ? selectedTextColor : textColor,
-                                            borderRadius: initialBorderRadius,
-                                            border: `2px solid ${borderColor}`,
-                                            borderWidth: borderWidth,
-                                            fontFamily: 'DMM',
-                                            padding: '10px',
-                                            outline: 'none',
-                                            margin: '5px',
-                                            width: 'auto',
-                                            whiteSpace: 'nowrap',
-                                        }}
-                                    >
-                                        {skill}
-                                    </button>
+                                   <button
+                                   key={index}
+                                   onClick={() => handleSkillClick(index)}
+                                   style={{
+                                       backgroundColor: selectedSkill === index ? selectedBgColor : bgColor,
+                                       color: selectedSkill === index ? selectedTextColor : textColor,
+                                       borderRadius: initialBorderRadius,
+                                       border: `2px solid ${borderColor}`,
+                                       borderWidth: borderWidth,
+                                       fontFamily: 'DMM',
+                                       padding: '10px',
+                                       outline: 'none',
+                                       margin: '5px',
+                                       width: 'auto',
+                                       whiteSpace: 'nowrap',
+                                       opacity: isContinueButtonDisabled ? 0.5 : 1,
+                                       cursor: isContinueButtonDisabled ? 'not-allowed' : 'pointer',
+                                   }}
+                                   disabled={isContinueButtonDisabled}
+                               >
+                                   {skill}
+                               </button>
                                 ))}
                             </div>
                         </div>
@@ -289,7 +310,7 @@ const Home = () => {
                     </div>
 
                     <div style={{ marginTop: 20, marginLeft: 40 }}>
-                        <button
+                    <button
                             style={{
                                 fontFamily: 'DMM',
                                 fontSize: 15,
@@ -301,7 +322,10 @@ const Home = () => {
                                 padding: 10,
                                 paddingLeft: 15,
                                 paddingRight: 15,
+                                opacity: connectButtonOpacity,
+                                cursor: isConnectButtonDisabled ? 'not-allowed' : 'pointer',
                             }}
+                            disabled={isConnectButtonDisabled}
                         >
                             Connect
                         </button>
@@ -309,6 +333,7 @@ const Home = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

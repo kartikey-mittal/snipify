@@ -36,7 +36,7 @@ const Navbar = () => {
     fontWeight: 600,
   });
 
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState('red');
 
   return (
     <div style={navbarStyle}>
