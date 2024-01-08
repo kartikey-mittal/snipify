@@ -62,8 +62,8 @@ const HomeLakshay = () => {
              </div>
 
              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'end' }}>
-               <button style={{ cursor:'pointer',backgroundColor: '#EA775C', width: '6rem', height: '2.25rem', border: 'solid .1px', borderRadius: '9999px', display: 'flex', alignItems: 'center', justifyContent: 'center',borderBlockColor:'#EA775C'}}>ignore</button>
-               <button style={{cursor:'pointer', backgroundColor: '#4285F4', width: '6rem', height: '2.25rem', border: 'solid .1px', borderRadius: '9999px', display: 'flex', alignItems: 'center', justifyContent: 'center',marginLeft:'8px',borderBlockColor:'#4285F4' }}>connect</button>
+               <button style={{color: 'white', cursor:'pointer',backgroundColor: '#EA775C', width: '6rem', height: '2.25rem', border: 'solid .1px', borderRadius: '9999px', display: 'flex', alignItems: 'center', justifyContent: 'center',borderBlockColor:'#EA775C'}}>ignore</button>
+               <button style={{color: 'white',cursor:'pointer', backgroundColor: '#4285F4', width: '6rem', height: '2.25rem', border: 'solid .1px', borderRadius: '9999px', display: 'flex', alignItems: 'center', justifyContent: 'center',marginLeft:'8px',borderBlockColor:'#4285F4' }}>connect</button>
              </div>
            </div>
        </div>
