@@ -9,6 +9,7 @@ import Benjamin from "./team/Benjamin";
 import Lakshay from "./team/Lakshay";
 import Kartikey from "./team/Kartikey";
 import LoginPage from "./login/LoginPage";
+import Home from "./learner/Home";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Route path="/test" element={<TestPage/>}   />
         <Route path="/login" element={<LoginPage/>}   />
 
-        
+        <Route path="/home" element={<Home/>}   />
         
         <Route path="/test/Lakshay" element={<Lakshay />} />
         <Route path="/test/Benjamin" element={<Benjamin />} />

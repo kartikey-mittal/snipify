@@ -27,34 +27,32 @@ const CustomSwitch = () => {
     borderRadius: '50%',
     backgroundColor: '#E5E5E5',
     transition: 'transform 0.3s ease',
-    zIndex: 1, // Added this line
+    zIndex: 1,
   };
 
   const textStyleOnline = {
-    
-    left: '10px',
+    left: isToggled ? '10px' : '65px', // Adjusted this line
     fontSize: '14px',
     fontWeight: '500',
     color: 'white',
     opacity: isToggled ? '0' : '1',
-    zIndex: 0, // Added this line
+    zIndex: 0,
   };
 
   const textStyleOffline = {
-    
-    right: '10px',
+    left: isToggled ? '65px' : '10px', // Adjusted this line
     fontSize: '14px',
     fontWeight: '500',
     color: 'white',
     opacity: isToggled ? '1' : '0',
-    zIndex: 0, // Added this line
+    zIndex: 0,
   };
 
   return (
     <div style={switchStyle} onClick={handleToggle}>
       <div style={circleStyle}></div>
-      <p style={textStyleOnline}>{'ONLINE'}</p>
-      <p style={textStyleOffline}>{'OFFLINE'}</p>
+      <p style={textStyleOnline}>{' '}</p>
+      <p style={textStyleOffline}>{' '}</p>
     </div>
   );
 };

@@ -86,7 +86,7 @@ const HomeAviral = () => {
                     </div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', width: "50%", gap: 5 }}>
                     
-                    <Button label="C++" bgColor={bgColor} bwwidth={bwwidth} textColor={textColor} style={{ width: buttonWidth }} />
+                    <Button label="Javascript is the best" bgColor={bgColor} bwwidth={bwwidth} textColor={textColor} style={{ width: buttonWidth }} />
                     <Button label="C++" bgColor={bgColor} bwwidth={bwwidth} textColor={textColor} style={{ width: buttonWidth }} />
                     <Button label="C++" bgColor={bgColor} bwwidth={bwwidth} textColor={textColor} style={{ width: buttonWidth }} />
                     <Button label="C++" bgColor={bgColor} bwwidth={bwwidth} textColor={textColor} style={{ width: buttonWidth }} />
