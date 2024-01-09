@@ -7,9 +7,9 @@ import SignUpAviral from "../learner/SignUpAviral";
 const Aviral = () => {
   return (
     <div>
-      <Navbar/>
-      <HomeAviral/>
-      {/* <SignUpAviral/> */}
+      {/* <Navbar/> */}
+      {/* <HomeAviral/> */}
+      <SignUpAviral/>
    
     </div>
   )

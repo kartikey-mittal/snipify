@@ -1,12 +1,62 @@
 import React, { useState } from 'react';
 import Logo from '../assets/snipify_ob.png'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../Firebase';
+import { useNavigate } from 'react-router-dom';
 
-const SignUp = () => {
+const SignUpPage = () => {
+ 
   const [selectedButton, setSelectedButton] = useState(null);
+  const [enteredName, setEnteredName] = useState('');
+  const [enteredEmail, setEnteredEmail] = useState('');
+  const [enteredPassword, setEnteredPassword] = useState('');
 
+  const navigate = useNavigate(); // Move useNavigate to the top level
   const handleButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
   };
+
+  const handleContinueClick = async () => {
+    const name = enteredName.trim();
+    const email = enteredEmail.trim();
+    const password = enteredPassword.trim();
+
+    try {
+      if (selectedButton === 'learner' || selectedButton === 'skilled') {
+        const userCollection = selectedButton === 'learner' ? 'Learner' : 'Skilled';
+
+        // Add document to Firestore
+        const docRef = await addDoc(collection(db, userCollection), {
+          Name: name,
+          Email: email,
+          Password: password,
+          Timestamp: serverTimestamp(),
+        });
+
+        // Save data to local storage based on the selected button
+        if (selectedButton === 'learner') {
+          localStorage.setItem('LearnerName', name);
+          localStorage.setItem('LearnerEmail', email);
+          // Redirect to learner home page
+          navigate('/learner/home');
+        } else if (selectedButton === 'skilled') {
+          // Save data to local storage for later retrieval
+          localStorage.setItem('SkilledName', name);
+          localStorage.setItem('SkilledEmail', email);
+
+          // Delay the navigation to ensure Firestore has enough time to save the data
+          setTimeout(() => {
+            // Redirect to skilled profile page with the document ID
+            navigate(`/skilled/profile/${docRef.id}`);
+          }, 1000); // You can adjust the delay as needed
+        }
+      }
+    } catch (error) {
+      console.error('Error saving data to Firestore:', error);
+    }
+  };
+
+  const isContinueButtonDisabled = !selectedButton || !enteredName || !enteredEmail || !enteredPassword;
 
   const styles = {
     container: {
@@ -105,8 +155,6 @@ const SignUp = () => {
       },
       
       continueButton: {
-       
-     
         borderRadius: '20px',
         margin: '5px',
         padding: '10px',
@@ -116,7 +164,9 @@ const SignUp = () => {
         fontFamily: 'DMM',
         border: 'none',
         fontSize: '15px',
-        cursor: 'pointer',
+        cursor: isContinueButtonDisabled ? 'not-allowed' : 'pointer',
+        opacity: isContinueButtonDisabled ? 0.5 : 1,
+        
         marginBottom: '20px',
       },
       learnerButton: {
@@ -154,15 +204,20 @@ const SignUp = () => {
           {/* Form */}
 
           <div style={styles.emailLabel}>Name</div>
-          <input type="password" style={{ ...styles.inputField, marginLeft: '30px' }} placeholder="Enter your full Name" />
+          <input type="text" style={{ ...styles.inputField, marginLeft: '30px' }} placeholder="Enter your full Name" value={enteredName}
+  onChange={(event) => setEnteredName(event.target.value)}/>
 
 
           <div style={styles.passwordLabel}>Email</div>
-          <input type="text" style={{ ...styles.inputField, marginLeft: '30px' }} placeholder="Enter your email" />
+          <input type="text" style={{ ...styles.inputField, marginLeft: '30px' }} placeholder="Enter your email" 
+          value={enteredEmail}
+          onChange={(event) => setEnteredEmail(event.target.value)}/>
 
 
           <div style={styles.passwordLabel}>Password</div>
-          <input type="password" style={{ ...styles.inputField, marginLeft: '30px' }} placeholder="Enter your Password" />
+          <input type="password" style={{ ...styles.inputField, marginLeft: '30px' }} placeholder="Enter your Password" 
+          value={enteredPassword}
+          onChange={(event) => setEnteredPassword(event.target.value)}/>
 
           
 
@@ -193,11 +248,11 @@ const SignUp = () => {
           
 
           {/* Continue Button */}
-          <div style={{...styles.continueButton,marginLeft: '30px',marginTop:'50px' }}>Continue</div>
+          <div style={{...styles.continueButton,marginLeft: '30px',marginTop:'50px' }} onClick={handleContinueClick}>Continue</div>
         </div>
       </div>
     </div>
   );
 };
 
-export default SignUp;
+export default SignUpPage;

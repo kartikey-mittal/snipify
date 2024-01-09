@@ -9,8 +9,12 @@ const Navbar = () => {
     backgroundColor: '#fff',
     boxShadow: '0px 10px 15px rgba(0, 0, 0, 0.1)',
     width: 'calc(100% - 20px)',
-    height:'8%'
+    height: '8%',
+    position: 'sticky',
+    top: 0,
+    zIndex: 100,
   };
+
 
   const blueContainerStyle = {
     width: '125px',

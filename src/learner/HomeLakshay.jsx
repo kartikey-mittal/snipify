@@ -4,10 +4,14 @@ import React from 'react';
 
 const HomeLakshay = () => {
     const homeStyle = {
-        height: '80vh', // Set height to 80% of the viewport height
+        height: '100%', // Set height to 80% of the viewport height
         display: 'flex',
         justifyContent: 'center',
-        marginTop: 20,
+        padding: 20,
+        background: `
+      repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255, 133, 244, 0.8) 50px, rgba(66, 133, 244, 0.8) 51px),
+      repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(66, 133, 244, 0.8) 50px, rgba(66, 133, 244, 0.8) 51px),
+      #5813ea`,
     };
 
     const contentStyle = {

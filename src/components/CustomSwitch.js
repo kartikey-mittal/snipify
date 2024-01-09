@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const CustomSwitch = () => {
-  const [isToggled, setIsToggled] = useState(false);
+  const [isToggled, setIsToggled] = useState(true);
 
   const handleToggle = () => {
     setIsToggled(!isToggled);
@@ -10,49 +10,40 @@ const CustomSwitch = () => {
   const switchStyle = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
     position: 'relative',
-    width: '120px',
-    height: '40px',
-    borderRadius: '25px',
+    width: '80px', // Shorter width
+    height: '25px', // Shorter height
+    borderRadius: '15px', // Adjust border radius for smaller size
     backgroundColor: isToggled ? '#38BE3C' : '#fa5a55',
     cursor: 'pointer',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.15)', // Add subtle shadow
   };
 
   const circleStyle = {
     position: 'absolute',
-    left: isToggled ? '75px' : '10px', // Adjusted this line
-    width: '45px',
-    height: '45px',
+    right: isToggled ? '0px' : '30px', // Adjusted for smaller size
+    transform: isToggled ? 'translateX(0)' : 'translateX(-50%)',
+    width: '25px', // Smaller circle
+    height: '25px', // Smaller circle
     borderRadius: '50%',
     backgroundColor: '#E5E5E5',
     transition: 'transform 0.3s ease',
-    zIndex: 1,
   };
 
-  const textStyleOnline = {
-    left: isToggled ? '10px' : '65px', // Adjusted this line
-    fontSize: '14px',
+  const textStyle = {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    fontSize: '10px', // Slightly smaller font
     fontWeight: '500',
     color: 'white',
-    opacity: isToggled ? '0' : '1',
-    zIndex: 0,
-  };
-
-  const textStyleOffline = {
-    left: isToggled ? '65px' : '10px', // Adjusted this line
-    fontSize: '14px',
-    fontWeight: '500',
-    color: 'white',
-    opacity: isToggled ? '1' : '0',
-    zIndex: 0,
+    left: isToggled ? '5px' : '25px', // Adjusted for smaller size
   };
 
   return (
     <div style={switchStyle} onClick={handleToggle}>
+      <div style={textStyle}>{isToggled ? 'ONLINE' : 'OFFLINE'}</div>
       <div style={circleStyle}></div>
-      <p style={textStyleOnline}>{' '}</p>
-      <p style={textStyleOffline}>{' '}</p>
     </div>
   );
 };

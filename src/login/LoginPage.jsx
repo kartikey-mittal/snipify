@@ -1,12 +1,69 @@
 import React, { useState } from 'react';
-import Logo from '../assets/snipify_onboard.png'
+import Logo from '../assets/snipify_ob.png'
+import { collection, getDocs, query, where, getD } from 'firebase/firestore';
+import { db } from '../Firebase'
 
 const LoginPage = () => {
   const [selectedButton, setSelectedButton] = useState(null);
+  const [enteredEmail, setEnteredEmail] = useState('');
+  const [enteredPassword, setEnteredPassword] = useState('');
 
   const handleButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
   };
+
+  const handleContinueClick = async () => {
+    // Extract email and password from the state
+    console.log(enteredEmail);
+    const email = enteredEmail.trim();
+    const password = enteredPassword.trim();
+
+    try {
+      if (selectedButton === 'learner') {
+        const q = query(
+          collection(db, 'Learner'),
+          where('Email', '==', email),
+          where('Password', '==', password)
+        );
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          alert('Login successful for Learner!');
+          const learnerData = querySnapshot.docs[0].data();
+          localStorage.setItem('LearnerName', learnerData.Name);
+          localStorage.setItem('LearnerEmail', learnerData.Email);
+
+          const learnerName = localStorage.getItem('LearnerName');
+          console.log(`Learner Name: ${learnerName}`);
+          window.location.href = '/learner/home';
+        } else {
+          alert('No matching record found for Learner');
+        }
+      } else if (selectedButton === 'skilled') {
+        const q = query(
+          collection(db, 'Skilled'),
+          where('Email', '==', email),
+          where('Password', '==', password)
+        );
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          const skilledData = querySnapshot.docs[0].data();
+          localStorage.setItem('SkilledName', skilledData.Name);
+          localStorage.setItem('SkilledEmail', skilledData.Email);
+          localStorage.setItem('SkilledSkillsArray', JSON.stringify(skilledData.selectedSkills || [])); 
+          alert('Login successful for Skilled!');
+          window.location.href = '/skilled/home';
+        } else {
+          alert('No matching record found for Skilled');
+        }
+      }
+    } catch (error) {
+      console.error('Error searching Firestore:', error);
+    }
+  };
+
+  const isContinueButtonDisabled = !(selectedButton && enteredEmail && enteredPassword);
 
   const styles = {
     container: {
@@ -14,6 +71,10 @@ const LoginPage = () => {
       height: '100vh',
     },
     leftSection: {
+      background: `
+      repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(242, 242, 242, 0.3) 50px, rgba(242, 242, 242, 0.3) 51px),
+      repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(242, 242, 242, 0.3) 50px, rgba(242, 242, 242, 0.3) 51px),
+      #5813EA`,
       flex: '0 0 60vw',
       backgroundColor: '#5813EA',
       color: 'white',
@@ -91,39 +152,55 @@ const LoginPage = () => {
       marginTop: 20,
     },
     inputField: {
-        borderRadius: 10,
-        margin: 5,
-        padding: '10px',
-        width: '20vw',
-        borderColor: '#7D716A',
-        borderWidth: '0.5px',
-        fontFamily: 'DMM',
-      },
-      
-      continueButton: {
-       
-     
-        borderRadius: '20px',
-        margin: '5px',
-        padding: '10px',
-        width: '10vw',
-        backgroundColor: '#4285F4',
-        color: 'white',
-        fontFamily: 'DMM',
-        border: 'none',
-        fontSize: '15px',
-        cursor: 'pointer',
-        marginBottom: '20px',
-      },
-      
+      borderRadius: 10,
+      margin: 5,
+      padding: '10px',
+      width: '20vw',
+      borderColor: '#7D716A',
+      borderWidth: '0.5px',
+      fontFamily: 'DMM',
+    },
+
+    continueButton: {
+
+
+      borderRadius: '20px',
+      margin: '5px',
+      padding: '10px',
+      width: '10vw',
+      backgroundColor: isContinueButtonDisabled ? 'rgba(66, 133, 244, 0.5)' : '#4285F4',
+      color: 'white',
+      fontFamily: 'DMM',
+      border: 'none',
+      fontSize: '15px',
+      cursor: 'pointer',
+      marginBottom: '20px',
+      cursor: isContinueButtonDisabled ? 'not-allowed' : 'pointer',
+      opacity: isContinueButtonDisabled ? 0.5 : 1,
+    },
+    learnerButton: {
+      // styles for the Learner button when selected
+      backgroundColor: selectedButton === 'learner' ? '#4285F4' : 'white',
+      color: selectedButton === 'learner' ? 'white' : '#7D716A',
+      border: `1px solid ${selectedButton === 'learner' ? '#4285F4' : '#7D716A'}`,
+      borderWidth: selectedButton === 'learner' ? '2px' : '1px',
+    },
+    skilledButton: {
+      // styles for the Skilled button when selected
+      backgroundColor: selectedButton === 'skilled' ? '#4285F4' : 'white',
+      color: selectedButton === 'skilled' ? 'white' : '#7D716A',
+      border: `1px solid ${selectedButton === 'skilled' ? '#4285F4' : '#7D716A'}`,
+      borderWidth: selectedButton === 'skilled' ? '2px' : '1px',
+    },
+
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.leftSection}>
-       
-        <img src={Logo} alt="Logo" style={{height:'300px',width:'600px',}} /> {/* Stretch the SVG logo */}
-        </div>
+
+        <img src={Logo} alt="Logo" style={{ height: '300px', width: '600px', }} /> {/* Stretch the SVG logo */}
+      </div>
 
       <div style={styles.rightSection}>
         <div style={styles.formContainer}>
@@ -136,8 +213,7 @@ const LoginPage = () => {
             <div
               style={{
                 ...styles.button,
-                border: `1px solid ${selectedButton === 'learner' ? 'blue' : '#7D716A'}`,
-                borderWidth: selectedButton === 'learner' ? '2px' : '1px',
+                ...styles.learnerButton, // Apply conditional styles for the Learner button
               }}
               onClick={() => handleButtonClick('learner')}
             >
@@ -146,8 +222,7 @@ const LoginPage = () => {
             <div
               style={{
                 ...styles.button,
-                border: `1px solid ${selectedButton === 'skilled' ? 'blue' : '#7D716A'}`,
-                borderWidth: selectedButton === 'skilled' ? '2px' : '1px',
+                ...styles.skilledButton, // Apply conditional styles for the Skilled button
               }}
               onClick={() => handleButtonClick('skilled')}
             >
@@ -158,14 +233,16 @@ const LoginPage = () => {
 
           {/* Form */}
           <div style={styles.emailLabel}>Email</div>
-          <input type="text" style={{ ...styles.inputField, marginLeft: '20px' }} placeholder="Enter your email" />
+          <input type="text" style={{ ...styles.inputField, marginLeft: '20px' }} placeholder="Enter your email" value={enteredEmail}
+            onChange={(event) => setEnteredEmail(event.target.value)} />
 
 
           <div style={styles.passwordLabel}>Password</div>
-          <input type="password" style={{ ...styles.inputField, marginLeft: '20px' }} placeholder="Enter your Password" />
+          <input type="password" style={{ ...styles.inputField, marginLeft: '20px' }} placeholder="Enter your Password" value={enteredPassword}
+            onChange={(event) => setEnteredPassword(event.target.value)} />
 
           {/* Continue Button */}
-          <div style={{...styles.continueButton,marginLeft: '20px',marginTop:'50px' }}>Continue</div>
+          <div style={{ ...styles.continueButton, marginLeft: '20px', marginTop: '50px' }} onClick={isContinueButtonDisabled ? null : handleContinueClick}>Continue</div>
         </div>
       </div>
     </div>

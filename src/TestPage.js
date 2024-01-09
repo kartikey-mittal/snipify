@@ -6,9 +6,9 @@ import CustomSwitch from './components/CustomSwitch';
 const TestPage = () => {
   return (
     <>
-     <Navbar/>
+     
     <Home/>
-    <CustomSwitch/>
+   
       {/* <LoginPage/> */}
     </>
   );
