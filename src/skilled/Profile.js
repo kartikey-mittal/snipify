@@ -8,7 +8,7 @@ const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', 'skills',
 const professionData = ['Student', 'Working Professional', 'Freelancer'];
 
 const Profile = () => {
-    const [selectedSkillsNames, setSelectedSkillsNames] = useState([]);
+    const [ setSelectedSkillsNames] = useState([]);
     const { id } = useParams();
     const [step, setStep] = useState(1);
 
@@ -57,7 +57,7 @@ const Profile = () => {
                 alert('Data saved to Firestore!');
             })();
         }
-    }, [selectedSkill, step, selectedProfession, githubProfile, gfgProfile]);
+    }, [selectedSkill, step, selectedProfession, githubProfile, gfgProfile,id, setSelectedSkillsNames]);
 
 
 
@@ -74,9 +74,9 @@ const Profile = () => {
             setStep((prevStep) => prevStep + 1);
         }
     };
-    const handleback = () => {
-        setStep((prevStep) => prevStep - 1);
-    };
+    // const handleback = () => {
+    //     setStep((prevStep) => prevStep - 1);
+    // };
 
 
     // const [selectedSkill, setSelectedSkill] = useState(null);
@@ -103,12 +103,12 @@ const Profile = () => {
         setIsSkillClicked(true);
     };
 
-    const handleProfessionClick = (index) => {
-        // Set isSkillClicked to false when a profession is selected
-        setIsSkillClicked(false);
+    // const handleProfessionClick = (index) => {
+    //     // Set isSkillClicked to false when a profession is selected
+    //     setIsSkillClicked(false);
 
-        setSelectedProfession(professionData[index]);
-    };
+    //     setSelectedProfession(professionData[index]);
+    // };
 
 
 
@@ -314,7 +314,7 @@ const Profile = () => {
 
 
                             {/* PROFILE */}
-                            {step == 2 && (
+                            {step === 2 && (
                                 <>
                                     <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
                                         <div style={{ margin: "30px", textAlign: "left" }}>

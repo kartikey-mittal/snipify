@@ -52,21 +52,26 @@ const HomeLakshay = () => {
             <div style={contentStyle}>
                 <div style={headingStyle}>⚡⚡Hi Kartikey Mittal, what is your question today?</div>
                 <div style={mainboxStyle}>
-                    <section style={{ margin: '20px', backgroundColor: '#F9F9F9', display: 'flex',}}>
+                    <section style={{ margin: '20px', backgroundColor: '#F9F9F9', display: 'flex', }}>
                         <div style={{ display: 'flex', border: 'solid .1px', borderRadius: '20px', borderBlockColor: '#9a7d7d', backgroundColor: 'transparent', width: '100%' }}>
                             <div style={{ padding: '1rem', width: '30%', height: '25%', }}>
-                                <img style={{ height: '25vh', width: '100%', objectFit: 'cover', borderRadius: '9px' }} src="https://imgs.search.brave.com/_3nOUpPG1H3D6I1X7G04vjqfBw-EmkY41kZ9EPkDIEk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9nbG9i/YWwuZGlzY291cnNl/LWNkbi5jb20vZnJl/ZWNvZGVjYW1wL29w/dGltaXplZC80WC8y/LzgvMy8yODMyZjdm/MWNkOTlkNTE2M2Yy/NmU1MGY4OTAwZjVk/Mjg0Mzk2MjcwXzJf/NjYyeDUwMC5wbmc" alt="An image" />
+                                <img
+                                    style={{ height: '25vh', width: '100%', objectFit: 'cover', borderRadius: '9px' }}
+                                    src="https://imgs.search.brave.com/_3nOUpPG1H3D6I1X7G04vjqfBw-EmkY41kZ9EPkDIEk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9nbG9i/YWwuZGlzY291cnNl/LWNkbi5jb20vZnJl/ZWNvZGVjYW1wL29w/dGltaXplZC80WC8y/LzgvMy8yODMyZjdm/MWNkOTlkNTE2M2Yy/NmU1MGY4OTAwZjVk/Mjg0Mzk2MjcwXzJf/NjYyeDUwMC5wbmc"
+                                    alt="A descriptive alt text or an empty string for decorative images"
+                                />
+
                             </div>
 
                             <div style={{ padding: '10px', color: 'black', display: 'grid', gridTemplateRows: '1fr auto', backgroundColor: 'transparent', width: '100%' }}>
 
-                                <p style={{ backgroundColor: 'transparent', textAlign: 'start', fontFamily: 'DMM', alignItems: 'center', fontSize: '100%' ,letterSpacing: '0.8px',wordSpacing: '1px',}}>
-                                    Getting error in useEffect...not executing properly. Please help.Getting error in useEffect...not executing properly. Please help.Getting error in useEffect...not executing properly. Please help.
-                                    ferfnrejkn
+                                <p style={{ backgroundColor: 'transparent', textAlign: 'start', fontFamily: 'DMM', alignItems: 'center', fontSize: '100%', letterSpacing: '0.8px', wordSpacing: '1px' }}>
+                                    Getting error in useEffect...not executing properly. Please help. Getting error in useEffect...not executing properly. Please help. Getting error in useEffect...not executing properly. Please help. ferfnrejkn
                                 </p>
 
 
-                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', alignItems: 'start' }}>
+
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
                                     <p style={{ color: '#9A7D7D', fontFamily: 'DMM' }}>Lakshay Jain</p>
                                     <button
                                         style={{
@@ -78,7 +83,7 @@ const HomeLakshay = () => {
                                             padding: '8px 15px',
                                             outline: 'none',
                                             width: 'auto',
-                                            
+
                                         }}
                                     >
                                         React
@@ -86,7 +91,7 @@ const HomeLakshay = () => {
 
                                 </div>
 
-                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'end' ,paddingRight:30}}>
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'end', paddingRight: 30 }}>
                                     <button
                                         style={{
                                             backgroundColor: '#EA775C',
@@ -101,7 +106,7 @@ const HomeLakshay = () => {
                                             paddingLeft: 20,
                                             paddingRight: 20,
                                             fontSize: 15,
-                                            cursor:'pointer'
+                                            cursor: 'pointer'
                                         }}  >
                                         Ignore  </button>
 
@@ -120,7 +125,7 @@ const HomeLakshay = () => {
                                             paddingRight: 20,
                                             marginLeft: 10,
                                             fontSize: 15,
-                                            cursor:'pointer'
+                                            cursor: 'pointer'
                                         }}  >
                                         Connect  </button>
                                 </div>
