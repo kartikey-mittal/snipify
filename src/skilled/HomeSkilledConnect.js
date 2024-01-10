@@ -1,12 +1,16 @@
-import React, {   } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar';
 import { useParams } from 'react-router-dom';
+import { onSnapshot, doc, getFirestore } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom'; // 
 
 import gif from '../assets/video.gif';
 // import HomeSkilled from './HomeSkilled';
 
 const HomeSkilledConnect = () => {
-    const { documentId } = useParams();
+    const { docId } = useParams();
+    const [status, setStatus] = useState(null);
+    const navigate = useNavigate(); // initialize useNavigate
     // const [status, setStatus] = useState(null);
 
     // const animationStyle = {
@@ -62,6 +66,8 @@ const HomeSkilledConnect = () => {
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
     };
 
+
+
     // const bgColor = 'white';
     // const textColor = 'black';
     // const selectedBgColor = '#4285F4';
@@ -79,12 +85,39 @@ const HomeSkilledConnect = () => {
     };
 
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const db = getFirestore();
+            const requestRef = doc(db, 'Requests', docId);
+
+            const unsubscribe = onSnapshot(requestRef, (doc) => {
+                if (doc.exists()) {
+                    const data = doc.data();
+                    setStatus(data.Status);
+                }
+            });
+
+            return () => {
+                unsubscribe();
+            };
+        };
+
+        fetchData();
+    }, [docId]);
+
+    useEffect(() => {
+        if (status === 2) {
+            alert('Connection found');
+            navigate(`/room/${docId}`);
+        }
+    }, [status, docId, navigate]);
+
     return (
         <>
             <Navbar />
             <div style={homeStyle}>
                 <div style={contentStyle}>
-                    <div style={headingStyle}>Connected 🧑‍💻   |   {documentId} </div>
+                    <div style={headingStyle}>Connected 🧑‍💻   |   {docId} </div>
                     <div style={mainboxStyle}>
                         <img src={gif} alt="Your GIF" style={gifStyle} />
                         <div>
