@@ -20,7 +20,7 @@ const Test1 = () => {
         </div>
       )}
 
-      {step === 2 && (
+      {step == 2 && (
         <div style={{ ...divStyle, color: "yellow" }}>
           <button onClick={handleContinue}>continue 2</button>
         </div>

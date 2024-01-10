@@ -9,7 +9,9 @@ const HomeAviral = () => {
     const handleContinue = () => {
         setStep((prevStep) => prevStep + 1);
     };
-    
+    const handleback = () => {
+        setStep((prevStep) => prevStep - 1);
+    };
 
 
     const [selectedSkill, setSelectedSkill] = useState(null);
@@ -220,7 +222,7 @@ const HomeAviral = () => {
 
 
                         {/* PROFILE */}
-                        {step === 2 && (
+                        {step == 2 && (
                             <>
                             <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
                                 <div style={{ margin: "30px", textAlign: "left" }}>

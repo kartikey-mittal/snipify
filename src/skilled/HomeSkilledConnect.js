@@ -1,20 +1,20 @@
-import React, {   } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar';
 import { useParams } from 'react-router-dom';
 
 import gif from '../assets/video.gif';
-// import HomeSkilled from './HomeSkilled';
+import HomeSkilled from './HomeSkilled';
 
 const HomeSkilledConnect = () => {
     const { documentId } = useParams();
-    // const [status, setStatus] = useState(null);
+    const [status, setStatus] = useState(null);
 
-    // const animationStyle = {
-    //     width: '200px',
-    //     height: '200px',
-    //     margin: 'auto',
-    //     marginTop: '20px',
-    // };
+    const animationStyle = {
+        width: '200px',
+        height: '200px',
+        margin: 'auto',
+        marginTop: '20px',
+    };
 
     const homeStyle = {
         height: '100%',
@@ -62,13 +62,13 @@ const HomeSkilledConnect = () => {
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
     };
 
-    // const bgColor = 'white';
-    // const textColor = 'black';
-    // const selectedBgColor = '#4285F4';
-    // const selectedTextColor = 'white';
-    // const initialBorderRadius = 50;
-    // const borderColor = '#7D716A';
-    // const borderWidth = '0.2px';
+    const bgColor = 'white';
+    const textColor = 'black';
+    const selectedBgColor = '#4285F4';
+    const selectedTextColor = 'white';
+    const initialBorderRadius = 50;
+    const borderColor = '#7D716A';
+    const borderWidth = '0.2px';
     const gifStyle = {
         maxWidth: '100%',
         maxHeight: '100%',

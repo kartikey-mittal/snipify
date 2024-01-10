@@ -1,7 +1,11 @@
 import React from "react"
-// import Navbar from "../Navbar";
-// import HomeAviral from "../learner/HomeAviral";
+import Navbar from "../Navbar";
+import HomeAviral from "../learner/HomeAviral";
 import SignUpAviral from "../learner/SignUpAviral";
+import ProblemofDay from "../Problem";
+// import Compiler from "../compiler/Compiler";
+
+
 
 
 const Aviral = () => {
@@ -9,7 +13,9 @@ const Aviral = () => {
     <div>
       {/* <Navbar/> */}
       {/* <HomeAviral/> */}
-      <SignUpAviral/>
+      {/* <SignUpAviral/> */}
+      <ProblemofDay/>
+      {/* <Compiler/> */}
    
     </div>
   )
