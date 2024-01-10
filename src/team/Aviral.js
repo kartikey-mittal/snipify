@@ -1,16 +1,16 @@
 import React from "react"
 // import Navbar from "../Navbar";
 // import HomeAviral from "../learner/HomeAviral";
-import SignUpAviral from "../learner/SignUpAviral";
 
+import ProblemofDay from "../Problem";
 
 const Aviral = () => {
   return (
     <div>
       {/* <Navbar/> */}
       {/* <HomeAviral/> */}
-      <SignUpAviral/>
-   
+      {/* <SignUpAviral/> */}
+   <ProblemofDay/>
     </div>
   )
 };
