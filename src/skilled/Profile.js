@@ -75,16 +75,10 @@ const Profile = () => {
             setStep((prevStep) => prevStep + 1);
         }
     };
-<<<<<<< HEAD
     // const handleback = () => {
 
     //     setStep((prevStep) => prevStep - 1);
     // };
-=======
-    const handleback = () => {
-        setStep((prevStep) => prevStep - 1);
-    };
->>>>>>> 03b38548e8ecd3ea128302fa5c6e4c6a5a1750ae
 
 
     //  const [selectedSkill, setSelectedSkill] = useState(null);

@@ -7,17 +7,7 @@ import gif from '../assets/connection.gif';
 const HomeConnect = () => {
     const { documentId } = useParams();
     const [status, setStatus] = useState(null);
-<<<<<<< HEAD
     const navigate = useNavigate();
-=======
-
-    const animationStyle = {
-        width: '200px',
-        height: '200px',
-        margin: 'auto',
-        marginTop: '20px',
-    };
->>>>>>> 03b38548e8ecd3ea128302fa5c6e4c6a5a1750ae
 
     const homeStyle = {
         height: '100%',
@@ -64,16 +54,6 @@ const HomeConnect = () => {
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
     };
 
-<<<<<<< HEAD
-=======
-    const bgColor = 'white';
-    const textColor = 'black';
-    const selectedBgColor = '#4285F4';
-    const selectedTextColor = 'white';
-    const initialBorderRadius = 50;
-    const borderColor = '#7D716A';
-    const borderWidth = '0.2px';
->>>>>>> 03b38548e8ecd3ea128302fa5c6e4c6a5a1750ae
     const gifStyle = {
         maxWidth: '100%',
         maxHeight: '100%',
