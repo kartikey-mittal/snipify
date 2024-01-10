@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from '../components/Buttonitis';
+
 import Navbar from '../Navbar';
 import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 import { addDoc, collection } from 'firebase/firestore';
@@ -14,7 +14,7 @@ const Home = () => {
 
     const [selectedSkill, setSelectedSkill] = useState(null);
     const [isDragOver, setIsDragOver] = useState(false);
-    const [uploadedFiles, setUploadedFiles] = useState([]);
+    const [ setUploadedFiles] = useState([]);
     const [uploadStatus, setUploadStatus] = useState({ success: false, fileName: '' });
     const [textInput, setTextInput] = useState('');
     const [imageUrl, setImageUrl] = useState('');
@@ -166,17 +166,17 @@ const Home = () => {
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
     };
 
-    const dropAreaStyle = {
-        width: 341,
-        height: 151,
-        border: isDragOver ? '2px dashed black' : '1px solid transparent',
-        borderRadius: 15,
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-    };
+    // const dropAreaStyle = {
+    //     width: 341,
+    //     height: 151,
+    //     border: isDragOver ? '2px dashed black' : '1px solid transparent',
+    //     borderRadius: 15,
+    //     position: 'relative',
+    //     display: 'flex',
+    //     flexDirection: 'column',
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    // };
 
     const buttonText = uploadStatus.success
         ? `File uploaded successfully:\n${uploadStatus.fileName}`

@@ -12,7 +12,7 @@ function Button(props) {
                                 marginLeft: 20,
                                 borderWidth: props.bwwidth || 0,
                                 fontWeight: "500",
-                                backgroundColor: props.bgColor || "#4285f4",
+                                
                                 color: props.textColor || "white",
                                 cursor: "pointer",
                         }}
