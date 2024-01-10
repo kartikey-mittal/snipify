@@ -9,21 +9,21 @@ const HomeAviral = () => {
     const handleContinue = () => {
         setStep((prevStep) => prevStep + 1);
     };
-    const handleback = () => {
-        setStep((prevStep) => prevStep - 1);
-    };
+    // const handleback = () => {
+    //     setStep((prevStep) => prevStep - 1);
+    // };
 
 
     const [selectedSkill, setSelectedSkill] = useState(null);
     const [isSkillClicked, setIsSkillClicked] = useState(false);
 
-    const selectedBgColor = '#4285F4';
-    const selectedTextColor = 'white';
-    const initialBorderRadius = 50;
-    const borderColor = 'black';
-    const borderWidth = '0.2px';
-    const bgColor = "white";
-    const textColor = "black";
+    // const selectedBgColor = '#4285F4';
+    // const selectedTextColor = 'white';
+    // const initialBorderRadius = 50;
+    // const borderColor = 'black';
+    // const borderWidth = '0.2px';
+    // const bgColor = "white";
+    // const textColor = "black";
 
     const handleSkillClick = (index) => {
         setSelectedSkill(index);
