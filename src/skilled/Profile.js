@@ -3,77 +3,74 @@ import Skills from '../assets/skills.png'
 import Navbar from '../Navbar';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { db, collection, } from '../Firebase'
 const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', 'skills', 'Python', 'React'];
 const professionData = ['Student', 'Working Professional', 'Freelancer'];
 
+
+
 const Profile = () => {
-    const [ setSelectedSkillsNames] = useState([]);
+    const navigate = useNavigate();
+
     const { id } = useParams();
-    const [step, setStep] = useState(1);
+  const [step, setStep] = useState(1);
 
-    const [selectedSkill, setSelectedSkill] = useState([]);
-    const [selectedProfession, setSelectedProfession] = useState(null);
-    const [githubProfile, setGithubProfile] = useState('');
-    const [gfgProfile, setGfgProfile] = useState('');
+  const [selectedSkill, setSelectedSkill] = useState([]);
+  const [selectedProfession, setSelectedProfession] = useState(null);
+  const [githubProfile, setGithubProfile] = useState('');
+  const [gfgProfile, setGfgProfile] = useState('');
 
-    useEffect(() => {
-        // This effect will run when selectedSkill or step changes
-        if (step === 4) {
-            // Only log the data when transitioning from step 3 to step 4
-            const selectedSkills = selectedSkill.map((index) => skillsData[index]);
-            setSelectedSkillsNames(selectedSkills);
-
-            console.log('Selected Skills:', selectedSkills);
-            console.log('Selected Profession:', selectedProfession);
-            console.log('GitHub Profile:', githubProfile);
-            console.log('GFG Profile:', gfgProfile);
-
-            const skilledCollectionRef = collection(db, 'Skilled');
-            const skilledDocRef = doc(skilledCollectionRef, id);
-
-            (async () => {
-                // Get the existing data in the document
-                const docSnapshot = await getDoc(skilledDocRef);
-                const existingData = docSnapshot.data();
-
-                // Update only the fields that are changing
-                const updatedData = {
-                    ...existingData,
-                    selectedSkills: selectedSkills || existingData.selectedSkills,
-                    selectedProfession: selectedProfession || existingData.selectedProfession,
-                    githubProfile: githubProfile || existingData.githubProfile,
-                    gfgProfile: gfgProfile || existingData.gfgProfile,
-                };
-
-                // Set the updated data to Firestore
-                await setDoc(skilledDocRef, updatedData);
-
-                // Store data in localStorage
-                localStorage.setItem('SkilledSkillsArray', JSON.stringify(updatedData.selectedSkills || []));
-                localStorage.setItem('SkilledProfession', updatedData.selectedProfession || '');
-
-                // Show alert after setting data in Firestore
-                alert('Data saved to Firestore!');
-            })();
+  useEffect(() => {
+    if (step === 4) {
+      const selectedSkills = selectedSkill.map((index) => skillsData[index]);
+  
+      console.log('Selected Skills:', selectedSkills);
+      console.log('Selected Profession:', selectedProfession);
+      console.log('GitHub Profile:', githubProfile);
+      console.log('GFG Profile:', gfgProfile);
+  
+      const skilledCollectionRef = collection(db, 'Skilled');
+      const skilledDocRef = doc(skilledCollectionRef, id);
+  
+      (async () => {
+        try {
+          const docSnapshot = await getDoc(skilledDocRef);
+          const existingData = docSnapshot.data();
+  
+          const updatedData = {
+            ...existingData,
+            selectedSkills: selectedSkills || existingData.selectedSkills,
+            selectedProfession: selectedProfession || existingData.selectedProfession,
+            githubProfile: githubProfile || existingData.githubProfile,
+            gfgProfile: gfgProfile || existingData.gfgProfile,
+          };
+  
+          await setDoc(skilledDocRef, updatedData);
+  
+          // Store data in localStorage
+          localStorage.setItem('SkilledSkillsArray', JSON.stringify(updatedData.selectedSkills || []));
+          localStorage.setItem('SkilledProfession', updatedData.selectedProfession || '');
+  
+          alert('Data saved to Firestore!');
+          navigate('/skilled/home');
+  
+        } catch (error) {
+          console.error('Error updating document:', error);
         }
-    }, [selectedSkill, step, selectedProfession, githubProfile, gfgProfile,id, setSelectedSkillsNames]);
+      })();
+    }
+  }, [selectedSkill, step, selectedProfession, githubProfile, gfgProfile, id, navigate]);
 
-
-
-    const handleContinue = () => {
-        // Change this part of the handleContinue function
-        if (step === 1 && selectedProfession !== null) {
-            // If in the profession section and a profession is selected, proceed to the next step
-            setStep((prevStep) => prevStep + 1);
-        } else if (step === 2 && githubProfile.trim() !== '' && gfgProfile.trim() !== '') {
-            // If in the profile section and both GitHub and GFG profiles are provided, proceed to the next step
-            setStep((prevStep) => prevStep + 1);
-        } else if (step === 3 && selectedSkill.length > 0) {
-            // If in the skills section and at least one skill is selected, proceed to the next step
-            setStep((prevStep) => prevStep + 1);
-        }
-    };
+  const handleContinue = () => {
+    if (step === 1 && selectedProfession !== null) {
+      setStep((prevStep) => prevStep + 1);
+    } else if (step === 2 && githubProfile.trim() !== '' && gfgProfile.trim() !== '') {
+      setStep((prevStep) => prevStep + 1);
+    } else if (step === 3 && selectedSkill.length > 0) {
+      setStep((prevStep) => prevStep + 1);
+    }
+  };
     // const handleback = () => {
     //     setStep((prevStep) => prevStep - 1);
     // };
@@ -232,38 +229,38 @@ const Profile = () => {
                             {/* Skills */}
 
                             {step >= 3 && (
-                                <>
-                                    <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
-                                        <div style={{ margin: "30px", textAlign: "left" }}>
-                                            <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Select your Skill</h2>
-                                            <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start shaping lives of coding enthusiasts</p>
-                                        </div>
-                                        <div style={skillContainerStyle}>
-                                            {skillsData.map((skill, index) => (
-                                                <button
-                                                    key={index}
-                                                    onClick={() => handleSkillClick(index)}
-                                                    style={{
-                                                        ...skillButtonStyle,
-                                                        backgroundColor: selectedSkill.includes(index) ? selectedBgColor : bgColor,
-                                                        color: selectedSkill.includes(index) ? selectedTextColor : textColor,
-                                                    }}
-                                                >
-                                                    {skill}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        <div style={{ marginTop: '60px' }}>
-                                            <button
-                                                onClick={handleContinue}
-                                                style={continueButtonStyle}
-                                                disabled={!isSkillClicked}
-                                            >
-                                                Continue
-                                            </button>
-                                        </div>
-                                    </div>
-                                </>
+                                 <>
+                                 <div style={{ width: '40%', height: '500px', backgroundColor: 'white', marginTop: '20px', borderRadius: '20px' }}>
+                                   <div style={{ margin: '30px', textAlign: 'left' }}>
+                                     <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Select your Skill</h2>
+                                     <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start shaping lives of coding enthusiasts</p>
+                                   </div>
+                                   <div style={skillContainerStyle}>
+                                     {skillsData.map((skill, index) => (
+                                       <button
+                                         key={index}
+                                         onClick={() => handleSkillClick(index)}
+                                         style={{
+                                           ...skillButtonStyle,
+                                           backgroundColor: selectedSkill.includes(index) ? '#4285F4' : 'white',
+                                           color: selectedSkill.includes(index) ? 'white' : 'black',
+                                         }}
+                                       >
+                                         {skill}
+                                       </button>
+                                     ))}
+                                   </div>
+                                   <div style={{ marginTop: '60px' }}>
+                                     <button
+                                       onClick={handleContinue}
+                                       style={continueButtonStyle}
+                                       disabled={selectedSkill.length === 0}
+                                     >
+                                       Continue
+                                     </button>
+                                   </div>
+                                 </div>
+                               </>
                             )}
                             {/* ************************************************* */}
 

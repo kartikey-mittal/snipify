@@ -55,15 +55,15 @@ const RequestCard = ({ imageurl, question, skill, name, documentId }) => {
                     />
                 </div>
 
-                <div style={{ padding: '10px', color: 'black', display: 'grid', gridTemplateRows: '1fr auto', backgroundColor: 'transparent', width: '100%' }}>
+                <div style={{ padding: '5px', color: 'black', display: 'grid', gridTemplateRows: '1fr auto', backgroundColor: 'transparent', width: '100%' }}>
 
-                    <p style={{ backgroundColor: 'transparent', textAlign: 'start', fontFamily: 'DMM', fontSize: '120%', letterSpacing: '0.8px', wordSpacing: '1px' }}>
+                    <span style={{ backgroundColor: 'transparent', textAlign: 'start', fontFamily: 'DMM', fontSize: '120%', letterSpacing: '0.8px', wordSpacing: '1px',marginTop:15 }}>
                         {question}
-                    </p>
+                    </span>
 
 
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', }}>
                         <p style={{ color: '#9A7D7D', fontFamily: 'DMM' }}>{name}</p>
                         <button
                             style={{
