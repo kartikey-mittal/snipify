@@ -55,32 +55,36 @@ const Home = () => {
 
     const handleFiles = async (files) => {
         setUploadedFiles(files);
-
+    
         try {
             const storageRef = ref(storage, `images/${files[0].name}`);
             const reader = new FileReader();
-
+    
             reader.onloadend = async () => {
                 if (typeof reader.result === 'string') {
                     await uploadString(storageRef, reader.result, 'data_url');
                     const downloadURL = await getDownloadURL(storageRef);
                     setImageUrl(downloadURL);
+    
+                    // Now you can use the downloadURL as needed
+                    console.log('Download URL:', downloadURL);
                 } else {
                     console.error('Invalid dataURL:', reader.result);
                 }
             };
-
+    
             reader.onerror = (error) => {
                 console.error('Error reading file:', error);
             };
-
+    
             reader.readAsDataURL(files[0]);
         } catch (error) {
             console.error('Error uploading image:', error);
         }
-
+    
         setUploadStatus({ success: true, fileName: files.map((file) => file.name).join(', ') });
     };
+    
 
     const handleTextInputChange = (e) => {
         setTextInput(e.target.value);
