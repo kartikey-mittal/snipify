@@ -371,7 +371,7 @@ const Home = () => {
                             {/* 2nd area closed ------------- */}
                         </div>
 
-                        <div style={{ marginTop: 20, marginLeft: 40 }}>
+                        <div style={{ marginTop: -10, marginLeft: 40 }}>
                             <button
                                 style={{
                                     fontFamily: 'DMM',

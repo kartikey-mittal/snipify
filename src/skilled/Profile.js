@@ -3,7 +3,8 @@ import Skills from '../assets/skills.png'
 import Navbar from '../Navbar';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
-import { db, collection, } from '../Firebase'
+import { collection } from 'firebase/firestore';
+import { db } from '../Firebase'
 const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', 'skills', 'Python', 'React'];
 const professionData = ['Student', 'Working Professional', 'Freelancer'];
 
