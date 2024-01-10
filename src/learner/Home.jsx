@@ -286,6 +286,7 @@ const Home = () => {
                                         style={{ display: 'none' }}
                                         onChange={handleFileInput}
                                     />
+                                     <p>Number of uploaded files: {uploadedFiles.length}</p>
                                 </div>
                             </div>
 
