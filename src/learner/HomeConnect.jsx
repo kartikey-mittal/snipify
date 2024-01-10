@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { onSnapshot, doc, getFirestore } from 'firebase/firestore';
 import gif from '../assets/connection.gif';
 
 const HomeConnect = () => {
     const { documentId } = useParams();
     const [status, setStatus] = useState(null);
-
-    
+    const navigate = useNavigate();
 
     const homeStyle = {
         height: '100%',
@@ -55,13 +54,6 @@ const HomeConnect = () => {
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
     };
 
-    // const bgColor = 'white';
-    // const textColor = 'black';
-    // const selectedBgColor = '#4285F4';
-    // const selectedTextColor = 'white';
-    // const initialBorderRadius = 50;
-    // const borderColor = '#7D716A';
-    // const borderWidth = '0.2px';
     const gifStyle = {
         maxWidth: '100%',
         maxHeight: '100%',
@@ -93,9 +85,10 @@ const HomeConnect = () => {
 
     useEffect(() => {
         if (status === 1) {
-            alert('Connection found');
+            // Navigate to the room page with the documentId
+            navigate(`/learner/room/${documentId}`);
         }
-    }, [status]);
+    }, [status, documentId, navigate]);
 
     return (
         <>

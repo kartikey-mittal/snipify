@@ -14,7 +14,7 @@ const Home = () => {
 
     const [selectedSkill, setSelectedSkill] = useState(null);
     const [isDragOver, setIsDragOver] = useState(false);
-    const [ setUploadedFiles] = useState([]);
+    const [ uploadedFiles,setUploadedFiles] = useState([]);
     const [uploadStatus, setUploadStatus] = useState({ success: false, fileName: '' });
     const [textInput, setTextInput] = useState('');
     const [imageUrl, setImageUrl] = useState('');

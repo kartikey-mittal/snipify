@@ -70,11 +70,11 @@ const HomeSkilled = () => {
     
     const skilledName = localStorage.getItem('SkilledName');
 
-    // const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
+    const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
 
     // Now 'skilledSkillsArray' contains the array of skills
 
-    // console.log('Skilled Skills Array:', skilledSkillsArray);
+     console.log('Skilled Skills Array:', skilledSkillsArray);
     const [requestData, setRequestData] = useState([]);
     const [loading, setLoading] = useState(true);
 

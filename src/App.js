@@ -16,6 +16,7 @@ import Profile from "./skilled/Profile";
 import HomeSkilled from "./skilled/HomeSkilled";
 import HomeConnect from "./learner/HomeConnect";
 import HomeSkilledConnect from "./skilled/HomeSkilledConnect";
+import LearnerRoom from "./learner/LearnerRoom";
 function App() {
   return (
     <div className="App">
@@ -27,6 +28,7 @@ function App() {
         <Route path="/skilled/profile/:id" element={<Profile/>}   />
         <Route path="/learner/home" element={<Home/>}   />
         <Route path="/learner/connect/:documentId" element={<HomeConnect/>}   />
+        <Route path="/learner/room/:roomId" element={<LearnerRoom/>}   />
         <Route path="/skilled/home" element={<HomeSkilled/>}   />
         <Route path="/skilled/connect/:documentId" element={<HomeSkilledConnect/>}   />
         <Route path="/t2" element={<Test1/>}   />

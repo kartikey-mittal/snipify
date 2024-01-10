@@ -75,11 +75,12 @@ const Profile = () => {
         }
     };
     // const handleback = () => {
+
     //     setStep((prevStep) => prevStep - 1);
     // };
 
 
-    // const [selectedSkill, setSelectedSkill] = useState(null);
+    //  const [selectedSkill, setSelectedSkill] = useState(null);
     const [isSkillClicked, setIsSkillClicked] = useState(false);
 
     const selectedBgColor = '#4285F4';
@@ -103,12 +104,12 @@ const Profile = () => {
         setIsSkillClicked(true);
     };
 
-    // const handleProfessionClick = (index) => {
-    //     // Set isSkillClicked to false when a profession is selected
-    //     setIsSkillClicked(false);
+    const handleProfessionClick = (index) => {
+        // Set isSkillClicked to false when a profession is selected
+        setIsSkillClicked(false);
 
-    //     setSelectedProfession(professionData[index]);
-    // };
+        setSelectedProfession(professionData[index]);
+    };
 
 
 
