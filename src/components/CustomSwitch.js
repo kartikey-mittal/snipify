@@ -12,20 +12,19 @@ const CustomSwitch = () => {
     alignItems: 'center',
     position: 'relative',
     width: '80px', // Shorter width
-    height: '35px', // Shorter height
+    height: '25px', // Shorter height
     borderRadius: '15px', // Adjust border radius for smaller size
     backgroundColor: isToggled ? '#38BE3C' : '#fa5a55',
     cursor: 'pointer',
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.15)', // Add subtle shadow
-    marginRight:20
   };
 
   const circleStyle = {
     position: 'absolute',
-    right: isToggled ? '0px' : '37px', // Adjusted for smaller size
+    right: isToggled ? '0px' : '30px', // Adjusted for smaller size
     transform: isToggled ? 'translateX(0)' : 'translateX(-50%)',
-    width: '30px', // Smaller circle
-    height: '30px', // Smaller circle
+    width: '25px', // Smaller circle
+    height: '25px', // Smaller circle
     borderRadius: '50%',
     backgroundColor: '#E5E5E5',
     transition: 'transform 0.3s ease',
@@ -38,7 +37,7 @@ const CustomSwitch = () => {
     fontSize: '10px', // Slightly smaller font
     fontWeight: '500',
     color: 'white',
-    left: isToggled ? '5px' : '35px', // Adjusted for smaller size
+    left: isToggled ? '5px' : '25px', // Adjusted for smaller size
   };
 
   return (

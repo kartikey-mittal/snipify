@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Logo from '../assets/snipify_ob.png'
-import { collection, getDocs, query, where,  } from 'firebase/firestore';
+import { collection, getDocs, query, where, getD } from 'firebase/firestore';
 import { db } from '../Firebase'
 
 const LoginPage = () => {
@@ -173,7 +173,7 @@ const LoginPage = () => {
       fontFamily: 'DMM',
       border: 'none',
       fontSize: '15px',
-      
+      cursor: 'pointer',
       marginBottom: '20px',
       cursor: isContinueButtonDisabled ? 'not-allowed' : 'pointer',
       opacity: isContinueButtonDisabled ? 0.5 : 1,

@@ -4,7 +4,7 @@ import CustomSwitch from "../components/CustomSwitch";
 import RequestCard from "../components/RequestCard";
 import Navbar from "../Navbar";
 import { collection, onSnapshot } from 'firebase/firestore';
-import { db, } from '../Firebase';
+import { db, storage } from '../Firebase';
 import gif from '../assets/connection.gif';
 
 
@@ -70,7 +70,7 @@ const HomeSkilled = () => {
     
     const skilledName = localStorage.getItem('SkilledName');
 
-    // const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
+    const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
 
     // Now 'skilledSkillsArray' contains the array of skills
 
@@ -81,14 +81,12 @@ const HomeSkilled = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
-    
             const unsubscribe = onSnapshot(collection(db, 'Requests'), (querySnapshot) => {
                 const filteredData = [];
-    
+
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
-    
+
                     // Check if the document's Skills attribute matches any of the skilledSkillsArray
                     if (skilledSkillsArray.includes(data.Skills)) {
                         filteredData.push({
@@ -101,17 +99,16 @@ const HomeSkilled = () => {
                         });
                     }
                 });
-    
+
                 setRequestData(filteredData);
                 setLoading(false);
             });
-    
+
             return () => unsubscribe(); // Unsubscribe when the component unmounts
         };
-    
+
         fetchData();
-    }, []); // Empty dependency array since skilledSkillsArray is now initialized inside useEffect
-    
+    }, [skilledSkillsArray]);
 
     
 

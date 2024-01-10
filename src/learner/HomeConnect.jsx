@@ -8,7 +8,12 @@ const HomeConnect = () => {
     const { documentId } = useParams();
     const [status, setStatus] = useState(null);
 
-    
+    const animationStyle = {
+        width: '200px',
+        height: '200px',
+        margin: 'auto',
+        marginTop: '20px',
+    };
 
     const homeStyle = {
         height: '100%',
@@ -55,13 +60,13 @@ const HomeConnect = () => {
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
     };
 
-    // const bgColor = 'white';
-    // const textColor = 'black';
-    // const selectedBgColor = '#4285F4';
-    // const selectedTextColor = 'white';
-    // const initialBorderRadius = 50;
-    // const borderColor = '#7D716A';
-    // const borderWidth = '0.2px';
+    const bgColor = 'white';
+    const textColor = 'black';
+    const selectedBgColor = '#4285F4';
+    const selectedTextColor = 'white';
+    const initialBorderRadius = 50;
+    const borderColor = '#7D716A';
+    const borderWidth = '0.2px';
     const gifStyle = {
         maxWidth: '100%',
         maxHeight: '100%',

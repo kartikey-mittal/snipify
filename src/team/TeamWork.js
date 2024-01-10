@@ -25,11 +25,11 @@ const TeamWork = () => {
         transition: 'background 0.3s',
     };
 
-    // const logoStyle = {
-    //     width: '100px', // Adjust the size as needed
-    //     height: 'auto',
-    //     marginBottom: '20px',
-    // };
+    const logoStyle = {
+        width: '100px', // Adjust the size as needed
+        height: 'auto',
+        marginBottom: '20px',
+    };
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
