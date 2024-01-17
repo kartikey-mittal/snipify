@@ -134,7 +134,7 @@ const Home = () => {
             });
 
             console.log('Document written with ID: ', docRef.id);
-
+console.log('demo');
             // Delay the navigation by 5 seconds
             setTimeout(() => {
                 // Redirect to the learner connect page with the document ID
