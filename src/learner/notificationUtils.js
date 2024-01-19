@@ -1,18 +1,13 @@
-import { messaging } from "../Firebase";
+import axios from 'axios';
 
-const sendNotification = async (fcmTokens, message) => {
- 
-
+export const sendNotification = async (fcmTokens, notificationPayload) => {
   try {
-    const response = await messaging.sendMulticast({
-      ...message,
-      tokens: fcmTokens,
+    await axios.post('http://localhost:5000/sendNotification', {
+      fcmTokens,
+      notificationPayload,
     });
-
-    console.log('Successfully sent message:', response);
+    console.log('Notification sent successfully');
   } catch (error) {
-    console.error('Error sending notifications:', error);
+    console.error('Error sending notification:', error);
   }
 };
-
-export { sendNotification };
