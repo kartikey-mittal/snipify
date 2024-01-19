@@ -11,6 +11,27 @@ const professionData = ['Student', 'Working Professional', 'Freelancer'];
 
 
 const Profile = () => {
+
+    const [isLeftSectionVisible, setIsLeftSectionVisible] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLeftSectionVisible(window.innerWidth > 615);
+    };
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Initial check on mount
+    handleResize();
+
+    // Remove event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
     const navigate = useNavigate();
 
     const { id } = useParams();
@@ -121,6 +142,7 @@ const Profile = () => {
         #ff7b6a  `,
     };
 
+    
     const contentStyle = {
         width: '85%',
         height: '85vh',
@@ -141,14 +163,17 @@ const Profile = () => {
         margin: 'auto',
         marginTop: '20px',
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center"
     };
 
     const skillContainerStyle = {
         display: 'flex',
         flexWrap: 'wrap',
         width: '100%',
-        gap: 10,
-        marginLeft: -5, // Adjusted to remove the gap
+        gap: isLeftSectionVisible ? 0 : 10,
+        marginLeft: isLeftSectionVisible ? -2 : -5,
     };
 
     const skillButtonStyle = {
@@ -161,7 +186,7 @@ const Profile = () => {
         padding: '10px',
         outline: 'none',
         margin: '5px',
-        minWidth: '100px',
+        minWidth: '80px',
         whiteSpace: 'nowrap',
         marginLeft: 40
     };
@@ -194,6 +219,10 @@ const Profile = () => {
             marginTop: 50,
             fontWeight: 500
         },
+        leftSectionHidden: {
+            display: isLeftSectionVisible ? 'flex' : 'none',
+          },
+    
         passwordLabel: {
 
             color: '#7D716A',
@@ -206,7 +235,7 @@ const Profile = () => {
             borderRadius: 10,
             margin: 5,
             padding: '10px',
-            width: '20vw',
+            width: '80%',
             borderColor: '#7D716A',
             borderWidth: '0.5px',
             fontFamily: 'DMM',
@@ -219,10 +248,10 @@ const Profile = () => {
             <div style={homeStyle}>
                 <div style={contentStyle}>
                     <div style={mainboxStyle}>
-                        <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                            <div style={{ width: '45%', height: '500px', backgroundColor: "#EEF4FE", marginTop: '20px', borderRadius: '20px', justifyContent: 'center', alignContent: 'center', alignItems: 'center', display: 'flex' }}>
+                        <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center"}}>
+                            <div style={{ width: '45%', height: '500px', backgroundColor: "#EEF4FE", marginTop: '20px', borderRadius: '20px', justifyContent: 'center', alignContent: 'center', alignItems: 'center', display: 'flex',...styles.leftSectionHidden  }}>
 
-                                <img src={Skills} alt="Logo" style={{ height: '80%', width: '80 %', }} /> {/* Stretch the SVG logo */}
+                                <img src={Skills} alt="Logo" style={{ height: '80%', width: '80 %', }} />
                             </div>
 
 
@@ -230,7 +259,7 @@ const Profile = () => {
 
                             {step >= 3 && (
                                  <>
-                                 <div style={{ width: '40%', height: '500px', backgroundColor: 'white', marginTop: '20px', borderRadius: '20px' }}>
+                                 <div style={{ width: isLeftSectionVisible ? '40%' : '100%', height: '500px', backgroundColor: 'white', marginTop: '20px', borderRadius: '20px' }}>
                                    <div style={{ margin: '30px', textAlign: 'left' }}>
                                      <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Select your Skill</h2>
                                      <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start shaping lives of coding enthusiasts</p>
@@ -267,7 +296,7 @@ const Profile = () => {
                             {/* PROFESSION */}
                             {step === 1 && (
                                 <>
-                                    <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
+                                    <div style={{width: isLeftSectionVisible ? '40%' : '100%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
                                         <div style={{ margin: "30px", textAlign: "left" }}>
                                             <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Profession</h2>
                                             <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>What is your Profession ?</p>
@@ -313,7 +342,7 @@ const Profile = () => {
                             {/* PROFILE */}
                             {step === 2 && (
                                 <>
-                                    <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
+                                    <div style={{ width: isLeftSectionVisible ? '40%' : '100%',height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
                                         <div style={{ margin: "30px", textAlign: "left" }}>
                                             <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Profile</h2>
                                             <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start helping other's with your skills</p>

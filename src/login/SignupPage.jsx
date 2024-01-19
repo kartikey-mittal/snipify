@@ -102,6 +102,7 @@ const SignUpPage = () => {
     },
     rightSection: {
       display: 'flex',
+      flexDirection:"column",
       backgroundColor: '#EEF4FE',
       alignItems: 'center',
       justifyContent: 'center',
@@ -188,7 +189,7 @@ const SignUpPage = () => {
         borderRadius: '20px',
         margin: '5px',
         padding: '10px',
-        width: '10vw',
+        width: '15%',
         backgroundColor: '#4285F4',
         color: 'white',
         fontFamily: 'DMM',
@@ -221,6 +222,12 @@ const SignUpPage = () => {
         maxWidth: '70%', // Ensure the image doesn't exceed the width of its container
       },
 
+      logobtn2: {
+        height: '200px', // Set height to auto to maintain aspect ratio
+        maxWidth: '70%', // Ensure the image doesn't exceed the width of its container
+        display: isLeftSectionVisible ? 'none' : 'flex',
+      },
+
       
   };
 
@@ -232,6 +239,7 @@ const SignUpPage = () => {
       </div>
 
       <div style={styles.rightSection}>
+      <img src={Logo} alt="Logo" style={styles.logobtn2}></img>
         <div style={styles.formContainer}>
           <div style={styles.loginTitle}>SignUp</div>
           <div style={styles.loginSubtitle}>ready to onboard in community :)</div>
