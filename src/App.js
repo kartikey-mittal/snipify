@@ -17,32 +17,7 @@ import HomeSkilled from "./skilled/HomeSkilled";
 import HomeConnect from "./learner/HomeConnect";
 import HomeSkilledConnect from "./skilled/HomeSkilledConnect";
 import Room from "./room/Room";
-
 function App() {
-
-  // useEffect(() => {
-  //   // Req user for notification permission
-  //   requestPermission();
-  // }, []);
-
-
-
-  // async function requestPermission() {
-  //   const permission = await Notification.requestPermission();
-  //   if (permission === "granted") {
-  //     //Generate Token
-  //     const token = await getToken(messaging, {
-  //       vapidKey:
-  //         "BKv8mFnjjmLOQt0PJHotmX37n0BTsOF_IaT2vBPv8TyhOVzaHkG32cuFfoDwrgbd3f27d2yNoTBz-Bx_q5H3D1o",
-  //     });
-  //     console.log("Token Gen",token);
-  //     // Send this token  to server ( db)
-  //   } else if (permission === "denied") {
-  //     alert("You denied for the notification");
-  //   }
-  // }
-
-
   return (
     <div className="App">
       <Routes>
