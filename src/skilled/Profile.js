@@ -81,7 +81,7 @@ const Profile = () => {
                         selectedProfession: selectedProfession || existingData.selectedProfession,
                         githubProfile: githubProfile || existingData.githubProfile,
                         gfgProfile: gfgProfile || existingData.gfgProfile,
-                        fcmtoken: token, // Save FCM token here
+                        fcmtoken: 'lakshay', // Save FCM token here
                     };
 
                     await setDoc(skilledDocRef, updatedData);
