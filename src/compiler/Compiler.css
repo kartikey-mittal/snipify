@@ -64,15 +64,15 @@
     background: #cccccc52;
     height: 40vh; /* Adjusted height */
     font-size: 12px; /* Adjusted font size */
-    resize: vertical;
+    resize: none;
     padding: 10px;
   }
   
   #input {
     background: #cccccc52;
     width: 40%; /* Adjusted width */
-    height: 20vh; /* Adjusted height */
-    resize: vertical;
+    height: 40vh; /* Adjusted height */
+    resize: none;
     font-size: 15px; /* Adjusted font size */
   }
   

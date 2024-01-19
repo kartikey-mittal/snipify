@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 
 import Navbar from '../Navbar';
 import { ref, uploadString, getDownloadURL } from 'firebase/storage';
-import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import { db, storage } from '../Firebase';
 import { useNavigate } from 'react-router-dom';
-import { sendNotification } from './notificationUtils';
 
 
 
@@ -57,36 +56,36 @@ const Home = () => {
 
     const handleFiles = async (files) => {
         setUploadedFiles(files);
-
+    
         try {
             const storageRef = ref(storage, `images/${files[0].name}`);
             const reader = new FileReader();
-
+    
             reader.onloadend = async () => {
                 if (typeof reader.result === 'string') {
                     await uploadString(storageRef, reader.result, 'data_url');
                     const downloadURL = await getDownloadURL(storageRef);
                     setImageUrl(downloadURL);
-
+    
                     // Now you can use the downloadURL as needed
                     console.log('Download URL:', downloadURL);
                 } else {
                     console.error('Invalid dataURL:', reader.result);
                 }
             };
-
+    
             reader.onerror = (error) => {
                 console.error('Error reading file:', error);
             };
-
+    
             reader.readAsDataURL(files[0]);
         } catch (error) {
             console.error('Error uploading image:', error);
         }
-
+    
         setUploadStatus({ success: true, fileName: files.map((file) => file.name).join(', ') });
     };
-
+    
 
     const handleTextInputChange = (e) => {
         setTextInput(e.target.value);
@@ -97,32 +96,6 @@ const Home = () => {
         try {
             // Get the selected skill as a string
             const selectedSkillString = selectedSkill !== null ? skillsData[selectedSkill] : '';
-
-
-            // Fetch data from the "Skilled" collection based on the selected skill
-            const skilledCollectionRef = collection(db, 'Skilled');
-            const skilledQuerySnapshot = await getDocs(query(skilledCollectionRef, where('selectedSkills', 'array-contains', selectedSkillString)));
-
-            // Extract FCM tokens from the fetched documents
-            const fcmTokens = [];
-            skilledQuerySnapshot.forEach((doc) => {
-                const data = doc.data();
-                // fcmtoken is ATTRIBUTE -------------------------
-                if (data.fcmtoken) {
-                    fcmTokens.push(data.fcmtoken);
-                }
-            });
-            console.log(fcmTokens);
-            // Now, you have an array of FCM tokens in the variable "fcmTokens"
-
-            // Send notification using FCM tokens
-            const notificationPayload = {
-                title: 'New Question Arrived! Checkout to see!',
-                body: 'textinput',
-                image: 'https://www.shutterstock.com/image-vector/notification-icon-vector-material-design-260nw-759841507.jpg',
-            };
-
-            await sendNotification(fcmTokens, notificationPayload);
 
             // Add a new document with a generated id.
             const docRef = await addDoc(collection(db, 'Requests'), {
@@ -154,7 +127,7 @@ const Home = () => {
 
 
     const homeStyle = {
-        height: '100%',
+        height: '80%',
         display: 'flex',
         justifyContent: 'center',
         padding: 20,
@@ -167,14 +140,15 @@ const Home = () => {
 
     const contentStyle = {
         width: '85%',
-        height: '85vh',
+        height: '100%',
         border: '1px solid #ccc',
         borderRadius: 15,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
         overflow: 'hidden',
-        backgroundColor: '#F3F6FC'
+        backgroundColor: '#F3F6FC',
+        
     };
 
     const headingStyle = {
@@ -196,6 +170,7 @@ const Home = () => {
         marginTop: '20px',
         border: '1px solid blue',
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
+        marginBottom:'20px'
     };
 
     // const dropAreaStyle = {
@@ -313,7 +288,7 @@ const Home = () => {
                                         style={{ display: 'none' }}
                                         onChange={handleFileInput}
                                     />
-                                    <p>Number of uploaded files: {uploadedFiles.length}</p>
+                                     <p>Number of uploaded files: {uploadedFiles.length}</p>
                                 </div>
                             </div>
 
