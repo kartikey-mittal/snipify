@@ -5,6 +5,8 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { db, collection, } from '../Firebase'
+import { getToken } from "firebase/messaging";
+import { messaging } from "../Firebase";
 const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', 'skills', 'Python', 'React'];
 const professionData = ['Student', 'Working Professional', 'Freelancer'];
 
@@ -32,6 +34,29 @@ const Profile = () => {
   }, []);
 
 
+    // useEffect(() => {
+    //     // Req user for notification permission
+    //     requestPermission();
+    //   }, []);
+    
+    
+    
+    //   async function requestPermission() {
+    //     const permission = await Notification.requestPermission();
+    //     if (permission === "granted") {
+    //       //Generate Token
+    //       const token = await getToken(messaging, {
+    //         vapidKey:
+    //           "BKv8mFnjjmLOQt0PJHotmX37n0BTsOF_IaT2vBPv8TyhOVzaHkG32cuFfoDwrgbd3f27d2yNoTBz-Bx_q5H3D1o",
+    //       });
+    //       console.log("Token Gen",token);
+    //       // Send this token  to server ( db)
+    //     } else if (permission === "denied") {
+    //       alert("You denied for the notification");
+    //     }
+    //   }
+
+      
     const navigate = useNavigate();
 
     const { id } = useParams();
@@ -51,37 +76,53 @@ const Profile = () => {
       console.log('GitHub Profile:', githubProfile);
       console.log('GFG Profile:', gfgProfile);
   
-      const skilledCollectionRef = collection(db, 'Skilled');
-      const skilledDocRef = doc(skilledCollectionRef, id);
+    //   const skilledCollectionRef = collection(db, 'Skilled');
+    //   const skilledDocRef = doc(skilledCollectionRef, id);
   
-      (async () => {
-        try {
-          const docSnapshot = await getDoc(skilledDocRef);
-          const existingData = docSnapshot.data();
-  
-          const updatedData = {
-            ...existingData,
-            selectedSkills: selectedSkills || existingData.selectedSkills,
-            selectedProfession: selectedProfession || existingData.selectedProfession,
-            githubProfile: githubProfile || existingData.githubProfile,
-            gfgProfile: gfgProfile || existingData.gfgProfile,
-          };
-  
-          await setDoc(skilledDocRef, updatedData);
-  
-          // Store data in localStorage
-          localStorage.setItem('SkilledSkillsArray', JSON.stringify(updatedData.selectedSkills || []));
-          localStorage.setItem('SkilledProfession', updatedData.selectedProfession || '');
-  
-          alert('Data saved to Firestore!');
-          navigate('/skilled/home');
-  
-        } catch (error) {
-          console.error('Error updating document:', error);
-        }
-      })();
+      const fetchFCMToken = async () => {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === "granted") {
+                    // Generate Token
+                    const token = await getToken(messaging, {
+                        vapidKey: "BKv8mFnjjmLOQt0PJHotmX37n0BTsOF_IaT2vBPv8TyhOVzaHkG32cuFfoDwrgbd3f27d2yNoTBz-Bx_q5H3D1o",
+                    });
+                    console.log("Token Gen", token);
+
+                    // Save FCM token in Firestore
+                    const skilledCollectionRef = collection(db, 'Skilled');
+                    const skilledDocRef = doc(skilledCollectionRef, id);
+                    const docSnapshot = await getDoc(skilledDocRef);
+                    const existingData = docSnapshot.data();
+
+                    const updatedData = {
+                        ...existingData,
+                        selectedSkills: selectedSkills || existingData.selectedSkills,
+                        selectedProfession: selectedProfession || existingData.selectedProfession,
+                        githubProfile: githubProfile || existingData.githubProfile,
+                        gfgProfile: gfgProfile || existingData.gfgProfile,
+                        fcmtoken: token, // Save FCM token here
+                    };
+
+                    await setDoc(skilledDocRef, updatedData);
+
+                    // Store data in localStorage
+                    localStorage.setItem('SkilledSkillsArray', JSON.stringify(updatedData.selectedSkills || []));
+                    localStorage.setItem('SkilledProfession', updatedData.selectedProfession || '');
+
+                    alert('Data saved to Firestore!');
+                    navigate('/skilled/home');
+                } else if (permission === "denied") {
+                    alert("You denied permission for notifications");
+                }
+            } catch (error) {
+                console.error('Error fetching or saving FCM token:', error);
+            }
+        };
+
+        fetchFCMToken();
     }
-  }, [selectedSkill, step, selectedProfession, githubProfile, gfgProfile, id, navigate]);
+}, [selectedSkill, step, selectedProfession, githubProfile, gfgProfile, id, navigate]);
 
   const handleContinue = () => {
     if (step === 1 && selectedProfession !== null) {
