@@ -300,7 +300,7 @@ const Profile = () => {
 
                             {step >= 3 && (
                                  <>
-                                 <div style={{ width: isLeftSectionVisible ? '40%' : '100%', height: '500px', backgroundColor: 'white', marginTop: '20px', borderRadius: '20px' }}>
+                                 <div style={{ width: isLeftSectionVisible ? '80%' : '100%', height: '500px', backgroundColor: 'white', marginTop: '20px', borderRadius: '20px' }}>
                                    <div style={{ margin: '30px', textAlign: 'left' }}>
                                      <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Select your Skill</h2>
                                      <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start shaping lives of coding enthusiasts</p>
@@ -337,7 +337,7 @@ const Profile = () => {
                             {/* PROFESSION */}
                             {step === 1 && (
                                 <>
-                                    <div style={{width: isLeftSectionVisible ? '40%' : '100%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
+                                    <div style={{width: isLeftSectionVisible ? '80%' : '100%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
                                         <div style={{ margin: "30px", textAlign: "left" }}>
                                             <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Profession</h2>
                                             <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>What is your Profession ?</p>
@@ -383,7 +383,7 @@ const Profile = () => {
                             {/* PROFILE */}
                             {step === 2 && (
                                 <>
-                                    <div style={{ width: isLeftSectionVisible ? '40%' : '100%',height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
+                                    <div style={{ width: isLeftSectionVisible ? '80%' : '100%',height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
                                         <div style={{ margin: "30px", textAlign: "left" }}>
                                             <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Profile</h2>
                                             <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start helping other's with your skills</p>

@@ -9,7 +9,20 @@ import gif from '../assets/connection.gif';
 
 
 const HomeSkilled = () => {
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth <= 615);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
 
     const gifStyle = {
@@ -31,7 +44,7 @@ const HomeSkilled = () => {
     };
 
     const contentStyle = {
-        width: '85%',
+        width: isMobileView?'100%': '85%',
         height: '85vh',
         border: '1px solid #ccc',
         borderRadius: 15,
@@ -64,9 +77,15 @@ const HomeSkilled = () => {
         margin: 'auto',
         marginTop: '20px',
         border: '1px solid blue',
-        boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
-        overflow: 'hidden', // Hide overflow content
-    };
+        boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.1)',
+        overflowY: 'auto',  // Enable vertical scrolling
+        scrollbarWidth: 'none',  // Hide scrollbar in Firefox
+        msOverflowStyle: 'none',
+       
+      };
+      
+      
+      
     
     const skilledName = localStorage.getItem('SkilledName');
 
@@ -123,7 +142,7 @@ const HomeSkilled = () => {
                 <div style={contentStyle}>
                     <div style={headingStyle}>
                         <div style={{
-                            fontSize: 22,
+                            fontSize: isMobileView? 18:22,
                             fontFamily: 'DMM',
                             fontWeight: 500,
                             marginLeft: 30,

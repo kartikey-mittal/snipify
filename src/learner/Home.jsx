@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 import Navbar from '../Navbar';
 import { ref, uploadString, getDownloadURL } from 'firebase/storage';
@@ -11,6 +11,29 @@ import { useNavigate } from 'react-router-dom';
 const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', "skills", 'Python', 'React',];
 
 const Home = () => {
+
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
+
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobileView(window.innerWidth <= 615);
+      };
+  
+      window.addEventListener('resize', handleResize);
+  
+      // Clean up the event listener on component unmount
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+
+    // useEffect(() => {
+    //     if (isMobileView) {
+    //       document.body.style.overflowY = 'hidden';
+    //     } else {
+    //       document.body.style.overflowY = 'auto';
+    //     }
+    //   }, [isMobileView]);
 
     const [selectedSkill, setSelectedSkill] = useState(null);
     const [isDragOver, setIsDragOver] = useState(false);
@@ -127,7 +150,7 @@ const Home = () => {
 
 
     const homeStyle = {
-        height: '80%',
+        height: '100%',
         display: 'flex',
         justifyContent: 'center',
         padding: 20,
@@ -154,7 +177,8 @@ const Home = () => {
     const headingStyle = {
         width: '100%',
         backgroundColor: '#FFF4E8',
-        fontSize: 25,
+        fontSize: isMobileView? 20: 25,
+        
         fontFamily: 'DMM',
         fontWeight: 500,
         paddingTop: 5,
@@ -231,9 +255,13 @@ const Home = () => {
                                     marginTop: 2,
                                     display: 'flex',
                                     justifyContent: 'space-around',
+                                    backgroundColor:'transparent',
+                                    flexDirection: isMobileView ? 'column' : 'row',
+                                    justifyContent:'center',
+                                    alignItems:'center'
                                 }}
                             >
-                                <label style={{ width: 500, height: 150 }}>
+                                <label style={{width: isMobileView ? '100%' : '100%', height: 150 }}>
                                     <input
                                         type="text"
                                         placeholder="Type your question here.."
@@ -250,11 +278,12 @@ const Home = () => {
                                             boxSizing: 'border-box',
                                             backgroundColor: '#F9F9F9',
                                             borderRadius: 15,
-                                            border: `2px solid ${borderColor}`,
+                                            border: '2px solid #7D716A',
                                             outline: 'none',
                                             borderWidth: '0.5px',
                                             lineHeight: '1.5',
                                             whiteSpace: 'pre-wrap',
+                                            
                                         }}
                                         onFocus={(e) => (e.target.style.border = '2px solid #7D716A')}
                                         onBlur={(e) => (e.target.style.border = `2px solid ${borderColor}`)}
@@ -263,8 +292,8 @@ const Home = () => {
                                 {/* ------------------------drag and  drop ---------------------- */}
                                 <div
                                     style={{
-                                        width: 341,
-                                        height: 151,
+                                        marginLeft:'25px',
+                                        height: isMobileView ? 100 : 151,
                                         border: isDragOver ? '2px dashed black' : '0.5px dashed #7D716A',
                                         borderRadius: 15,
                                         position: 'relative',
@@ -274,6 +303,7 @@ const Home = () => {
                                         justifyContent: 'center',
                                         backgroundColor: '#F9F9F9',
                                         color: '#7D716A',
+                                        width: isMobileView ? 200 : 341,
                                     }}
                                     onDragEnter={handleDragEnter}
                                     onDragLeave={handleDragLeave}
@@ -292,7 +322,7 @@ const Home = () => {
                                 </div>
                             </div>
 
-                            <div style={{ marginTop: 20, marginLeft: 40 }}>
+                            {/* <div style={{ marginTop: 20, marginLeft: 40,width: 100, }}>
                                 <button
                                     style={{
                                         fontFamily: 'DMM',
@@ -307,12 +337,13 @@ const Home = () => {
                                         paddingRight: 15,
                                         opacity: continueButtonOpacity,
                                         cursor: isContinueButtonDisabled ? 'not-allowed' : 'pointer',
+                                        width: isMobileView ? '50%' : '100%',
                                     }}
                                     disabled={isContinueButtonDisabled}
                                 >
                                     Continue
                                 </button>
-                            </div>
+                            </div> */}
 
 
 
@@ -344,9 +375,10 @@ const Home = () => {
                                     style={{
                                         display: 'flex',
                                         flexWrap: 'wrap',
-                                        width: '50%',
-                                        gap: 5,
+                                        width: isMobileView ? '80%' : '30%',
+                                        gap: 10,
                                         marginLeft: 30,
+                                        // backgroundColor:'green'
                                     }}
                                 >
                                     {skillsData.map((skill, index) => (
@@ -394,6 +426,7 @@ const Home = () => {
                                     paddingRight: 15,
                                     opacity: connectButtonOpacity,
                                     cursor: isConnectButtonDisabled ? 'not-allowed' : 'pointer',
+                                    marginBottom:'75px'
                                 }}
                                 disabled={isConnectButtonDisabled}
                                 onClick={handleConnectButtonClick}

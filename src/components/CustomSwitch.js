@@ -1,6 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 const CustomSwitch = () => {
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth <= 615);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
   const [isToggled, setIsToggled] = useState(true);
 
   const handleToggle = () => {
@@ -22,7 +36,7 @@ const CustomSwitch = () => {
 
   const circleStyle = {
     position: 'absolute',
-    right: isToggled ? '0px' : '37px', // Adjusted for smaller size
+    right: isToggled ? '0px' : '32px', // Adjusted for smaller size
     transform: isToggled ? 'translateX(0)' : 'translateX(-50%)',
     width: '30px', // Smaller circle
     height: '30px', // Smaller circle
@@ -43,7 +57,7 @@ const CustomSwitch = () => {
 
   return (
     <div style={switchStyle} onClick={handleToggle}>
-      <div style={textStyle}>{isToggled ? 'ONLINE' : 'OFFLINE'}</div>
+      <div style={textStyle}>{isToggled ? 'Online' : 'Offline'}</div>
       <div style={circleStyle}></div>
     </div>
   );
