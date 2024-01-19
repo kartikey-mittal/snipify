@@ -127,7 +127,7 @@ const Home = () => {
 
 
     const homeStyle = {
-        height: '100%',
+        height: '80%',
         display: 'flex',
         justifyContent: 'center',
         padding: 20,
@@ -140,14 +140,15 @@ const Home = () => {
 
     const contentStyle = {
         width: '85%',
-        height: '85vh',
+        height: '100%',
         border: '1px solid #ccc',
         borderRadius: 15,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
         overflow: 'hidden',
-        backgroundColor: '#F3F6FC'
+        backgroundColor: '#F3F6FC',
+        
     };
 
     const headingStyle = {
@@ -169,6 +170,7 @@ const Home = () => {
         marginTop: '20px',
         border: '1px solid blue',
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
+        marginBottom:'20px'
     };
 
     // const dropAreaStyle = {
