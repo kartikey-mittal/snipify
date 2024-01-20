@@ -1,262 +1,189 @@
-import React, { useState } from 'react';
-import Skills from '../assets/skills.png'
-const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', 'skills', 'Python', 'React'];
-const professionData = ['Student', 'Working Professional', 'Freelancer'];
+import React from "react"
+import { useEffect ,useState} from "react";
+import CustomSwitch from "../components/CustomSwitch";
+import RequestCard from "../components/RequestCard";
+import Navbar from "../Navbar";
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db, } from '../Firebase';
+import gif from '../assets/connection.gif';
+
 
 const HomeAviral = () => {
-    const [step, setStep] = useState(1);
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
-    const handleContinue = () => {
-        setStep((prevStep) => prevStep + 1);
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth <= 615);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+
+    const gifStyle = {
+        marginTop:50,
+        width: '50%',
+        height: '50%',
+        objectFit: 'cover',
     };
-    
-
-
-    const [selectedSkill, setSelectedSkill] = useState(null);
-    const [isSkillClicked, setIsSkillClicked] = useState(false);
-
-    const selectedBgColor = '#4285F4';
-    const selectedTextColor = 'white';
-    const initialBorderRadius = 50;
-    const borderColor = 'black';
-    const borderWidth = '0.2px';
-    const bgColor = "white";
-    const textColor = "black";
-
-    const handleSkillClick = (index) => {
-        setSelectedSkill(index);
-        setIsSkillClicked(true);
-    };
-
-
 
     const homeStyle = {
-        height: '80vh',
+        height: '100%',
         display: 'flex',
         justifyContent: 'center',
-        marginTop: 20,
+        padding: 20,
+        background: `
+    repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(242, 242, 242, 0.8) 50px, rgba(242, 242, 242, 0.8) 51px),
+    repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(242, 242, 242, 0.8) 50px, rgba(242, 242, 242, 0.8)51px),
+    #ff7b6a  `,
     };
 
     const contentStyle = {
-        width: '85%',
+        width: isMobileView?'100%': '85%',
         height: '85vh',
         border: '1px solid #ccc',
         borderRadius: 15,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center', // Center items horizontally
-        overflow: 'hidden',
-        backgroundColor: '#F3F6FC'
+        alignItems: 'flex-start',
+        overflow: 'hidden', // Hide overflow content
+        backgroundColor: '#F3F6FC',
+    };
+
+    const headingStyle = {
+        width: '100%',
+        backgroundColor: '#FFF4E8',
+        fontSize: 25,
+        fontFamily: 'DMM',
+        fontWeight: 500,
+        paddingTop: 5,
+        paddingBottom: 5,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Adjusted this line
+        alignItems: 'center', // Adjusted this line
     };
 
     const mainboxStyle = {
         width: '90%',
-        height: '90%',
-        backgroundColor: "#EEF4FE",
+        height: '85%',
+        backgroundColor: 'white',
         borderRadius: 15,
         margin: 'auto',
         marginTop: '20px',
-        boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
-    };
+        border: '1px solid blue',
+        boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.1)',
+        overflowY: 'auto',  // Enable vertical scrolling
+        scrollbarWidth: 'none',  // Hide scrollbar in Firefox
+        msOverflowStyle: 'none',
+       
+      };
+      
+      
+      
+    
+    const skilledName = localStorage.getItem('SkilledName');
 
-    const skillContainerStyle = {
-        display: 'flex',
-        flexWrap: 'wrap',
-        width: '100%',
-        gap: 10,
-        marginLeft: -5, // Adjusted to remove the gap
-    };
+    // const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
 
-    const skillButtonStyle = {
-        backgroundColor: bgColor,
-        color: textColor,
-        borderRadius: initialBorderRadius,
-        border: `1px solid ${borderColor}`,
-        borderWidth: borderWidth,
-        fontFamily: 'DMM',
-        padding: '10px',
-        outline: 'none',
-        margin: '5px',
-        minWidth: '100px',
-        whiteSpace: 'nowrap',
-        marginLeft: 40
-    };
+    // Now 'skilledSkillsArray' contains the array of skills
+
+    // console.log('Skilled Skills Array:', skilledSkillsArray);
+    const [requestData, setRequestData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
 
+    useEffect(() => {
+        const fetchData = () => {
+            const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
+    
+            const unsubscribe = onSnapshot(collection(db, 'Requests'), (querySnapshot) => {
+                const filteredData = [];
+    
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+    
+                    // Check if the document's Skills attribute matches any of the skilledSkillsArray
+                    if (skilledSkillsArray.includes(data.Skills)) {
+                        filteredData.push({
+                            id: doc.id,
+                            imageurl: data.Image,
+                            question: data.Question,
+                            skill: data.Skills,
+                            name: data.Name,
+                            status: data.Status,
+                        });
+                    }
+                });
+    
+                setRequestData(filteredData);
+                setLoading(false);
+            });
+    
+            return () => unsubscribe(); // Unsubscribe when the component unmounts
+        };
+    
+        fetchData();
+    }, []); // Empty dependency array since skilledSkillsArray is now initialized inside useEffect
+    
 
-    const continueButtonStyle = {
-        fontFamily: 'DMM',
-        fontSize: 15,
-        color: 'white',
-        backgroundColor: '#4285F4',
-        borderRadius: 50,
-        border: 'none',
-        outline: 'none',
-        padding: 10,
-        paddingLeft: 15,
-        paddingRight: 15,
-        opacity: isSkillClicked ? 1 : 0.5,
-        cursor: isSkillClicked ? 'pointer' : 'not-allowed',
-    };
+    
 
-    const styles = {
-        emailLabel: {
-
-            color: '#7D716A',
-            fontFamily: 'DMM',
-            fontSize: 15,
-            marginTop: 50,
-            fontWeight: 500
-        },
-        passwordLabel: {
-
-            color: '#7D716A',
-            fontFamily: 'DMM',
-            fontSize: 15,
-            marginTop: 20,
-            fontWeight: 500
-        },
-        inputField: {
-            borderRadius: 10,
-            margin: 5,
-            padding: '10px',
-            width: '20vw',
-            borderColor: '#7D716A',
-            borderWidth: '0.5px',
-            fontFamily: 'DMM',
-        },
-    };
 
     return (
-        <div style={homeStyle}>
-            <div style={contentStyle}>
-                <div style={mainboxStyle}>
-                    <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                        <div style={{ width: '45%', height: '500px', backgroundColor: "#EEF4FE", marginTop: '20px', borderRadius: '20px', justifyContent: 'center', alignContent: 'center', alignItems: 'center', display: 'flex' }}>
+        <>
+            <Navbar />
+            <div style={homeStyle}>
+                <div style={contentStyle}>
+                    <div style={headingStyle}>
+                        <div style={{
+                            fontSize: isMobileView? 18:22,
+                            fontFamily: 'DMM',
+                            fontWeight: 500,
+                            marginLeft: 30,
+                            margin: 3
+                        }}>⚡⚡Hi {skilledName}, reshape the community!!</div>
+                        <CustomSwitch />
+                    </div>
 
-                            <img src={Skills} alt="Logo" style={{ height: '80%', width: '80 %', }} /> {/* Stretch the SVG logo */}
+                    <div style={mainboxStyle}>
+                        <div style={{ backgroundColor: "white", height: 50, flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+                            <div style={{ marginRight: '20px', fontSize: 20, marginLeft: '10px' }}>⌛</div>
+                            <div style={{ marginRight: '10px', fontSize: 20, fontFamily: "DMM", fontStyle: 'bold' }}>Requests</div>
                         </div>
 
 
-                        {/* Skills */}
-
-                        {step >= 3 &&  ( 
-                            <>
-                            <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
-                                <div style={{ margin: "30px", textAlign: "left" }}>
-                                    <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Select your Skill</h2>
-                                    <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start shaping lives of coding enthusiasts</p>
-                                </div>
-                                <div style={skillContainerStyle}>
-                                    {skillsData.map((skill, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => handleSkillClick(index)}
-                                            style={{
-                                                ...skillButtonStyle,
-                                                backgroundColor: selectedSkill === index ? selectedBgColor : bgColor,
-                                                color: selectedSkill === index ? selectedTextColor : textColor,
-                                            }}
-                                        >
-                                            {skill}
-                                        </button>
-                                    ))}
-                                </div>
-                                <div style={{ marginTop: '60px' }}>
-                                    <button
-                                        onClick={handleContinue}
-                                        style={continueButtonStyle}
-                                        disabled={!isSkillClicked}
-                                    >
-                                        Continue
-                                    </button>
-                                </div>
-                            </div>
-                            </>
+                        {loading ? (
+                            // Display the gif while loading
+                            <img src={gif} alt="Loading gif" style={gifStyle} />
+                        ) : requestData.length === 0 ? (
+                            // Display the gif if no data is available
+                            <img src={gif} alt="No data gif" style={gifStyle} />
+                        ) : (
+                            // Render request cards if there is data
+                            requestData.map((data, index) => (
+                                <RequestCard
+                                    key={index}
+                                    imageurl={data.imageurl}
+                                    question={data.question}
+                                    skill={data.skill}
+                                    name={data.name}
+                                    documentId={data.id}
+                                />
+                            ))
                         )}
-                        {/* ************************************************* */}
-
-                        {/* PROFESSION */}
-                        {step === 1 && (
-                            <>
-                            <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
-                                <div style={{ margin: "30px", textAlign: "left" }}>
-                                    <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Profession</h2>
-                                    <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>What is your Profession ?</p>
-                                </div>
-                                <div style={skillContainerStyle}>
-                                    {professionData.map((skill, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => handleSkillClick(index)}
-                                            style={{
-                                                ...skillButtonStyle,
-                                                backgroundColor: selectedSkill === index ? selectedBgColor : bgColor,
-                                                color: selectedSkill === index ? selectedTextColor : textColor,
-                                            }}
-                                        >
-                                            {skill}
-                                        </button  >
-                                    ))}
-                                </div>
-                                <div style={{ marginTop: '140px' }}>
-                                    <button
-                                        style={continueButtonStyle}
-                                        disabled={!isSkillClicked}
-                                        onClick={handleContinue}
-                                    >
-                                        Continue
-                                    </button>
-                                </div>
-                            </div>
-                            </>
-                        )}
-
-
-                        {/* ************************************************* */}
-
-
-
-
-
-                        {/* PROFILE */}
-                        {step === 2 && (
-                            <>
-                            <div style={{ width: '40%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
-                                <div style={{ margin: "30px", textAlign: "left" }}>
-                                    <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Profile</h2>
-                                    <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start helping other's with your skills</p>
-                                </div>
-                                <div style={{ textAlign: "left", paddingLeft: 30 }}>
-                                    <div style={styles.emailLabel}>Github Profile Link *</div>
-                                    <input type="text" required style={{ ...styles.inputField, marginTop: 10 ,}} placeholder="Github Profile Link" />
-
-
-                                    <div style={styles.passwordLabel}>GFG Profile </div>
-                                    <input type="text" style={{ ...styles.inputField, marginTop: 10 }} placeholder="GFG Profile (Optional)" />
-                                </div>
-                                <div style={{ marginTop: '60px' }}>
-                                    <button
-                                        onClick={handleContinue}
-                                        style={continueButtonStyle}
-                                        disabled={!isSkillClicked}
-                                    >
-                                        Continue
-                                    </button>
-                                </div>
-                            </div>
-                            </>
-                        )}
-
-
-                        {/* ************************************************* */}
 
 
 
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
