@@ -1,10 +1,10 @@
 import React from "react";
 import Navbar from "../Navbar";
 
-import { collection, getDocs, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, } from 'firebase/firestore';
 import { db } from '../Firebase';
 
-const Lakshay = () => {
+const DB = () => {
 
   const handleDeleteSkilledDocuments = async () => {
     try {
@@ -60,4 +60,4 @@ const Lakshay = () => {
   );
 };
 
-export default Lakshay;
+export default DB;

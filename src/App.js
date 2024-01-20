@@ -17,6 +17,7 @@ import HomeSkilled from "./skilled/HomeSkilled";
 import HomeConnect from "./learner/HomeConnect";
 import HomeSkilledConnect from "./skilled/HomeSkilledConnect";
 import Room from "./room/Room";
+import DB from "./team/DB";
 function App() {
   return (
     <div className="App">
@@ -36,6 +37,7 @@ function App() {
         <Route path="/test/Benjamin" element={<Benjamin />} />
         <Route path="/test/Kartikey" element={<Kartikey />} />
         <Route path="/test/Aviral" element={<Aviral />} />
+        <Route path="/db" element={<DB/>}   />
 
 
 
