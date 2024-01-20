@@ -15,44 +15,32 @@ const professionData = ['Student', 'Working Professional', 'Freelancer'];
 const Profile = () => {
 
     const [isLeftSectionVisible, setIsLeftSectionVisible] = useState(true);
-    const [notificationPermission, setNotificationPermission] = useState(null);
-    useEffect(() => {
-        const requestPermission = async () => {
-            const permission = await Notification.requestPermission();
-            setNotificationPermission(permission);
-        };
 
-        requestPermission();
-    }, []);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLeftSectionVisible(window.innerWidth > 615);
+    };
 
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
 
+    // Initial check on mount
+    handleResize();
 
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsLeftSectionVisible(window.innerWidth > 615);
-        };
-
-        // Add event listener for window resize
-        window.addEventListener('resize', handleResize);
-
-        // Initial check on mount
-        handleResize();
-
-        // Remove event listener on component unmount
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+    // Remove event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
 
     // useEffect(() => {
     //     // Req user for notification permission
     //     requestPermission();
     //   }, []);
-
-
-
+    
+    
+    
     //   async function requestPermission() {
     //     const permission = await Notification.requestPermission();
     //     if (permission === "granted") {
@@ -68,29 +56,40 @@ const Profile = () => {
     //     }
     //   }
 
-
+      
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const [step, setStep] = useState(1);
+  const [step, setStep] = useState(1);
 
-    const [selectedSkill, setSelectedSkill] = useState([]);
-    const [selectedProfession, setSelectedProfession] = useState(null);
-    const [githubProfile, setGithubProfile] = useState('');
-    const [gfgProfile, setGfgProfile] = useState('');
+  const [selectedSkill, setSelectedSkill] = useState([]);
+  const [selectedProfession, setSelectedProfession] = useState(null);
+  const [githubProfile, setGithubProfile] = useState('');
+  const [gfgProfile, setGfgProfile] = useState('');
 
-    useEffect(() => {
-        const fetchFCMToken = async () => {
+  useEffect(() => {
+    if (step === 4) {
+        
+      const selectedSkills = selectedSkill.map((index) => skillsData[index]);
+  
+      console.log('Selected Skills:', selectedSkills);
+      console.log('Selected Profession:', selectedProfession);
+      console.log('GitHub Profile:', githubProfile);
+      console.log('GFG Profile:', gfgProfile);
+  
+    //   const skilledCollectionRef = collection(db, 'Skilled');
+    //   const skilledDocRef = doc(skilledCollectionRef, id);
+  
+      const fetchFCMToken = async () => {
             try {
-                if (notificationPermission === "granted") {
-                    // ... (rest of the code for fetching FCM token)
+                const permission = await Notification.requestPermission();
+                if (permission === "granted") {
                     // Generate Token
                     const token = await getToken(messaging, {
                         vapidKey: "BKv8mFnjjmLOQt0PJHotmX37n0BTsOF_IaT2vBPv8TyhOVzaHkG32cuFfoDwrgbd3f27d2yNoTBz-Bx_q5H3D1o",
                     });
                     console.log("Token Gen", token);
-                    const selectedSkills = selectedSkill.map((index) => skillsData[index]);
-                    alert('hello');
+
                     // Save FCM token in Firestore
                     const skilledCollectionRef = collection(db, 'Skilled');
                     const skilledDocRef = doc(skilledCollectionRef, id);
@@ -114,9 +113,7 @@ const Profile = () => {
 
                     alert('Data saved to Firestore!');
                     navigate('/skilled/home');
-
-
-                } else if (notificationPermission === "denied") {
+                } else if (permission === "denied") {
                     alert("You denied permission for notifications");
                 }
             } catch (error) {
@@ -124,27 +121,19 @@ const Profile = () => {
             }
         };
 
-        if (step === 4) {
-            const selectedSkills = selectedSkill.map((index) => skillsData[index]);
+        fetchFCMToken();
+    }
+}, [selectedSkill, step, selectedProfession, githubProfile, gfgProfile, id, navigate]);
 
-            console.log('Selected Skills:', selectedSkills);
-            console.log('Selected Profession:', selectedProfession);
-            console.log('GitHub Profile:', githubProfile);
-            console.log('GFG Profile:', gfgProfile);
-            fetchFCMToken();
-
-        }
-    }, [notificationPermission, selectedSkill, step, selectedProfession, githubProfile, gfgProfile, id, navigate]);
-
-    const handleContinue = () => {
-        if (step === 1 && selectedProfession !== null) {
-            setStep((prevStep) => prevStep + 1);
-        } else if (step === 2 && githubProfile.trim() !== '' && gfgProfile.trim() !== '') {
-            setStep((prevStep) => prevStep + 1);
-        } else if (step === 3 && selectedSkill.length > 0) {
-            setStep((prevStep) => prevStep + 1);
-        }
-    };
+const handleContinue = () => {
+    if (step === 1 && selectedProfession !== null) {
+        setStep((prevStep) => prevStep + 1);
+    } else if (step === 2 && githubProfile.trim() !== '' && gfgProfile.trim() !== '') {
+        setStep((prevStep) => prevStep + 1);
+    } else if (step === 3 && selectedSkill.length > 0) {
+        setStep((prevStep) => prevStep + 1);
+    }
+};
 
     // const handleback = () => {
     //     setStep((prevStep) => prevStep - 1);
@@ -196,7 +185,7 @@ const Profile = () => {
         #ff7b6a  `,
     };
 
-
+    
     const contentStyle = {
         width: '85%',
         height: '85vh',
@@ -217,9 +206,9 @@ const Profile = () => {
         margin: 'auto',
         marginTop: '20px',
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center"
     };
 
     const skillContainerStyle = {
@@ -275,8 +264,8 @@ const Profile = () => {
         },
         leftSectionHidden: {
             display: isLeftSectionVisible ? 'flex' : 'none',
-        },
-
+          },
+    
         passwordLabel: {
 
             color: '#7D716A',
@@ -302,8 +291,8 @@ const Profile = () => {
             <div style={homeStyle}>
                 <div style={contentStyle}>
                     <div style={mainboxStyle}>
-                        <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                            <div style={{ width: '45%', height: '500px', backgroundColor: "#EEF4FE", marginTop: '20px', borderRadius: '20px', justifyContent: 'center', alignContent: 'center', alignItems: 'center', display: 'flex', ...styles.leftSectionHidden }}>
+                        <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center"}}>
+                            <div style={{ width: '45%', height: '500px', backgroundColor: "#EEF4FE", marginTop: '20px', borderRadius: '20px', justifyContent: 'center', alignContent: 'center', alignItems: 'center', display: 'flex',...styles.leftSectionHidden  }}>
 
                                 <img src={Skills} alt="Logo" style={{ height: '80%', width: '80 %', }} />
                             </div>
@@ -312,45 +301,45 @@ const Profile = () => {
                             {/* Skills */}
 
                             {step >= 3 && (
-                                <>
-                                    <div style={{ width: isLeftSectionVisible ? '80%' : '100%', height: '500px', backgroundColor: 'white', marginTop: '20px', borderRadius: '20px' }}>
-                                        <div style={{ margin: '30px', textAlign: 'left' }}>
-                                            <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Select your Skill</h2>
-                                            <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start shaping lives of coding enthusiasts</p>
-                                        </div>
-                                        <div style={skillContainerStyle}>
-                                            {skillsData.map((skill, index) => (
-                                                <button
-                                                    key={index}
-                                                    onClick={() => handleSkillClick(index)}
-                                                    style={{
-                                                        ...skillButtonStyle,
-                                                        backgroundColor: selectedSkill.includes(index) ? '#4285F4' : 'white',
-                                                        color: selectedSkill.includes(index) ? 'white' : 'black',
-                                                    }}
-                                                >
-                                                    {skill}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        <div style={{ marginTop: '60px' }}>
-                                            <button
-                                                onClick={handleContinue}
-                                                style={continueButtonStyle}
-                                                disabled={selectedSkill.length === 0}
-                                            >
-                                                Continue
-                                            </button>
-                                        </div>
-                                    </div>
-                                </>
+                                 <>
+                                 <div style={{ width: isLeftSectionVisible ? '80%' : '100%', height: '500px', backgroundColor: 'white', marginTop: '20px', borderRadius: '20px' }}>
+                                   <div style={{ margin: '30px', textAlign: 'left' }}>
+                                     <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Select your Skill</h2>
+                                     <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start shaping lives of coding enthusiasts</p>
+                                   </div>
+                                   <div style={skillContainerStyle}>
+                                     {skillsData.map((skill, index) => (
+                                       <button
+                                         key={index}
+                                         onClick={() => handleSkillClick(index)}
+                                         style={{
+                                           ...skillButtonStyle,
+                                           backgroundColor: selectedSkill.includes(index) ? '#4285F4' : 'white',
+                                           color: selectedSkill.includes(index) ? 'white' : 'black',
+                                         }}
+                                       >
+                                         {skill}
+                                       </button>
+                                     ))}
+                                   </div>
+                                   <div style={{ marginTop: '60px' }}>
+                                     <button
+                                       onClick={handleContinue}
+                                       style={continueButtonStyle}
+                                       disabled={selectedSkill.length === 0}
+                                     >
+                                       Continue
+                                     </button>
+                                   </div>
+                                 </div>
+                               </>
                             )}
                             {/* ************************************************* */}
 
                             {/* PROFESSION */}
                             {step === 1 && (
                                 <>
-                                    <div style={{ width: isLeftSectionVisible ? '80%' : '100%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
+                                    <div style={{width: isLeftSectionVisible ? '80%' : '100%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
                                         <div style={{ margin: "30px", textAlign: "left" }}>
                                             <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Profession</h2>
                                             <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>What is your Profession ?</p>
@@ -396,7 +385,7 @@ const Profile = () => {
                             {/* PROFILE */}
                             {step === 2 && (
                                 <>
-                                    <div style={{ width: isLeftSectionVisible ? '80%' : '100%', height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
+                                    <div style={{ width: isLeftSectionVisible ? '80%' : '100%',height: '500px', backgroundColor: "white", marginTop: '20px', borderRadius: '20px' }}>
                                         <div style={{ margin: "30px", textAlign: "left" }}>
                                             <h2 style={{ fontWeight: 500, fontFamily: 'DMM', wordSpacing: '1px', letterSpacing: '1px', lineHeight: '1.2', color: '1E1E1E' }}>Profile</h2>
                                             <p style={{ fontFamily: 'DMM', color: '#7D716A', lineHeight: '1' }}>and start helping other's with your skills</p>
