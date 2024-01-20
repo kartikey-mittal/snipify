@@ -1,0 +1,302 @@
+import React from "react"
+import { useEffect ,useState} from "react";
+import CustomSwitch from "../components/CustomSwitch";
+
+import Navbar from "../Navbar";
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db,storage } from '../Firebase';
+
+import { ref, uploadString, getDownloadURL } from 'firebase/storage';
+
+
+
+const Kartikey = () => {
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
+
+    const [isDragOver, setIsDragOver] = useState(false);
+    const [uploadedFiles, setUploadedFiles] = useState([]);
+
+    const [uploadStatus, setUploadStatus] = useState({ success: false, fileName: '' });
+    const [imageUrl, setImageUrl] = useState('');
+console.log(imageUrl);
+    const buttonText = uploadStatus.success
+        ? `File uploaded successfully:\n${uploadStatus.fileName}`
+        : 'Drag and Drop\nor Click to Upload';
+
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth <= 615);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    
+
+    const handleDragEnter = (e) => {
+        e.preventDefault();
+        setIsDragOver(true);
+    };
+
+    const handleDragLeave = () => {
+        setIsDragOver(false);
+    };
+
+    const handleDrop = async (e) => {
+        e.preventDefault();
+        setIsDragOver(false);
+
+        const files = Array.from(e.dataTransfer.files);
+        await handleFiles(files);
+    };
+
+    const handleFileInput = async (e) => {
+        const files = Array.from(e.target.files);
+        await handleFiles(files);
+    };
+
+    const handleFiles = async (files) => {
+        setUploadedFiles(files);
+
+        try {
+            const storageRef = ref(storage, `images/${files[0].name}`);
+            const reader = new FileReader();
+
+            reader.onloadend = async () => {
+                if (typeof reader.result === 'string') {
+                    await uploadString(storageRef, reader.result, 'data_url');
+                    const downloadURL = await getDownloadURL(storageRef);
+                    setImageUrl(downloadURL);
+
+                    // Now you can use the downloadURL as needed
+                    console.log('Download URL:', downloadURL);
+                } else {
+                    console.error('Invalid dataURL:', reader.result);
+                }
+            };
+
+            reader.onerror = (error) => {
+                console.error('Error reading file:', error);
+            };
+
+            reader.readAsDataURL(files[0]);
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+
+        setUploadStatus({ success: true, fileName: files.map((file) => file.name).join(', ') });
+    };
+
+
+
+
+    const homeStyle = {
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        padding: 20,
+        background: `
+    repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(242, 242, 242, 0.8) 50px, rgba(242, 242, 242, 0.8) 51px),
+    repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(242, 242, 242, 0.8) 50px, rgba(242, 242, 242, 0.8)51px),
+    #ff7b6a  `,
+    };
+
+    const contentStyle = {
+        width: isMobileView?'100%': '85%',
+        height: '85vh',
+        border: '1px solid #ccc',
+        borderRadius: 15,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        overflow: 'hidden', // Hide overflow content
+        backgroundColor: '#F3F6FC',
+    };
+
+    const headingStyle = {
+        width: '100%',
+        backgroundColor: '#FFF4E8',
+        fontSize: 25,
+        fontFamily: 'DMM',
+        fontWeight: 500,
+        paddingTop: 5,
+        paddingBottom: 5,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Adjusted this line
+        alignItems: 'center', // Adjusted this line
+    };
+
+    const mainboxStyle = {
+        width: '90%',
+        height: '85%',
+        backgroundColor: 'white',
+        borderRadius: 15,
+        margin: 'auto',
+        marginTop: '20px',
+        border: '1px solid blue',
+        boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.1)',
+        overflowY: 'auto',  // Enable vertical scrolling
+        scrollbarWidth: 'none',  // Hide scrollbar in Firefox
+        msOverflowStyle: 'none',
+       display:"flex",
+       flexDirection:"column",
+       
+      };
+      
+      
+      
+    
+    //const skilledName = localStorage.getItem('SkilledName');
+
+    // const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
+
+    // Now 'skilledSkillsArray' contains the array of skills
+
+    // console.log('Skilled Skills Array:', skilledSkillsArray);
+   // const [requestData, setRequestData] = useState([]);
+   // const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        const fetchData = () => {
+            const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
+    
+            const unsubscribe = onSnapshot(collection(db, 'Requests'), (querySnapshot) => {
+                const filteredData = [];
+    
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+    
+                    // Check if the document's Skills attribute matches any of the skilledSkillsArray
+                    if (skilledSkillsArray.includes(data.Skills)) {
+                        filteredData.push({
+                            id: doc.id,
+                            imageurl: data.Image,
+                            question: data.Question,
+                            skill: data.Skills,
+                            name: data.Name,
+                            status: data.Status,
+                        });
+                    }
+                });
+    
+                setRequestData(filteredData);
+                setLoading(false);
+            });
+    
+            return () => unsubscribe(); // Unsubscribe when the component unmounts
+        };
+    
+        fetchData();
+    }, []); // Empty dependency array since skilledSkillsArray is now initialized inside useEffect
+    
+
+    
+
+
+    return (
+        <>
+            <Navbar />
+            <div style={homeStyle}>
+                <div style={contentStyle}>
+                    <div style={headingStyle}>
+                        <div style={{
+                            fontSize: isMobileView? 18:22,
+                            fontFamily: 'DMM',
+                            fontWeight: 500,
+                            marginLeft: 30,
+                            margin: 3
+                        }}>Upload the relevant screenshots answers!!</div>
+                        <CustomSwitch />
+                    </div>
+
+                    <div style={mainboxStyle}>
+                        <div style={{ backgroundColor: "white", height: 50, flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+                            <div style={{ marginRight: '20px', fontSize: 20, marginLeft: '10px',marginBottom:3 }}>⌛</div>
+                            <div style={{ marginRight: '10px', fontSize: 25, fontFamily: "DMM", fontStyle: 'bold' }}>
+                            Uplaod</div>
+                        </div>
+
+                     {/* ------------------------drag and  drop ---------------------- */}
+                     <div
+                                    style={{
+                                        marginLeft: '25px',
+                                        height: isMobileView ? 100 : 151,
+                                        border: isDragOver ? '2px dashed black' : '0.5px dashed #7D716A',
+                                        borderRadius: 15,
+                                        position: 'relative',
+                                        marginTop:30,
+                                        top: '50%',
+                                        left: '50%',
+                                        transform: 'translate(-50%, -200%)',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: '#F9F9F9',
+                                        color: '#7D716A',
+                                        width: isMobileView ? 200 : 341,
+                                        
+                                    }}
+                                    onDragEnter={handleDragEnter}
+                                    onDragLeave={handleDragLeave}
+                                    onDragOver={(e) => e.preventDefault()}
+                                    onDrop={handleDrop}
+                                    onClick={() => document.getElementById('fileInput').click()}
+                                >
+                                    {buttonText}
+                                    <input
+                                        id="fileInput"
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={handleFileInput}
+                                    />
+                                    <p>Number of uploaded files: {uploadedFiles.length}</p>
+                                </div>
+{/* 3rd div */}
+                        <div style={{display:"flex",justifyContent:"space-evenly",flexDirection:"row",marginTop:50}}>
+                                    <div style={{width:250,height:130,backgroundColor:"blue",borderRadius:10}}></div>
+                                    <div style={{width:250,height:130,backgroundColor:"blue",borderRadius:10}}></div>
+                                    <div style={{width:250,height:130,backgroundColor:"blue",borderRadius:10}}></div>
+
+                                    
+                                    </div>
+
+                                    <div style={{ marginTop: 20, marginLeft: 40 }}>
+                            <button
+                                style={{
+                                    fontFamily: 'DMM',
+                                    fontSize: 15,
+                                    color: 'white',
+                                    backgroundColor: '#4285F4',
+                                    borderRadius: 50,
+                                    border: 'none',
+                                    outline: 'none',
+                                    padding: 10,
+                                    paddingLeft: 15,
+                                    paddingRight: 15,
+                                    cursor:"pointer",
+                                    marginBottom: '75px',
+                                    marginTop:"40"
+                                }}
+                                
+                            >
+                                Connect
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default Kartikey;
