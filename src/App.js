@@ -18,6 +18,8 @@ import HomeConnect from "./learner/HomeConnect";
 import HomeSkilledConnect from "./skilled/HomeSkilledConnect";
 import Room from "./room/Room";
 import DB from "./team/DB";
+import OldSolution from "./team/OldSolution";
+import LearnerQuestion from "./team/LearnerQuestion";
 function App() {
   return (
     <div className="App">
@@ -28,6 +30,8 @@ function App() {
         <Route path="/signup" element={<SignUpPage/>}   />
         <Route path="/skilled/profile/:id" element={<Profile/>}   />
         <Route path="/learner/home" element={<Home/>}   />
+        <Route path="/team/learner" element={<LearnerQuestion/>}   />
+        <Route path="/team/solution" element={<OldSolution/>}   />
         <Route path="/learner/connect/:documentId" element={<HomeConnect/>}   />
         <Route path="/skilled/home" element={<HomeSkilled/>}   />
         <Route path="/skilled/connect/:docId" element={<HomeSkilledConnect/>}   />
