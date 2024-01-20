@@ -4,12 +4,25 @@ import CustomSwitch from "../components/CustomSwitch";
 
 import Navbar from "../Navbar";
 import { collection, onSnapshot } from 'firebase/firestore';
-import { db, } from '../Firebase';
-import gif from '../assets/connection.gif';
+import { db,storage } from '../Firebase';
+
+import { ref, uploadString, getDownloadURL } from 'firebase/storage';
+
 
 
 const Kartikey = () => {
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
+
+    const [isDragOver, setIsDragOver] = useState(false);
+    const [uploadedFiles, setUploadedFiles] = useState([]);
+
+    const [uploadStatus, setUploadStatus] = useState({ success: false, fileName: '' });
+    const [imageUrl, setImageUrl] = useState('');
+
+    const buttonText = uploadStatus.success
+        ? `File uploaded successfully:\n${uploadStatus.fileName}`
+        : 'Drag and Drop\nor Click to Upload';
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -24,13 +37,64 @@ const Kartikey = () => {
         };
     }, []);
 
+    
 
-    const gifStyle = {
-        marginTop:50,
-        width: '50%',
-        height: '50%',
-        objectFit: 'cover',
+    const handleDragEnter = (e) => {
+        e.preventDefault();
+        setIsDragOver(true);
     };
+
+    const handleDragLeave = () => {
+        setIsDragOver(false);
+    };
+
+    const handleDrop = async (e) => {
+        e.preventDefault();
+        setIsDragOver(false);
+
+        const files = Array.from(e.dataTransfer.files);
+        await handleFiles(files);
+    };
+
+    const handleFileInput = async (e) => {
+        const files = Array.from(e.target.files);
+        await handleFiles(files);
+    };
+
+    const handleFiles = async (files) => {
+        setUploadedFiles(files);
+
+        try {
+            const storageRef = ref(storage, `images/${files[0].name}`);
+            const reader = new FileReader();
+
+            reader.onloadend = async () => {
+                if (typeof reader.result === 'string') {
+                    await uploadString(storageRef, reader.result, 'data_url');
+                    const downloadURL = await getDownloadURL(storageRef);
+                    setImageUrl(downloadURL);
+
+                    // Now you can use the downloadURL as needed
+                    console.log('Download URL:', downloadURL);
+                } else {
+                    console.error('Invalid dataURL:', reader.result);
+                }
+            };
+
+            reader.onerror = (error) => {
+                console.error('Error reading file:', error);
+            };
+
+            reader.readAsDataURL(files[0]);
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+
+        setUploadStatus({ success: true, fileName: files.map((file) => file.name).join(', ') });
+    };
+
+
+
 
     const homeStyle = {
         height: '100%',
@@ -81,6 +145,8 @@ const Kartikey = () => {
         overflowY: 'auto',  // Enable vertical scrolling
         scrollbarWidth: 'none',  // Hide scrollbar in Firefox
         msOverflowStyle: 'none',
+       display:"flex",
+       flexDirection:"column",
        
       };
       
@@ -153,14 +219,78 @@ const Kartikey = () => {
 
                     <div style={mainboxStyle}>
                         <div style={{ backgroundColor: "white", height: 50, flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
-                            <div style={{ marginRight: '20px', fontSize: 20, marginLeft: '10px' }}>⌛</div>
-                            <div style={{ marginRight: '10px', fontSize: 20, fontFamily: "DMM", fontStyle: 'bold' }}>Uplaod</div>
+                            <div style={{ marginRight: '20px', fontSize: 20, marginLeft: '10px',marginBottom:3 }}>⌛</div>
+                            <div style={{ marginRight: '10px', fontSize: 25, fontFamily: "DMM", fontStyle: 'bold' }}>
+                            Uplaod</div>
                         </div>
 
+                     {/* ------------------------drag and  drop ---------------------- */}
+                     <div
+                                    style={{
+                                        marginLeft: '25px',
+                                        height: isMobileView ? 100 : 151,
+                                        border: isDragOver ? '2px dashed black' : '0.5px dashed #7D716A',
+                                        borderRadius: 15,
+                                        position: 'relative',
+                                        marginTop:30,
+                                        top: '50%',
+                                        left: '50%',
+                                        transform: 'translate(-50%, -200%)',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: '#F9F9F9',
+                                        color: '#7D716A',
+                                        width: isMobileView ? 200 : 341,
+                                        
+                                    }}
+                                    onDragEnter={handleDragEnter}
+                                    onDragLeave={handleDragLeave}
+                                    onDragOver={(e) => e.preventDefault()}
+                                    onDrop={handleDrop}
+                                    onClick={() => document.getElementById('fileInput').click()}
+                                >
+                                    {buttonText}
+                                    <input
+                                        id="fileInput"
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        onChange={handleFileInput}
+                                    />
+                                    <p>Number of uploaded files: {uploadedFiles.length}</p>
+                                </div>
+{/* 3rd div */}
+                        <div style={{display:"flex",justifyContent:"space-evenly",flexDirection:"row",marginTop:50}}>
+                                    <div style={{width:250,height:130,backgroundColor:"blue",borderRadius:10}}></div>
+                                    <div style={{width:250,height:130,backgroundColor:"blue",borderRadius:10}}></div>
+                                    <div style={{width:250,height:130,backgroundColor:"blue",borderRadius:10}}></div>
 
-                        
+                                    
+                                    </div>
 
-
+                                    <div style={{ marginTop: 20, marginLeft: 40 }}>
+                            <button
+                                style={{
+                                    fontFamily: 'DMM',
+                                    fontSize: 15,
+                                    color: 'white',
+                                    backgroundColor: '#4285F4',
+                                    borderRadius: 50,
+                                    border: 'none',
+                                    outline: 'none',
+                                    padding: 10,
+                                    paddingLeft: 15,
+                                    paddingRight: 15,
+                                    cursor:"pointer",
+                                    marginBottom: '75px',
+                                    marginTop:"40"
+                                }}
+                                
+                            >
+                                Connect
+                            </button>
+                        </div>
 
                     </div>
                 </div>
