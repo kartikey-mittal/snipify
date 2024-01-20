@@ -45,7 +45,7 @@ const Home = () => {
     const isContinueButtonDisabled = !textInput.trim();
 
     // Calculate opacity based on whether there is text in the input
-    const continueButtonOpacity = isContinueButtonDisabled ? 0.5 : 1
+    // const continueButtonOpacity = isContinueButtonDisabled ? 0.5 : 1
     const isConnectButtonDisabled = selectedSkill === null;
 
     // Calculate opacity based on whether a skill is selected
@@ -257,7 +257,7 @@ const Home = () => {
                                     justifyContent: 'space-around',
                                     backgroundColor:'transparent',
                                     flexDirection: isMobileView ? 'column' : 'row',
-                                    justifyContent:'center',
+                                    
                                     alignItems:'center'
                                 }}
                             >

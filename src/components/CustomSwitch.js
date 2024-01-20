@@ -1,20 +1,20 @@
 import React, { useState,useEffect } from 'react';
 
 const CustomSwitch = () => {
-  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
+  // const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobileView(window.innerWidth <= 615);
-        };
+  //   useEffect(() => {
+  //       const handleResize = () => {
+  //           setIsMobileView(window.innerWidth <= 615);
+  //       };
 
-        window.addEventListener('resize', handleResize);
+  //       window.addEventListener('resize', handleResize);
 
-        // Clean up the event listener on component unmount
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+  //       // Clean up the event listener on component unmount
+  //       return () => {
+  //           window.removeEventListener('resize', handleResize);
+  //       };
+  //   }, []);
   const [isToggled, setIsToggled] = useState(true);
 
   const handleToggle = () => {
