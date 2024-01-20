@@ -1,12 +1,10 @@
-import React, { useState,useEffect } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import { ref, uploadString, getDownloadURL } from 'firebase/storage';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { db, storage } from '../Firebase';
 import { useNavigate } from 'react-router-dom';
-
-
+import axios from 'axios';
 
 const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', "skills", 'Python', 'React',];
 
@@ -15,16 +13,16 @@ const Home = () => {
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
     useEffect(() => {
-      const handleResize = () => {
-        setIsMobileView(window.innerWidth <= 615);
-      };
-  
-      window.addEventListener('resize', handleResize);
-  
-      // Clean up the event listener on component unmount
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth <= 615);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
 
     // useEffect(() => {
@@ -79,36 +77,36 @@ const Home = () => {
 
     const handleFiles = async (files) => {
         setUploadedFiles(files);
-    
+
         try {
             const storageRef = ref(storage, `images/${files[0].name}`);
             const reader = new FileReader();
-    
+
             reader.onloadend = async () => {
                 if (typeof reader.result === 'string') {
                     await uploadString(storageRef, reader.result, 'data_url');
                     const downloadURL = await getDownloadURL(storageRef);
                     setImageUrl(downloadURL);
-    
+
                     // Now you can use the downloadURL as needed
                     console.log('Download URL:', downloadURL);
                 } else {
                     console.error('Invalid dataURL:', reader.result);
                 }
             };
-    
+
             reader.onerror = (error) => {
                 console.error('Error reading file:', error);
             };
-    
+
             reader.readAsDataURL(files[0]);
         } catch (error) {
             console.error('Error uploading image:', error);
         }
-    
+
         setUploadStatus({ success: true, fileName: files.map((file) => file.name).join(', ') });
     };
-    
+
 
     const handleTextInputChange = (e) => {
         setTextInput(e.target.value);
@@ -131,7 +129,54 @@ const Home = () => {
 
             console.log('Document written with ID: ', docRef.id);
 
-            // Delay the navigation by 5 seconds
+
+            const skilledCollectionRef = collection(db, 'Skilled');
+            const skilledQuerySnapshot = await getDocs(query(skilledCollectionRef, where('selectedSkills', 'array-contains', selectedSkillString)));
+
+            // Array to store matched documents
+            const fcmtokendata = [];
+
+            // Log the names of the documents that match the selected skill
+            skilledQuerySnapshot.forEach((doc) => {
+                fcmtokendata.push(doc.data().fcmtoken);
+                // You can perform any other actions with the matched documents here
+            });
+
+            // Log the array of matched documents
+            console.log('Matched documents:', fcmtokendata);
+
+            // ------------------------fcm Notification-------------------
+            try {
+                const response = await axios.post(
+                    'https://fcm.googleapis.com/fcm/send',
+                    {
+                        registration_ids: fcmtokendata,
+                        notification: {
+                            title: 'Question: '+textInput,
+                            body: 'Asked by '+learnerName,
+                        }
+                    },
+                    {
+                        headers: {
+                            Authorization: 'key=AAAALbx6OSY:APA91bE-XoNsHHFbu9VxAY826Fwv4QJ2Z6IVjxJqnZZkvDsZkcQSeZOhCrKZHDZe7SJa-CpCZJ_PlawzXrK1BQheWT4Lj28XNuhK2a5ZDULkDoqtm8BE8xILGp3YuGuEBmp_gITO0tz9',
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                console.log('Response from FCM:', response.data);
+
+                if (response.data.success) {
+                    alert('Notification sent successfully!');
+                } else {
+                    alert('Failed to send notification. Check the server logs for details.');
+                }
+            } catch (error) {
+                console.error('Error sending notification:', error);
+                alert('An error occurred while sending the notification.');
+            }
+
+            // Delay the navigation by 5 seconds--------------------------------------------👇👇👇👇
             setTimeout(() => {
                 // Redirect to the learner connect page with the document ID
                 navigate(`/learner/connect/${docRef.id}`);
@@ -171,14 +216,14 @@ const Home = () => {
         alignItems: 'flex-start',
         overflow: 'hidden',
         backgroundColor: '#F3F6FC',
-        
+
     };
 
     const headingStyle = {
         width: '100%',
         backgroundColor: '#FFF4E8',
-        fontSize: isMobileView? 20: 25,
-        
+        fontSize: isMobileView ? 20 : 25,
+
         fontFamily: 'DMM',
         fontWeight: 500,
         paddingTop: 5,
@@ -194,7 +239,7 @@ const Home = () => {
         marginTop: '20px',
         border: '1px solid blue',
         boxShadow: '0px 08px 10px rgba(0, 0, 0, 0.1)',
-        marginBottom:'20px'
+        marginBottom: '20px'
     };
 
     // const dropAreaStyle = {
@@ -255,13 +300,13 @@ const Home = () => {
                                     marginTop: 2,
                                     display: 'flex',
                                     justifyContent: 'space-around',
-                                    backgroundColor:'transparent',
+                                    backgroundColor: 'transparent',
                                     flexDirection: isMobileView ? 'column' : 'row',
-                                    
-                                    alignItems:'center'
+
+                                    alignItems: 'center'
                                 }}
                             >
-                                <label style={{width: isMobileView ? '100%' : '100%', height: 150 }}>
+                                <label style={{ width: isMobileView ? '100%' : '100%', height: 150 }}>
                                     <input
                                         type="text"
                                         placeholder="Type your question here.."
@@ -283,7 +328,7 @@ const Home = () => {
                                             borderWidth: '0.5px',
                                             lineHeight: '1.5',
                                             whiteSpace: 'pre-wrap',
-                                            
+
                                         }}
                                         onFocus={(e) => (e.target.style.border = '2px solid #7D716A')}
                                         onBlur={(e) => (e.target.style.border = `2px solid ${borderColor}`)}
@@ -292,7 +337,7 @@ const Home = () => {
                                 {/* ------------------------drag and  drop ---------------------- */}
                                 <div
                                     style={{
-                                        marginLeft:'25px',
+                                        marginLeft: '25px',
                                         height: isMobileView ? 100 : 151,
                                         border: isDragOver ? '2px dashed black' : '0.5px dashed #7D716A',
                                         borderRadius: 15,
@@ -318,7 +363,7 @@ const Home = () => {
                                         style={{ display: 'none' }}
                                         onChange={handleFileInput}
                                     />
-                                     <p>Number of uploaded files: {uploadedFiles.length}</p>
+                                    <p>Number of uploaded files: {uploadedFiles.length}</p>
                                 </div>
                             </div>
 
@@ -426,7 +471,7 @@ const Home = () => {
                                     paddingRight: 15,
                                     opacity: connectButtonOpacity,
                                     cursor: isConnectButtonDisabled ? 'not-allowed' : 'pointer',
-                                    marginBottom:'75px'
+                                    marginBottom: '75px'
                                 }}
                                 disabled={isConnectButtonDisabled}
                                 onClick={handleConnectButtonClick}

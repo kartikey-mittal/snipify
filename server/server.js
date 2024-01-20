@@ -1,43 +1,42 @@
-const express = require('express');
-const cors = require('cors');
-const admin = require('firebase-admin');
+// server.js
+
+import express from 'express';
+import axios from 'axios';
+import cors from 'cors';
 
 const app = express();
-const port = 5000;
+const port = 3001;
 
-
-// Enable CORS for all routes
+app.use(express.json());
 app.use(cors());
-app.use(express.json()); // Parse JSON request body
 
-// Initialize Firebase Admin SDK
-const serviceAccount = require('../src/snipify-bda1e-firebase-adminsdk-kmxo0-88121553a3.json'); // Replace with your actual path
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-
-// Sample route
-app.get('/', (req, res) => {
-  res.send('Server is running!');
-});
-
-// Route to handle sending notifications
-app.post('/sendNotification', async (req, res) => {
-  const { tokens, payload } = req.body;
+app.post('/send-notification', async (req, res) => {
+  const { token, message } = req.body;
 
   try {
-    const message = {
-      tokens: tokens,
-      notification: payload,
+    console.log('Received notification request:', { token, message });
+
+    const payload = {
+      to: token,
+      notification: {
+        title: 'Notification Title',
+        body: message,
+      },
     };
 
-    const response = await admin.messaging().sendMulticast(message);
+    const response = await axios.post('https://fcm.googleapis.com/fcm/send', payload, {
+      headers: {
+        'Authorization': 'key=AAAALbx6OSY:APA91bE-XoNsHHFbu9VxAY826Fwv4QJ2Z6IVjxJqnZZkvDsZkcQSeZOhCrKZHDZe7SJa-CpCZJ_PlawzXrK1BQheWT4Lj28XNuhK2a5ZDULkDoqtm8BE8xILGp3YuGuEBmp_gITO0tz9',
+        'Content-Type': 'application/json',
+      },
+    });
 
-    console.log('Notification sent:', response);
+    console.log('Response from FCM:', response.data);
+
     res.status(200).json({ success: true, message: 'Notification sent successfully' });
   } catch (error) {
-    console.error('Error sending notification:', error.message);
-    res.status(500).json({ success: false, message: 'Error sending notification' });
+    console.error('Error sending notification:', error);
+    res.status(500).json({ success: false, message: 'Error sending notification', error: error.message });
   }
 });
 
