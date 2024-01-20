@@ -3,7 +3,7 @@ import React from "react"
 const Kartikey = () => {
   return (
     <div>
-      hello
+      ISKA CODE 20Jan.txt me hai...copy paste krle
     </div>
   )
 };
