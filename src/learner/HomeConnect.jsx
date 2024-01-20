@@ -132,7 +132,7 @@ const HomeConnect = () => {
               <>
                 <img src={gif} alt="Your GIF" style={gifStyle} />
                 <div>
-                  <p>Document ID from URL params: {documentId}</p>
+                  <p>Document ID from ftrgtrbghgtrjubtrnbrhb4 vkjmhbm4hrf hbmvf32djch hjq34e params: {documentId}</p>
                 </div>
               </>
             )}
