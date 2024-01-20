@@ -69,7 +69,6 @@ const Profile = () => {
 
   useEffect(() => {
     if (step === 4) {
-        
       const selectedSkills = selectedSkill.map((index) => skillsData[index]);
   
       console.log('Selected Skills:', selectedSkills);
@@ -125,16 +124,15 @@ const Profile = () => {
     }
 }, [selectedSkill, step, selectedProfession, githubProfile, gfgProfile, id, navigate]);
 
-const handleContinue = () => {
+  const handleContinue = () => {
     if (step === 1 && selectedProfession !== null) {
-        setStep((prevStep) => prevStep + 1);
+      setStep((prevStep) => prevStep + 1);
     } else if (step === 2 && githubProfile.trim() !== '' && gfgProfile.trim() !== '') {
-        setStep((prevStep) => prevStep + 1);
+      setStep((prevStep) => prevStep + 1);
     } else if (step === 3 && selectedSkill.length > 0) {
-        setStep((prevStep) => prevStep + 1);
+      setStep((prevStep) => prevStep + 1);
     }
-};
-
+  };
     // const handleback = () => {
     //     setStep((prevStep) => prevStep - 1);
     // };
