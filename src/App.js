@@ -2,7 +2,6 @@ import "./fonts/DMM.ttf"
 import './App.css';
 import { Routes,Route } from 'react-router-dom';
 import TestPage from './TestPage';
-
 import TeamWork from "./team/TeamWork";
 import Aviral from "./team/Aviral";
 import Benjamin from "./team/Benjamin";

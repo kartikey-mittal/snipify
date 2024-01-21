@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog, faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-modal';
+
 import { useParams } from 'react-router-dom';
-import { addDoc, collection, getDocs, query, where, doc, getDoc } from 'firebase/firestore';
-import { db, storage } from '../Firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../Firebase';
 
 const Question = () => {
     const { id } = useParams();
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [slideIndex, setSlideIndex] = useState(0);
     const [isSlideshowActive, setIsSlideshowActive] = useState(true);
     const [intervalId, setIntervalId] = useState(null);
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
     const [images, setImages] = useState([]);
-    const [question, setquestion] = useState('');
-    const [author, setauthor] = useState('');
-    const [date, setdate] = useState('');
-    console.log(id);
+    const [question, setQuestion] = useState('');
+    const [author, setAuthor] = useState('');
+    const [date, setDate] = useState('');
+
     useEffect(() => {
         const handleResize = () => {
             setIsMobileView(window.innerWidth <= 615);
@@ -40,14 +42,13 @@ const Question = () => {
                     const requestData = docSnapshot.data();
                     console.log('Request Data:', requestData);
 
-                    // Assuming the screenshots array is present in the requestData
                     const screenshots = requestData?.Screenshots || [];
-                    const question = requestData?.Question || [];
-                    const author = requestData?.Name || [];
-                     const createdAt = requestData?.createdAt.toDate();
-                     setdate(createdAt);
-                    setauthor(author);
-                    setquestion(question);
+                    const question = requestData?.Question || '';
+                    const author = requestData?.Name || '';
+                    // const createdAt = requestData?.createdAt.toDate();
+                    // setdate(createdAt);
+                    setAuthor(author);
+                    setQuestion(question);
                     console.log('Screenshots:', screenshots);
 
                     setImages(screenshots);
@@ -77,10 +78,14 @@ const Question = () => {
         return () => clearInterval(interval);
     }, [isSlideshowActive, slideIndex, images]);
 
-    const toggleSlideshow = () => {
-        setIsSlideshowActive((prevValue) => !prevValue);
+    const toggleSlideshow = (index) => {
+        setCurrentImageIndex(index);
+        setIsModalOpen((prevValue) => !prevValue);
     };
 
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
 
     const homeStyle = {
@@ -135,12 +140,13 @@ const Question = () => {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
-        height: '50%',
+        width: '100vw',
+        height: '100vh',
         overflow: 'auto',
-
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        alignItems:"flex-start",
     };
+    
 
     const sliderStyle = {
         display: 'flex',
@@ -156,9 +162,14 @@ const Question = () => {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center',
+        marginTop:"20px",
         width: '100%',
         height: '100%',
+        backgroundColor:"black",
+        border:"none",
+        outline:"none",
+        borderRadius:30,
+        boxShadow: '5px 10px 15px  rgba(0, 0, 0, 0.4)',        
     };
 
     return (
@@ -168,65 +179,42 @@ const Question = () => {
                 <div style={contentStyle}>
                     <div style={headingStyle}>👀 Something is found !!</div>
                     <div style={mainboxStyle}>
-                        <div style={{ backgroundColor: "transparent", height: 50, flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+                        <div style={{ backgroundColor: 'transparent', height: 50, flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
                             <div style={{ marginRight: '20px', fontSize: 20, marginLeft: '10px' }}>🤔</div>
                             <div style={{ marginRight: '10px', fontSize: 20, fontFamily: "DMM", fontStyle: 'bold' }}>{question}</div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems:'flex-start' }}>
                             <div style={sliderContainerStyle}>
                                 <div style={sliderStyle}>
                                     {images.map((imageUrl, index) => (
-                                        <div key={index} style={slideStyle}>
+                                        <button key={index} onClick={() => toggleSlideshow(index)} style={slideStyle}>
                                             <img
                                                 src={imageUrl}
                                                 alt={`uploaded-${index}`}
                                                 style={{
                                                     width: '100%',
                                                     height: '350px',
-                                                    borderRadius: 10,
+                                                    borderRadius: 30,
                                                     marginTop: 20,
-                                                    transform: isSlideshowActive ? 'scale(1)' : 'scale(1.8)',
-                                                    transition: 'transform 2s ease-in-out',
-                                                    marginLeft: 50,
-
                                                 }}
                                             />
-                                            {/* <FontAwesomeIcon
-                      icon={faCog}
-                      style={{
-                        marginTop: isMobileView ? '50' : '100',
-                        marginLeft: isMobileView ? '50%' : '70%',
-                        fontSize: 20,
-                        cursor: 'pointer',
-                        zIndex: 999,
-                        color: 'white',
-                      }}
-                      onClick={toggleSlideshow}
-                    /> */}
-                                        </div>
+                                        </button>
                                     ))}
                                 </div>
                             </div>
-                            <div style={{ backgroundColor: 'transparent', width: '30%', height: '400px', marginLeft: '50px', marginRight: '50px', position: 'relative',display:'flex' ,flexDirection:'column'}}>
+                            <div style={{ backgroundColor: 'transparent', width: '30%', height: '400px', marginLeft: '50px', marginRight: '50px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
                                 <p style={{ color: 'grey', fontFamily: 'DMM', textAlign: 'left', fontSize: 25, marginBottom: '5px' }}>
                                     didn't get it,<br />
                                     right?
                                 </p>
-                                <p style={{ color: '#5813EA', fontFamily: 'DMM', textAlign: 'left', fontSize: 35, marginTop: '5px' ,fontWeight:'500',marginBottom: '5px'}}>
+                                <p style={{ color: '#5813EA', fontFamily: 'DMM', textAlign: 'left', fontSize: 35, marginTop: '5px', fontWeight: '500', marginBottom: '5px' }}>
                                     let's connect<br />
-                                     live!!! ⚡
+                                         live!!! ⚡
                                 </p>
-                                <p style={{ color: 'grey', fontFamily: 'DMM', textAlign: 'left', fontSize: 15  ,marginBottom: '1px'}}>
-                                   Answered by : {author} <br />
-                                   Date : {date}
+                                <p style={{ color: 'grey', fontFamily: 'DMM', textAlign: 'left', fontSize: 15, marginBottom: '1px' }}>
+                                    Answered by: {author} <br />
+                                    Date: {date}
                                 </p>
-                                
-                                
-                                
-
-
-
-
                                 <button
                                     style={{
                                         fontFamily: 'DMM',
@@ -248,14 +236,47 @@ const Question = () => {
                                     Connect
                                 </button>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
             </div>
+    
+            <Modal
+                isOpen={isModalOpen}
+                onRequestClose={closeModal}
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    },
+                    content: {
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '80%', // Set the desired width (e.g., 80% of the viewport)
+                        height: '70%', // Set the desired height (e.g., 80% of the viewport)
+
+                        maxWidth: '90%',
+                        maxHeight: '90%',
+                    },
+                }}
+            >
+                <img
+                    src={images[currentImageIndex]}
+                    alt={`uploaded-${currentImageIndex}`}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                    }}
+                />
+                <button onClick={closeModal} style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '20px', color: 'white', background: 'none', border: 'none', cursor: 'pointer' }}>
+                    Close
+                </button>
+            </Modal>
         </>
     );
+    
 };
 
 export default Question;
