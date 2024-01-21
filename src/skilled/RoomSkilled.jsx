@@ -20,6 +20,12 @@ const HomeSkilledConnect = () => {
           mode: ZegoUIKitPrebuilt.VideoConference,
         },
       });
+      zp.on('leaveRoom', () => {
+        console.log('Event handler triggered'); // Check if this logs
+        alert('Video ended');
+        console.log('Video ended');
+    });
+     
     }
   }, [roomId]);
 

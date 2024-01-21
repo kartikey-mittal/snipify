@@ -1,6 +1,6 @@
 import React from "react"
 import { useNavigate } from 'react-router-dom';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
 import { db } from '../Firebase';
 import { useState, useEffect } from "react";
 
@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 // const question = 'What is coding?';
 // const skill = 'JAVA';
 // const name = 'Lakdhay'
-const RequestCard = ({ imageurl, question, skill, name, documentId }) => {
+const SessionCard = ({ imageurl, question, skill, name, documentId }) => {
 
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
@@ -30,24 +30,20 @@ const RequestCard = ({ imageurl, question, skill, name, documentId }) => {
     console.log(skilledEmail);
     const navigate = useNavigate();
     const [ignored, setIgnored] = useState(false);
-    const handleConnect = async () => {
+    const handleSubmit = async () => {
         // Construct the target route with the dynamic document ID
-       // const targetRoute = `/skilled/connect/${documentId}`;
-        const targetRoute = `/skilled/face/${documentId}`;
+        const targetRoute = `/skilled/upload/${documentId}`;
+
         // Update the "Status" attribute in the "Requests" collection
         const requestDocRef = doc(db, 'Requests', documentId);
         try {
-            await updateDoc(requestDocRef, {
-                Status: 1,
-                Email: skilledEmail
-            });
+           
 
 
             console.log('Status updated successfully');
 
             // Use navigate directly
-            //navigate(`/skilled/connect/${documentId}`);
-            navigate(`/skilled/face/${documentId}`);
+            navigate(`/skilled/upload/${documentId}`);
         } catch (error) {
             console.error('Error updating status:', error);
         }
@@ -106,28 +102,10 @@ const RequestCard = ({ imageurl, question, skill, name, documentId }) => {
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'end', paddingRight: 30,backgroundColor:'transparent',marginTop:isMobileView?10:0 }}>
-                        <button
-                            onClick={handleIgnore} // Call the handleIgnore function on button click
-                            style={{
-                                backgroundColor: '#EA775C',
-                                color: '#fff',
-                                borderRadius: 100,
-                                border: '#7D716A',
-                                borderWidth: '0.2px',
-                                fontFamily: 'DMM',
-                                padding: '10px',
-                                outline: 'none',
-                                width: 'auto',
-                                paddingLeft: 20,
-                                paddingRight: 20,
-                                fontSize: 15,
-                                cursor: 'pointer'
-                            }}  >
-                            Ignore
-                        </button>
+                        
 
                         <button
-                            onClick={handleConnect} // Call the handleConnect function on button click
+                            onClick={handleSubmit} // Call the handleConnect function on button click
                             style={{
                                 backgroundColor: '#4285F4',
                                 color: '#fff',
@@ -144,7 +122,7 @@ const RequestCard = ({ imageurl, question, skill, name, documentId }) => {
                                 fontSize: 15,
                                 cursor: 'pointer'
                             }}  >
-                            Connect
+                            Submit Answers
                         </button>
                     </div>
                 </div>
@@ -153,4 +131,4 @@ const RequestCard = ({ imageurl, question, skill, name, documentId }) => {
     )
 };
 
-export default RequestCard;
+export default SessionCard;

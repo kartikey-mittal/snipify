@@ -23,6 +23,9 @@ const Room = () => {
           mode: ZegoUIKitPrebuilt.VideoConference,
         },
       });
+
+      // Add event listener for onDisconnect event
+      
     }
   }, [roomId]);
 

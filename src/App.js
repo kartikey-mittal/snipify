@@ -20,6 +20,11 @@ import Room from "./room/Room";
 import DB from "./team/DB";
 import OldSolution from "./team/OldSolution";
 import LearnerQuestion from "./team/LearnerQuestion";
+import Sessions from "./skilled/Sessions";
+import Upload from "./skilled/Upload";
+import Face from "./login/Face";
+import CheckFace from "./login/CheckFace";
+import Question from "./learner/Question";
 function App() {
   return (
     <div className="App">
@@ -30,7 +35,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage/>}   />
         <Route path="/skilled/profile/:id" element={<Profile/>}   />
         <Route path="/learner/home" element={<Home/>}   />
-        <Route path="/team/learner" element={<LearnerQuestion/>}   />
+        <Route path="/learner/question/:id" element={<LearnerQuestion/>}   />
         <Route path="/team/solution" element={<OldSolution/>}   />
         <Route path="/learner/connect/:documentId" element={<HomeConnect/>}   />
         <Route path="/skilled/home" element={<HomeSkilled/>}   />
@@ -42,7 +47,11 @@ function App() {
         <Route path="/test/Kartikey" element={<Kartikey />} />
         <Route path="/test/Aviral" element={<Aviral />} />
         <Route path="/db" element={<DB/>}   />
-
+        <Route path="/skilled/sessions" element={<Sessions/>}   />
+        <Route path="/skilled/upload/:id" element={<Upload/>}   />
+        <Route path="/signup/face/:id" element={<Face/>}   />
+        <Route path="/skilled/face/:id" element={<CheckFace/>}   />
+        <Route path="/question/:id" element={<Question/>}   />
 
 
       </Routes>

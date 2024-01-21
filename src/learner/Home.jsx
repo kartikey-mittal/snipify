@@ -5,6 +5,7 @@ import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { db, storage } from '../Firebase';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import stringSimilarity from 'string-similarity';
 
 const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', "skills", 'Python', 'React',];
 
@@ -192,6 +193,53 @@ const Home = () => {
             console.error('Error adding document: ', error);
         }
     };
+
+    const handleSearchButtonClick = async () => {
+        try {
+            // Get the selected skill as a string
+            const selectedSkillString = selectedSkill !== null ? skillsData[selectedSkill] : '';
+    
+            // Reference to the "Questions" collection
+            const questionsCollectionRef = collection(db, 'Requests');
+    
+            // Query to get documents where the "Skill" attribute matches the selected skill
+            const questionsQuerySnapshot = await getDocs(query(questionsCollectionRef, where('Skills', '==', selectedSkillString)));
+    
+            // Log the data from the matching documents
+            questionsQuerySnapshot.forEach((doc) => {
+                const data = doc.data();
+                console.log('Document ID:', doc.id);
+                console.log('Question:', data.Question);
+                console.log('Skill:', data.Skill);
+                console.log('Screenshots:', data.Screenshots);
+                console.log('--------------------------');
+            });
+    
+            const questionArray = questionsQuerySnapshot.docs.map(doc => {
+                return {
+                    id: doc.id,
+                    question: doc.data().Question
+                };
+            });
+    
+            // Perform similarity matching
+            const matches = stringSimilarity.findBestMatch(textInput, questionArray.map(item => item.question));
+            const mostSimilarQuestion = questionArray[matches.bestMatchIndex];
+    
+            // Update the search output
+            // Log the document ID of the most similar question
+            console.log('Most similar question (Document ID):', mostSimilarQuestion.question);
+            console.log('Most similar question (Document ID):', mostSimilarQuestion.id);
+            navigate(`/question/${mostSimilarQuestion.id}`);
+
+            
+        } catch (error) {
+            alert('No question found :(');
+            console.error('Error fetching data from Firestore:', error);
+        }
+    };
+    
+    
 
 
     const homeStyle = {
@@ -456,7 +504,7 @@ const Home = () => {
                             {/* 2nd area closed ------------- */}
                         </div>
 
-                        <div style={{ marginTop: 20, marginLeft: 40 }}>
+                        <div style={{ marginTop: 20, marginLeft: 40,display:'flex' ,justifyContent:'center',gap:'50px'}}>
                             <button
                                 style={{
                                     fontFamily: 'DMM',
@@ -477,6 +525,29 @@ const Home = () => {
                                 onClick={handleConnectButtonClick}
                             >
                                 Connect
+                            </button>
+
+                            {/* ---------Search btn--------- */}
+                            <button
+                                style={{
+                                    fontFamily: 'DMM',
+                                    fontSize: 15,
+                                    color: 'white',
+                                    backgroundColor: '#4285F4',
+                                    borderRadius: 50,
+                                    border: 'none',
+                                    outline: 'none',
+                                    padding: 10,
+                                    paddingLeft: 15,
+                                    paddingRight: 15,
+                                    // opacity: connectButtonOpacity,
+                                    cursor: 'pointer',
+                                    marginBottom: '75px'
+                                }}
+                                //disabled={isConnectButtonDisabled}
+                                onClick={handleSearchButtonClick}
+                            >
+                                Search
                             </button>
                         </div>
                     </div>

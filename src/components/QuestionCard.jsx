@@ -1,15 +1,16 @@
 import React from "react"
 import { useNavigate } from 'react-router-dom';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, documentId, updateDoc } from 'firebase/firestore';
 import { db } from '../Firebase';
 import { useState, useEffect } from "react";
 
-// const imageurl = 'https://imgs.search.brave.com/_3nOUpPG1H3D6I1X7G04vjqfBw-EmkY41kZ9EPkDIEk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9nbG9i/YWwuZGlzY291cnNl/LWNkbi5jb20vZnJl/ZWNvZGVjYW1wL29w/dGltaXplZC80WC8y/LzgvMy8yODMyZjdm/MWNkOTlkNTE2M2Yy/NmU1MGY4OTAwZjVk/Mjg0Mzk2MjcwXzJf/NjYyeDUwMC5wbmc';
+const imageurl = 'https://imgs.search.brave.com/_3nOUpPG1H3D6I1X7G04vjqfBw-EmkY41kZ9EPkDIEk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9nbG9i/YWwuZGlzY291cnNl/LWNkbi5jb20vZnJl/ZWNvZGVjYW1wL29w/dGltaXplZC80WC8y/LzgvMy8yODMyZjdm/MWNkOTlkNTE2M2Yy/NmU1MGY4OTAwZjVk/Mjg0Mzk2MjcwXzJf/NjYyeDUwMC5wbmc';
 
-// const question = 'What is coding?';
-// const skill = 'JAVA';
-// const name = 'Lakdhay'
-const RequestCard = ({ imageurl, question, skill, name, documentId }) => {
+const question = 'What is coding?';
+const skill = 'JAVA';
+const name = 'Lakdhay'
+
+const QuestionCard = () => {
 
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
@@ -26,28 +27,22 @@ const RequestCard = ({ imageurl, question, skill, name, documentId }) => {
         };
     }, []);
 
-    const skilledEmail = localStorage.getItem('SkilledEmail') || '';
-    console.log(skilledEmail);
     const navigate = useNavigate();
     const [ignored, setIgnored] = useState(false);
     const handleConnect = async () => {
         // Construct the target route with the dynamic document ID
-       // const targetRoute = `/skilled/connect/${documentId}`;
-        const targetRoute = `/skilled/face/${documentId}`;
+        const targetRoute = `/skilled/connect/${documentId}`;
+
         // Update the "Status" attribute in the "Requests" collection
         const requestDocRef = doc(db, 'Requests', documentId);
         try {
             await updateDoc(requestDocRef, {
                 Status: 1,
-                Email: skilledEmail
             });
-
-
             console.log('Status updated successfully');
 
             // Use navigate directly
-            //navigate(`/skilled/connect/${documentId}`);
-            navigate(`/skilled/face/${documentId}`);
+            navigate(`/skilled/connect/${documentId}`);
         } catch (error) {
             console.error('Error updating status:', error);
         }
@@ -153,4 +148,4 @@ const RequestCard = ({ imageurl, question, skill, name, documentId }) => {
     )
 };
 
-export default RequestCard;
+export default QuestionCard;

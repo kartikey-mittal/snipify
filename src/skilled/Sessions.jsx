@@ -1,14 +1,14 @@
 import React from "react"
 import { useEffect ,useState} from "react";
-import CustomSwitch from "../components/CustomSwitch";
+
 import RequestCard from "../components/RequestCard";
 import Navbar from "../Navbar";
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db, } from '../Firebase';
 import gif from '../assets/connection.gif';
+import SessionCard from "./SessionCard";
 
-
-const HomeSkilled = () => {
+const Sessions = () => {
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
     useEffect(() => {
@@ -101,7 +101,8 @@ const HomeSkilled = () => {
     useEffect(() => {
         const fetchData = () => {
             const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
-    
+            const skilledEmail = localStorage.getItem('SkilledEmail') || '';
+            console.log(skilledEmail);
             const unsubscribe = onSnapshot(collection(db, 'Requests'), (querySnapshot) => {
                 const filteredData = [];
     
@@ -109,7 +110,7 @@ const HomeSkilled = () => {
                     const data = doc.data();
     
                     // Check if the document's Skills attribute matches any of the skilledSkillsArray
-                    if (skilledSkillsArray.includes(data.Skills)  && data.Status===0) {
+                    if (skilledEmail.includes(data.Email) ) {
                         filteredData.push({
                             id: doc.id,
                             imageurl: data.Image,
@@ -147,14 +148,14 @@ const HomeSkilled = () => {
                             fontWeight: 500,
                             marginLeft: 30,
                             margin: 3
-                        }}>⚡⚡Hi {skilledName}, reshape the community!!</div>
-                        <CustomSwitch />
+                        }}>⚡⚡Hi {skilledName} ,what's up? </div>
+                      
                     </div>
 
                     <div style={mainboxStyle}>
                         <div style={{ backgroundColor: "white", height: 50, flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
                             <div style={{ marginRight: '20px', fontSize: 20, marginLeft: '10px' }}>⌛</div>
-                            <div style={{ marginRight: '10px', fontSize: 20, fontFamily: "DMM", fontStyle: 'bold' }}>Requests</div>
+                            <div style={{ marginRight: '10px', fontSize: 20, fontFamily: "DMM", fontStyle: 'bold' }}>Session History</div>
                         </div>
 
 
@@ -167,7 +168,7 @@ const HomeSkilled = () => {
                         ) : (
                             // Render request cards if there is data
                             requestData.map((data, index) => (
-                                <RequestCard
+                                <SessionCard
                                     key={index}
                                     imageurl={data.imageurl}
                                     question={data.question}
@@ -187,4 +188,4 @@ const HomeSkilled = () => {
     );
 };
 
-export default HomeSkilled;
+export default Sessions;

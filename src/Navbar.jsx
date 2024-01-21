@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Logo from './assets/snipify_1.png'
-
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
+  const navigate = useNavigate();
   const navbarStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -41,6 +42,12 @@ const Navbar = () => {
   });
 
   const [activeButton, setActiveButton] = useState('red');
+  
+  const handleSessionsClick = () => {
+    setActiveButton('pink');
+    // Navigate to 'skilled/sessions'
+    navigate('/skilled/sessions');
+  };
 
   return (
     <div style={navbarStyle}>
@@ -55,9 +62,9 @@ const Navbar = () => {
       </div>
       <div 
         style={{...buttonStyle('white'), borderBottomColor: activeButton === 'pink' ? '#5813EA' : 'transparent'}}
-        onClick={() => setActiveButton('pink')}
+        onClick={() => { setActiveButton('pink'); handleSessionsClick(); }}
       >
-        POD
+        Sessions
       </div>
       <div 
         style={{backgroundColor:'#D9D9D9',borderRadius:'100%',height:40,width:40,marginRight:20, borderBottomColor: activeButton === 'orange' ? 'black' : 'transparent',cursor:'pointer'}}

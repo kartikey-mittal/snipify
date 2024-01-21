@@ -2,12 +2,15 @@
 import React, { useEffect, useState } from "react";
 import CustomSwitch from "../components/CustomSwitch";
 import Navbar from "../Navbar";
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot ,doc,updateDoc} from 'firebase/firestore';
 import { db, storage } from '../Firebase';
 import { ref, uploadString, getDownloadURL } from 'firebase/storage';
+import { useNavigate, useParams } from "react-router-dom";
 
 // Main component
-const Kartikey = () => {
+const Upload = () => {
+    const {id} =useParams();
+    const navigate = useNavigate();
   // State variables
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -107,6 +110,27 @@ const Kartikey = () => {
     setUploadStatus({ success: true, fileName: files.map((file) => file.name).join(', ') });
   };
 
+
+  const handleSubmitAnswers = async () => {
+    try {
+        // Construct an array of screenshot URLs
+        const screenshotURLs = uploadedFiles.map(file => file.url);
+
+        // Update the document in the "Requests" collection with the screenshot URLs
+        const requestDocRef = doc(db, 'Requests', id);
+        await updateDoc(requestDocRef, {
+            Screenshots: screenshotURLs,
+        });
+
+        console.log('Screenshots updated successfully');
+
+        // Navigate to a success page or perform any other actions
+        navigate('/skilled/home');
+    } catch (error) {
+        console.error('Error updating screenshots:', error);
+    }
+};
+
   // Styles for the components
   const homeStyle = {
     height: '100%',
@@ -174,7 +198,7 @@ const Kartikey = () => {
               fontWeight: 500,
               marginLeft: isMobileView ? 15 : 30,
             }}>Upload the relevant screenshots answers!! </div>
-            <CustomSwitch />
+          
           </div>
 
           <div style={mainboxStyle}>
@@ -232,6 +256,7 @@ const Kartikey = () => {
             {/* Connect button */}
             <div style={{ marginTop: 30, marginLeft: 0 }}>
               <button
+               onClick={handleSubmitAnswers}
                 style={{
                   fontFamily: 'DMM',
                   fontSize: 15,
@@ -258,4 +283,4 @@ const Kartikey = () => {
   );
 };
 
-export default Kartikey;
+export default Upload;

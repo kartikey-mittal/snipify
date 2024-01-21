@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../Navbar';
 import { useEffect ,useState} from "react";
-
+import QuestionCard from '../components/QuestionCard';
 const LearnerQuestion   = () => {
 
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
@@ -75,85 +75,12 @@ const LearnerQuestion   = () => {
                 <div style={headingStyle}>👀 Something is found !!</div>
                 
                 <div style={mainboxStyle}>
-                <div style={{textAlign:"left",paddingLeft:40}}><p style={{fontSize:"20px",fontWeight:"600"}}>😃🔥 Question Found</p></div>
-                    <section style={{ margin: '20px', backgroundColor: '#F9F9F9', display: 'flex', }}>
-                        <div style={{ display: 'flex', border: 'solid .1px', borderRadius: '20px', borderBlockColor: '#9a7d7d', backgroundColor: 'transparent', width:'100%' ,flexDirection:isMobileView ? "column" : "row"}}>
-                            <div style={{ padding: '10%', width:isMobileView ?'80%': '30%', height: '25%', }}>
-                                <img
-                                    style={{ height:isMobileView ?'15vh' : '25vh', width: '100%', objectFit: 'cover', borderRadius: '9px' }}
-                                    src="https://imgs.search.brave.com/_3nOUpPG1H3D6I1X7G04vjqfBw-EmkY41kZ9EPkDIEk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9nbG9i/YWwuZGlzY291cnNl/LWNkbi5jb20vZnJl/ZWNvZGVjYW1wL29w/dGltaXplZC80WC8y/LzgvMy8yODMyZjdm/MWNkOTlkNTE2M2Yy/NmU1MGY4OTAwZjVk/Mjg0Mzk2MjcwXzJf/NjYyeDUwMC5wbmc"
-                                    alt="A descriptive alt text or an empty string for decorative images"
-                                />
+                <div style={{textAlign:"left",paddingLeft:20}}><p style={{fontSize:"20px",fontWeight:"400",  fontFamily: 'DMM',}}>😃🔥Question Found</p></div>
+                    
+                       
 
-                            </div>
-
-                            <div style={{ padding: '10px', color: 'black', display: 'grid', gridTemplateRows: '1fr auto', backgroundColor: 'transparent', width: '100%',marginTop:isMobileView ? 10 : 0 }}>
-
-                                <p style={{ backgroundColor: 'transparent', textAlign: 'start', fontFamily: 'DMM', alignItems: 'center', fontSize: '100%', letterSpacing: '0.8px', wordSpacing: '1px' }}>
-                                    Getting error in useEffect...not executing properly. Please help. Getting error in useEffect...not executing properly. Please help. Getting error in useEffect...not executing properly. Please help. ferfnrejkn
-                                </p>
-
-
-
-                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' ,marginBottom:isMobileView?0:100}}>
-                                    <p style={{ color: '#9A7D7D', fontFamily: 'DMM' }}>Lakshay Jain</p>
-                                    <button
-                                        style={{
-                                            backgroundColor: 'white',
-                                            color: '#4285F4',
-                                            borderRadius: 100,
-                                            border: '1px solid #7D716A', // Set border to solid black
-                                            fontFamily: 'DMM',
-                                            padding: isMobileView ? '4px 10px' : "8px 15px",
-                                            outline: 'none',
-                                            width: 'auto',
-
-                                        }}
-                                    >
-                                        React
-                                    </button>
-
-                                </div>
-
-                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent:isMobileView ? 'center':"left", paddingRight: 30 ,marginTop:isMobileView ?20:0,marginBottom:isMobileView ?0:80}}>
-                                    <button
-                                        style={{
-                                            backgroundColor: '#EA775C',
-                                            color: '#fff',
-                                            borderRadius: 100,
-                                            border: '#7D716A',
-                                            borderWidth: '0.2px',
-                                            fontFamily: 'DMM',
-                                            
-                                            outline: 'none',
-                                            width: 'auto',
-                                            padding:isMobileView ?'4px 15px':'8px 35px',
-                                            fontSize: 15,
-                                            cursor: 'pointer'
-                                        }}  >
-                                        Connect  </button>
-
-                                    <button
-                                        style={{
-                                            backgroundColor: '#4285F4',
-                                            color: '#fff',
-                                            borderRadius: 100,
-                                            border: '#7D716A',
-                                            borderWidth: '0.2px',
-                                            fontFamily: 'DMM',
-                                            
-                                            outline: 'none',
-                                            width: 'auto',
-                                            padding:isMobileView ?'4px 15px':'8px 35px',
-                                            marginLeft: 10,
-                                            fontSize: 15,
-                                            cursor: 'pointer'
-                                        }}  >
-                                        View  </button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                       <QuestionCard/>
+                   
                 </div>
 
 

@@ -66,7 +66,8 @@ const SignUpPage = () => {
           // Delay the navigation to ensure Firestore has enough time to save the data
           setTimeout(() => {
             // Redirect to skilled profile page with the document ID
-            navigate(`/skilled/profile/${docRef.id}`);
+           // navigate(`/skilled/profile/${docRef.id}`);
+            navigate(`/signup/face/${docRef.id}`);
           }, 1000); // You can adjust the delay as needed
         }
       }
