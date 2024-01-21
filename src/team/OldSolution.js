@@ -1,51 +1,61 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Navbar from '../Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 const OldSolution = () => {
-  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
+  
   const [slideIndex, setSlideIndex] = useState(0);
   const [isSlideshowActive, setIsSlideshowActive] = useState(true);
+  const [intervalId, setIntervalId] = useState(null);
 
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth <= 615);
+        };
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobileView(window.innerWidth <= 615);
-    };
+        window.addEventListener('resize', handleResize);
 
-    window.addEventListener('resize', handleResize);
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
-    // Clean up the event listener on component unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-let intervalId;
-
-
-   
   useEffect(() => {
     const interval = setInterval(() => {
       setSlideIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // Adjust the interval as needed (in milliseconds)
+    }, 6000); // Adjust the interval as needed (in milliseconds)
+
+    setIntervalId(interval);
 
     return () => clearInterval(interval);
-  },[isSlideshowActive, slideIndex]);
+  }, [isSlideshowActive, slideIndex]);
 
-    const toggleSlideshow = () => {
+  const toggleSlideshow = () => {
     setIsSlideshowActive((prevValue) => {
-       if (!prevValue) {
-         // If the slideshow is not active, reset the slideIndex
-         setSlideIndex(0);
-         // Stop the slideshow
-         clearInterval(intervalId);
-       }
-       return !prevValue;
+      if (prevValue) {
+        // Stop the slideshow
+        clearInterval(intervalId);
+        setIntervalId(null);
+      } else {
+        // Start the slideshow
+        setSlideIndex(0); // Reset the slideIndex
+        const interval = setInterval(() => {
+          setSlideIndex((prevIndex) => (prevIndex + 1) % images.length);
+        }, 6000); // Adjust the interval as needed (in milliseconds)
+        setIntervalId(interval);
+      }
+      return !prevValue;
     });
-   };
+  };
+
+
+   
+
+  
 
 
 
@@ -56,9 +66,9 @@ let intervalId;
   ];
 
   const homeStyle = {
-    height: '100%',
+    height:'85%',
     display: 'flex',
-    flexDirection:"row",
+    flexDirection:isMobileView?"column":"row",
     justifyContent: 'center',
     padding: 20,
     background: `
@@ -68,8 +78,8 @@ let intervalId;
   };
 
   const contentStyle = {
-    width: '70%',
-    height: '85vh',
+    width:isMobileView?"100%" :'70%',
+    height:isMobileView?"55vh":'85vh',
     border: '1px solid #ccc',
     borderRadius: 15,
     display: 'flex',
@@ -92,7 +102,7 @@ let intervalId;
   };
 
   const mainboxStyle = {
-    width: '70%',
+    width:isMobileView?'80%': '70%',
     height: '85%',
     backgroundColor: 'red', // Set the background color to red
     borderRadius: 15,
@@ -116,18 +126,19 @@ let intervalId;
    const sliderStyle = {
     display: 'flex',
     transition: 'transform 2s ease-in-out',
-    transform: `translateX(-${slideIndex * 130}%)`,
-   };
-   
+    transform: `translateX(-${slideIndex * 100}%)`, // Adjust the translation to 100%
+  };
   
   const slideStyle = {
-
-        flex: '0 0 auto',
-        display:"flex",
-        flexDirection:"column",
-        justifyContent:"center",
-        alignItems:"center"       
+    flex: '0 0 auto',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    width: '100%', // Set width to 100%
+    height: '100%', // Set height to 100%
   };
+  
   
 
   
@@ -151,8 +162,8 @@ let intervalId;
                         width: '55%',
                         height: 'auto',
                         borderRadius: 10,   
-                        marginLeft:0,
-                        transform: isSlideshowActive ? 'scale(1)' : 'scale(1.25)',
+                        marginTop:70,
+                        transform: isSlideshowActive ? 'scale(1)' : 'scale(1.8)',
                         transition: 'transform 2s ease-in-out',
 
                         
@@ -160,7 +171,7 @@ let intervalId;
                     />
                         <FontAwesomeIcon
                       icon={faCog}
-                      style={{ marginTop: "50", marginLeft: '50%', fontSize: 20, cursor: "pointer",zIndex:999,color:"black" }}
+                      style={{ marginTop:isMobileView?"50":"100", marginLeft: isMobileView?'50%':"70%", fontSize: 20, cursor: "pointer",zIndex:999,color:"white" }}
                       onClick={toggleSlideshow} // Toggle slideshow on icon click
                     />  
                    </div>
@@ -169,8 +180,8 @@ let intervalId;
             </div>
           </div>
         </div>
-        <div style={{width:"20%",backgroundColor:"yellow",marginLeft:20,display:"flex",flexDirection:"column"}}>
-        <div style={{backgroundColor:"black",height:"400px"}}></div>
+        <div style={{width:isMobileView?"80%":"20%",backgroundColor:"yellow",marginLeft:20,display:"flex",flexDirection:isMobileView?"row":"column",marginTop:isMobileView?'20px':0}}>
+        <div style={{backgroundColor:"black",height:isMobileView?"200px":"400px",alignSelf:"center"}}></div>
         <button
                             // Call the handleConnect function on button click
                             style={{
@@ -185,10 +196,11 @@ let intervalId;
                                 width: '40%',
                                 paddingLeft: 20,
                                 paddingRight: 20,
-                                marginLeft: 10,
+                                marginLeft: '30%',
                                 fontSize: 15,
                                 cursor: 'pointer',
-                                marginTop:"20px",alignSelf:"center"
+                                marginTop:isMobileView?"120px":"20px",
+                                alignSelf:isMobileView?"center":"auto"
                             }}  >
                             Connect
                         </button>
