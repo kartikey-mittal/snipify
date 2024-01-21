@@ -35,6 +35,7 @@ const DB = () => {
       });
 
       console.log('Requests documents deleted successfully');
+      console.log('working');
     } catch (error) {
       console.error('Error deleting requests documents:', error);
     }
