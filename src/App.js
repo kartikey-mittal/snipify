@@ -13,6 +13,7 @@ import Home from "./learner/Home";
 import Test1 from "./learner/Test1";
 import SignUpPage from "./login/SignupPage";
 import Profile from "./skilled/Profile";
+import FaceDetection from "./learner/FaceDetection";
 import HomeSkilled from "./skilled/HomeSkilled";
 import HomeConnect from "./learner/HomeConnect";
 import HomeSkilledConnect from "./skilled/HomeSkilledConnect";
@@ -29,6 +30,7 @@ function App() {
         <Route path="/login" element={<LoginPage/>}   />
         <Route path="/signup" element={<SignUpPage/>}   />
         <Route path="/skilled/profile/:id" element={<Profile/>}   />
+        <Route path="/learner/facedetection" element={<FaceDetection/>}   />
         <Route path="/learner/home" element={<Home/>}   />
         <Route path="/team/learner" element={<LearnerQuestion/>}   />
         <Route path="/team/solution" element={<OldSolution/>}   />
