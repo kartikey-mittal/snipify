@@ -57,7 +57,7 @@ const Question = () => {
                 if (docSnapshot.exists()) {
                     const requestData = docSnapshot.data();
                     console.log('Request Data:', requestData);
-
+console.log(requestData);
                     const screenshots = requestData?.Screenshots || [];
                     const question = requestData?.Question || '';
                     const author = requestData?.Name || '';
