@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar';
-import Modal from 'react-modal';
+
 
 
 import { doc, getDoc } from 'firebase/firestore';
@@ -8,16 +8,18 @@ import { db } from '../Firebase';
 
 const Tips = () => {
 
-    const [isFullscreen, setIsFullscreen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [slideIndex, setSlideIndex] = useState(0);
-    const [isSlideshowActive, setIsSlideshowActive] = useState(true);
+    // const [isFullscreen, setIsFullscreen] = useState(false);
+    // const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    // const [slideIndex, setSlideIndex] = useState(0);
+    // const [isSlideshowActive, setIsSlideshowActive] = useState(true);
     const [intervalId, setIntervalId] = useState(null);
-    const [images, setImages] = useState([]);
+    setIntervalId('')
+    // const [images, setImages] = useState([]);
     const [question, setQuestion] = useState('');
     const [author, setAuthor] = useState('');
     const [date, setDate] = useState('');
+    setDate('latest')
     const [requestData, setRequestData] = useState({});
     const [userRating, setUserRating] = useState(0);
 
@@ -68,7 +70,7 @@ const Tips = () => {
                     setQuestion(question);
                     console.log('Screenshots:', screenshots);
 
-                    setImages(screenshots);
+                   // setImages(screenshots);
                 } else {
                     console.error('Request not found');
                 }
@@ -81,7 +83,7 @@ const Tips = () => {
 
         // Clean up the interval on component unmount
         return () => clearInterval(intervalId);
-    }, []);
+    }, [intervalId]);
 
 
 
@@ -148,29 +150,29 @@ const Tips = () => {
     };
 
 
-    const sliderStyle = {
-        display: 'flex',
-        transform: isFullscreen ? 'scale(1.5)' : 'scale(1)', // Adjust scaling as needed
-        transition: 'transform 0.3s ease-in-out',
+    // const sliderStyle = {
+    //     display: 'flex',
+    //     transform: isFullscreen ? 'scale(1.5)' : 'scale(1)', // Adjust scaling as needed
+    //     transition: 'transform 0.3s ease-in-out',
 
-        // transition: 'transform 2s ease-in-out',
-        // transform: `translateX(-${slideIndex * 100}%)`,
-    };
+    //     // transition: 'transform 2s ease-in-out',
+    //     // transform: `translateX(-${slideIndex * 100}%)`,
+    // };
 
-    const slideStyle = {
-        flex: '0 0 auto',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: "20px",
-        width: '85%',
-        height: '100%',
-        backgroundColor: 'white',
-        border: "none",
-        outline: "none",
-        borderRadius: 50,
-        boxShadow: '5px 10px 15px  rgba(0, 0, 0, 0.4)',
-    };
+    // const slideStyle = {
+    //     flex: '0 0 auto',
+    //     display: 'flex',
+    //     flexDirection: 'row',
+    //     justifyContent: 'center',
+    //     marginTop: "20px",
+    //     width: '85%',
+    //     height: '100%',
+    //     backgroundColor: 'white',
+    //     border: "none",
+    //     outline: "none",
+    //     borderRadius: 50,
+    //     boxShadow: '5px 10px 15px  rgba(0, 0, 0, 0.4)',
+    // };
     const iframeStyle = {
         width:isMobileView?"100%": '80%',
         height: '350px',

@@ -10,16 +10,18 @@ const Question = () => {
 
     
     const { id } = useParams();
-    const [isFullscreen, setIsFullscreen] = useState(false);
+    //const [isFullscreen, setIsFullscreen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [slideIndex, setSlideIndex] = useState(0);
     const [isSlideshowActive, setIsSlideshowActive] = useState(true);
+    setIsSlideshowActive(true)
     const [intervalId, setIntervalId] = useState(null);
     const [images, setImages] = useState([]);
     const [question, setQuestion] = useState('');
     const [author, setAuthor] = useState('');
     const [date, setDate] = useState('');
+    setDate('latest')
 
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
@@ -67,7 +69,7 @@ const Question = () => {
 
         // Clean up the interval on component unmount
         return () => clearInterval(intervalId);
-    }, []);
+    }, [id,intervalId]);
 
     useEffect(() => {
         const interval = setInterval(() => {
