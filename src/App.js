@@ -25,6 +25,7 @@ import Upload from "./skilled/Upload";
 import Face from "./login/Face";
 import CheckFace from "./login/CheckFace";
 import Question from "./learner/Question";
+import Tips from "./learner/Tips";
 function App() {
   return (
     <div className="App">
@@ -53,7 +54,7 @@ function App() {
         <Route path="/signup/face/:id" element={<Face/>}   />
         <Route path="/skilled/face/:id" element={<CheckFace/>}   />
         <Route path="/question/:id" element={<Question/>}   />
-
+        <Route path="/tips" element={<Tips/>}   />
 
       </Routes>
     </div>

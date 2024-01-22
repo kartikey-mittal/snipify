@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar';
 import Modal from 'react-modal';
 
-import { useParams } from 'react-router-dom';
+
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../Firebase';
 
-const Question = () => {
-    const { id } = useParams();
+const Tips = () => {
+
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -19,6 +19,8 @@ const Question = () => {
     const [question, setQuestion] = useState('');
     const [author, setAuthor] = useState('');
     const [date, setDate] = useState('');
+    const [requestData, setRequestData] = useState({});
+    const [userRating, setUserRating] = useState(0);
 
     useEffect(() => {
         const handleResize = () => {
@@ -35,16 +37,18 @@ const Question = () => {
     useEffect(() => {
         const fetchRequestData = async () => {
             try {
-                const requestRef = doc(db, 'Requests', id);
+                const requestRef = doc(db, 'Tips', 'Today');
                 const docSnapshot = await getDoc(requestRef);
 
                 if (docSnapshot.exists()) {
+                    const data = docSnapshot.data();
                     const requestData = docSnapshot.data();
                     console.log('Request Data:', requestData);
-console.log(requestData);
+                    console.log(requestData);
                     const screenshots = requestData?.Screenshots || [];
                     const question = requestData?.Question || '';
                     const author = requestData?.Name || '';
+                    setRequestData(data);
                     // const createdAt = requestData?.createdAt.toDate();
                     // setdate(createdAt);
                     setAuthor(author);
@@ -66,26 +70,7 @@ console.log(requestData);
         return () => clearInterval(intervalId);
     }, []);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if (isSlideshowActive) {
-                setSlideIndex((prevIndex) => (prevIndex + 1) % images.length);
-            }
-        }, 6000);
 
-        setIntervalId(interval);
-
-        return () => clearInterval(interval);
-    }, [isSlideshowActive, slideIndex, images]);
-
-    const toggleSlideshow = (index) => {
-        setCurrentImageIndex(index);
-        setIsModalOpen((prevValue) => !prevValue);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
 
 
     const homeStyle = {
@@ -121,7 +106,7 @@ console.log(requestData);
         paddingTop: 5,
         paddingBottom: 5,
         textAlign: 'left',
-        paddingLeft: isMobileView ? 20 : 80,
+        paddingLeft: isMobileView ? 20 : 20,
     };
 
     const mainboxStyle = {
@@ -139,14 +124,14 @@ console.log(requestData);
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
-       
+        backgroundColor: 'transparent',
         width: '90vw',
         height: '60vh',
         overflow: 'auto',
-       
-        alignItems:"flex-start",
+
+        alignItems: "flex-start",
     };
-    
+
 
     const sliderStyle = {
         display: 'flex',
@@ -162,55 +147,79 @@ console.log(requestData);
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop:"20px",
+        marginTop: "20px",
         width: '85%',
         height: '100%',
-       backgroundColor:'white',
-        border:"none",
-        outline:"none",
-        borderRadius:50,
-        boxShadow: '5px 10px 15px  rgba(0, 0, 0, 0.4)',        
+        backgroundColor: 'white',
+        border: "none",
+        outline: "none",
+        borderRadius: 50,
+        boxShadow: '5px 10px 15px  rgba(0, 0, 0, 0.4)',
     };
+    const iframeStyle = {
+        width: '80%',
+        height: '100%',
+        borderRadius: '20px'
+        // Fit: 'cover', object// Make the video cover the entire container
+    };
+
+    const handleStarClick = (rating) => {
+        // Update the user's rating when a star is clicked
+        setUserRating(rating);
+        // You can also send this rating to your backend or perform other actions as needed
+    };
+
 
     return (
         <>
             <Navbar />
             <div style={homeStyle}>
                 <div style={contentStyle}>
-                    <div style={headingStyle}>👀 Something is found !!</div>
+                    <div style={headingStyle}>🔥🔥Tips!!</div>
                     <div style={mainboxStyle}>
                         <div style={{ backgroundColor: 'transparent', height: 50, flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
-                            <div style={{ marginRight: '20px', fontSize: 20, marginLeft: '10px' }}>🤔</div>
+                            <div style={{ marginRight: '20px', fontSize: 20, marginLeft: '10px' }}>💡</div>
                             <div style={{ marginRight: '10px', fontSize: 20, fontFamily: "DMM", fontStyle: 'bold' }}>{question}</div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems:'flex-start' }}>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
                             <div style={sliderContainerStyle}>
-                                <div style={sliderStyle}>
-                                    {images.map((imageUrl, index) => (
-                                        <button key={index} onClick={() => toggleSlideshow(index)} style={slideStyle}>
-                                            <img
-                                                src={imageUrl}
-                                                alt={`uploaded-${index}`}
-                                                style={{
-                                                    width: '100%',
-                                                    height: '350px',
-                                                    borderRadius: 30,
-                                                    
-                                                }}
-                                            />
-                                        </button>
-                                    ))}
-                                </div>
+
+                                {requestData.Video && (
+                                    <iframe
+                                        style={iframeStyle}
+                                        src={requestData.Video}
+                                        title="Embedded Video"
+                                        frameBorder="0"
+                                        allowFullScreen
+                                    ></iframe>
+                                )}
+
                             </div>
                             <div style={{ backgroundColor: 'transparent', width: '30%', height: '400px', marginLeft: '50px', marginRight: '50px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
                                 <p style={{ color: 'grey', fontFamily: 'DMM', textAlign: 'left', fontSize: 25, marginBottom: '5px' }}>
-                                    didn't get it,<br />
-                                    right?
+                                    rate this
                                 </p>
-                                <p style={{ color: '#5813EA', fontFamily: 'DMM', textAlign: 'left', fontSize: 35, marginTop: '5px', fontWeight: '500', marginBottom: '5px' }}>
-                                    let's connect<br />
-                                         live!!! ⚡
+                                <p style={{ color: '#5813EA', fontFamily: 'DMM', textAlign: 'left', fontSize: 35, marginTop: '5px', fontWeight: '500', marginBottom: '10px' }}>
+                                    {/* rate this<br /> */}
+                                    codebyte!!! ⚡
                                 </p>
+
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <span
+                                            key={star}
+                                            onClick={() => handleStarClick(star)}
+                                            style={{
+                                                cursor: 'pointer',
+                                                fontSize: 30,
+                                                color: star <= userRating ? '#FFD700' : 'grey', // Change color for rated stars
+                                                marginRight: '5px',
+                                            }}
+                                        >
+                                            ★
+                                        </span>
+                                    ))}
+                                </div>
                                 <p style={{ color: 'grey', fontFamily: 'DMM', textAlign: 'left', fontSize: 15, marginBottom: '1px' }}>
                                     Answered by: {author} <br />
                                     Date: {date}
@@ -233,50 +242,18 @@ console.log(requestData);
                                         marginBottom: '50px'
                                     }}
                                 >
-                                    Connect
+                                    Rate
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <Modal
-                isOpen={isModalOpen}
-                onRequestClose={closeModal}
-                style={{
-                    overlay: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    },
-                    content: {
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: '80%', // Set the desired width (e.g., 80% of the viewport)
-                        height: '70%', // Set the desired height (e.g., 80% of the viewport)
 
-                        maxWidth: '90%',
-                        maxHeight: '90%',
-                    },
-                }}
-            >
-                <img
-                    src={images[currentImageIndex]}
-                    alt={`uploaded-${currentImageIndex}`}
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'contain',
-                    }}
-                />
-                <button onClick={closeModal} style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '20px', color: 'blue', background: 'none', border: 'none', cursor: 'pointer',fontFamily:'DMM' }}>
-                    Close
-                </button>
-            </Modal>
+
         </>
     );
-    
+
 };
 
-export default Question;
+export default Tips;
