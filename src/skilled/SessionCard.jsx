@@ -1,7 +1,7 @@
 import React from "react"
 import { useNavigate } from 'react-router-dom';
-import { doc } from 'firebase/firestore';
-import { db } from '../Firebase';
+//import { doc } from 'firebase/firestore';
+//import { db } from '../Firebase';
 import { useState, useEffect } from "react";
 
 // const imageurl = 'https://imgs.search.brave.com/_3nOUpPG1H3D6I1X7G04vjqfBw-EmkY41kZ9EPkDIEk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9nbG9i/YWwuZGlzY291cnNl/LWNkbi5jb20vZnJl/ZWNvZGVjYW1wL29w/dGltaXplZC80WC8y/LzgvMy8yODMyZjdm/MWNkOTlkNTE2M2Yy/NmU1MGY4OTAwZjVk/Mjg0Mzk2MjcwXzJf/NjYyeDUwMC5wbmc';
@@ -29,13 +29,13 @@ const SessionCard = ({ imageurl, question, skill, name, documentId }) => {
     const skilledEmail = localStorage.getItem('SkilledEmail') || '';
     console.log(skilledEmail);
     const navigate = useNavigate();
-    const [ignored, setIgnored] = useState(false);
+    //const [ignored, setIgnored] = useState(false);
     const handleSubmit = async () => {
         // Construct the target route with the dynamic document ID
         const targetRoute = `/skilled/upload/${documentId}`;
 
         // Update the "Status" attribute in the "Requests" collection
-        const requestDocRef = doc(db, 'Requests', documentId);
+       //// const requestDocRef = doc(db, 'Requests', documentId);
         try {
            
 
@@ -52,15 +52,15 @@ const SessionCard = ({ imageurl, question, skill, name, documentId }) => {
         navigate(targetRoute);
     };
 
-    const handleIgnore = () => {
-        // Set the ignored state to true
-        setIgnored(true);
-    };
+    // const handleIgnore = () => {
+    //     // Set the ignored state to true
+    //     setIgnored(true);
+    // };
 
     // Render the component only if it is not ignored
-    if (ignored) {
-        return null;
-    }
+    // if (ignored) {
+    //     return null;
+    // }
 
     return (
         <section style={{ margin: '20px', backgroundColor: '#F9F9F9', display: 'flex', }}>

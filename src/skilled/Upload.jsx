@@ -1,8 +1,8 @@
 // Import necessary dependencies
 import React, { useEffect, useState } from "react";
-import CustomSwitch from "../components/CustomSwitch";
+//import CustomSwitch from "../components/CustomSwitch";
 import Navbar from "../Navbar";
-import { collection, onSnapshot ,doc,updateDoc} from 'firebase/firestore';
+import { doc,updateDoc} from 'firebase/firestore';
 import { db, storage } from '../Firebase';
 import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 import { useNavigate, useParams } from "react-router-dom";

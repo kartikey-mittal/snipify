@@ -56,7 +56,7 @@ const FaceDetection = () => {
       textAlign: 'center',
       justifyContent: 'center',
       alignItems: 'center',
-      display: 'flex',
+      
       fontSize: 150,
       fontFamily: 'DMM',
       display: isLeftSectionVisible ? 'flex' : 'none',

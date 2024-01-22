@@ -1,7 +1,7 @@
 import React from "react"
 import { useEffect ,useState} from "react";
 
-import RequestCard from "../components/RequestCard";
+//import RequestCard from "../components/RequestCard";
 import Navbar from "../Navbar";
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db, } from '../Firebase';
@@ -100,7 +100,7 @@ const Sessions = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
+        //     const skilledSkillsArray = JSON.parse(localStorage.getItem('SkilledSkillsArray')) || [];
             const skilledEmail = localStorage.getItem('SkilledEmail') || '';
             console.log(skilledEmail);
             const unsubscribe = onSnapshot(collection(db, 'Requests'), (querySnapshot) => {
