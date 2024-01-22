@@ -44,8 +44,8 @@ const Question = () => {
                     const screenshots = requestData?.Screenshots || [];
                     const question = requestData?.Question || [];
                     const author = requestData?.Name || [];
-                     const createdAt = requestData?.createdAt.toDate();
-                     setdate(createdAt);
+                    // const createdAt = requestData?.createdAt.toDate();
+                    // setdate(createdAt);
                     setauthor(author);
                     setquestion(question);
                     console.log('Screenshots:', screenshots);
