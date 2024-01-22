@@ -14,13 +14,26 @@ const Tips = () => {
     const [slideIndex, setSlideIndex] = useState(0);
     const [isSlideshowActive, setIsSlideshowActive] = useState(true);
     const [intervalId, setIntervalId] = useState(null);
-    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
     const [images, setImages] = useState([]);
     const [question, setQuestion] = useState('');
     const [author, setAuthor] = useState('');
     const [date, setDate] = useState('');
     const [requestData, setRequestData] = useState({});
     const [userRating, setUserRating] = useState(0);
+
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth <= 615);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         const handleResize = () => {
@@ -87,11 +100,11 @@ const Tips = () => {
 
     const contentStyle = {
         width: isMobileView ? '100%' : '95%',
-        height: isMobileView ? '55vh' : '85vh',
+        height: isMobileView ? '85vh' : '85vh',
         border: '1px solid #ccc',
         borderRadius: 15,
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection:  'column',
         alignItems: 'flex-start',
         overflow: 'hidden',
         backgroundColor: '#F3F6FC',
@@ -106,7 +119,7 @@ const Tips = () => {
         paddingTop: 5,
         paddingBottom: 5,
         textAlign: 'left',
-        paddingLeft: isMobileView ? 20 : 20,
+        paddingLeft: isMobileView ? 20 : 80,
     };
 
     const mainboxStyle = {
@@ -118,18 +131,20 @@ const Tips = () => {
         marginTop: '20px',
         border: '1px solid blue',
         boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.1)',
+        marginBottom:isMobileView?'20px':0
     };
 
     const sliderContainerStyle = {
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        backgroundColor: 'transparent',
-        width: '90vw',
-        height: '60vh',
-        overflow: 'auto',
-
-        alignItems: "flex-start",
+        flexDirection:'row',
+        justifyContent: 'flex-start',
+        width:isMobileView?"90%": '100%',
+        height:isMobileView?'30vh' :'60vh',
+        overflowX: 'scroll',
+        overflowY: 'hidden',
+        alignItems:"flex-start",
+        alignSelf:"center",
+        marginTop:isMobileView?0:20
     };
 
 
@@ -157,9 +172,13 @@ const Tips = () => {
         boxShadow: '5px 10px 15px  rgba(0, 0, 0, 0.4)',
     };
     const iframeStyle = {
-        width: '80%',
-        height: '100%',
-        borderRadius: '20px'
+        width:isMobileView?"100%": '80%',
+        height: '350px',
+        borderRadius: 30,
+        marginLeft:isMobileView?"0px":"60px",
+        marginTop:isMobileView?"40px":"30px",
+        boxShadow: '5px 10px 15px  rgba(0, 0, 0, 0.4)',
+
         // Fit: 'cover', object// Make the video cover the entire container
     };
 
@@ -177,11 +196,11 @@ const Tips = () => {
                 <div style={contentStyle}>
                     <div style={headingStyle}>🔥🔥Tips!!</div>
                     <div style={mainboxStyle}>
-                        <div style={{ backgroundColor: 'transparent', height: 50, flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+                    <div style={{ backgroundColor: 'transparent', height: 50,  display: 'flex',flexDirection:isMobileView?'row': 'row', alignItems: 'center' }}>
                             <div style={{ marginRight: '20px', fontSize: 20, marginLeft: '10px' }}>💡</div>
-                            <div style={{ marginRight: '10px', fontSize: 20, fontFamily: "DMM", fontStyle: 'bold' }}>{question}</div>
+                            <div style={{ marginRight: '10px', fontSize: 20, fontFamily: "DMM", fontStyle: 'bold',marginTop:30 }}>{question}</div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
+                        <div style={{ display: 'flex',flexDirection:isMobileView?'column': 'row', justifyContent: 'center', alignItems:'flex-start' }}>
                             <div style={sliderContainerStyle}>
 
                                 {requestData.Video && (
@@ -196,10 +215,10 @@ const Tips = () => {
 
                             </div>
                             <div style={{ backgroundColor: 'transparent', width: '30%', height: '400px', marginLeft: '50px', marginRight: '50px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-                                <p style={{ color: 'grey', fontFamily: 'DMM', textAlign: 'left', fontSize: 25, marginBottom: '5px' }}>
+                            <p style={{ color: 'grey', fontFamily: 'DMM', textAlign: 'left', fontSize: 25, marginBottom:isMobileView?'0px': '5px' }}>
                                     rate this
                                 </p>
-                                <p style={{ color: '#5813EA', fontFamily: 'DMM', textAlign: 'left', fontSize: 35, marginTop: '5px', fontWeight: '500', marginBottom: '10px' }}>
+                                <p style={{ color: '#5813EA', fontFamily: 'DMM', textAlign: 'left', fontSize: 35, marginTop:isMobileView?'0px': '5px', fontWeight: '500', marginBottom: '5px' }}>
                                     {/* rate this<br /> */}
                                     codebyte!!! ⚡
                                 </p>
@@ -239,7 +258,8 @@ const Tips = () => {
                                         position: 'absolute',
                                         bottom: 0,
                                         cursor: 'pointer',
-                                        marginBottom: '50px'
+                                        marginBottom:isMobileView?'70px': '50px',
+                                        marginLeft:isMobileView?"85%":0
                                     }}
                                 >
                                     Rate

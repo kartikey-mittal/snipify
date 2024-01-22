@@ -30,19 +30,6 @@ const Question = () => {
 
         window.addEventListener('resize', handleResize);
 
-        // Clean up the event listener on component unmount
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobileView(window.innerWidth <= 615);
-        };
-
-        window.addEventListener('resize', handleResize);
-
         return () => {
             window.removeEventListener('resize', handleResize);
         };
