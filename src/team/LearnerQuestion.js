@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '../Navbar';
+import Navbar1 from '../Navbar1';
 import { useEffect ,useState} from "react";
 import QuestionCard from '../components/QuestionCard';
 const LearnerQuestion   = () => {
@@ -69,7 +69,7 @@ const LearnerQuestion   = () => {
 
     return (
       <>
-      <Navbar />
+      <Navbar1 />
         <div style={homeStyle}>
             <div style={contentStyle}>
                 <div style={headingStyle}>👀 Something is found !!</div>

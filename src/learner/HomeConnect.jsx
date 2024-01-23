@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../Navbar';
+import Navbar1 from '../Navbar1';
 import { useParams } from 'react-router-dom';
 import { onSnapshot, doc, getFirestore, updateDoc } from 'firebase/firestore';
 import gif from '../assets/connection.gif';
@@ -117,7 +117,7 @@ const HomeConnect = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar1 />
       <div style={homeStyle}>
         <div style={contentStyle}>
           <div style={headingStyle}>

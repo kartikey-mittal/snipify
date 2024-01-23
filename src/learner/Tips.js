@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../Navbar';
+import Navbar1 from '../Navbar1';
 
 
 import { doc, getDoc } from 'firebase/firestore';
@@ -176,7 +176,7 @@ const Tips = () => {
 
     return (
         <>
-            <Navbar />
+            <Navbar1 />
             <div style={homeStyle}>
                 <div style={contentStyle}>
                     <div style={headingStyle}>🔥🔥Tips!!</div>

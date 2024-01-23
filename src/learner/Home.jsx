@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../Navbar';
+import Navbar1 from '../Navbar1';
 import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { db, storage } from '../Firebase';
@@ -319,7 +319,7 @@ const Home = () => {
     const learnerName = localStorage.getItem('LearnerName') || 'Learner'; // Use 'Learner' as a default name if not found
     return (
         <>
-            <Navbar />
+            <Navbar1 />
             <div style={homeStyle}>
                 <div style={contentStyle}>
                     <div style={headingStyle}>⚡⚡Hi {learnerName}, what is your question today?</div>
