@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from '../assets/face.jpg';
-
+// s
 const FaceDetection = () => {
 
   const [isLeftSectionVisible, setIsLeftSectionVisible] = useState(true);
