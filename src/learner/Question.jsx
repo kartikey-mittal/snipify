@@ -7,18 +7,34 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../Firebase';
 
 const Question = () => {
+
+    
     const { id } = useParams();
-    const [isFullscreen] = useState(false);
+    // const [isFullscreen, setIsFullscreen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [slideIndex, setSlideIndex] = useState(0);
     const [isSlideshowActive] = useState(true);
+    // setIsSlideshowActive(true);
     const [intervalId, setIntervalId] = useState(null);
-    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
     const [images, setImages] = useState([]);
     const [question, setQuestion] = useState('');
     const [author, setAuthor] = useState('');
-    const [date] = useState('');
+    const [date] = useState('latest');
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth <= 615);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         const handleResize = () => {
@@ -37,20 +53,19 @@ const Question = () => {
             try {
                 const requestRef = doc(db, 'Requests', id);
                 const docSnapshot = await getDoc(requestRef);
-
+    
                 if (docSnapshot.exists()) {
                     const requestData = docSnapshot.data();
                     console.log('Request Data:', requestData);
-console.log(requestData);
+    
                     const screenshots = requestData?.Screenshots || [];
                     const question = requestData?.Question || '';
                     const author = requestData?.Name || '';
-                    // const createdAt = requestData?.createdAt.toDate();
-                    // setdate(createdAt);
+    
                     setAuthor(author);
                     setQuestion(question);
                     console.log('Screenshots:', screenshots);
-
+    
                     setImages(screenshots);
                 } else {
                     console.error('Request not found');
@@ -59,19 +74,29 @@ console.log(requestData);
                 console.error('Error fetching request data:', error);
             }
         };
-
-        fetchRequestData();
-
-        // Clean up the interval on component unmount
+    
+        const intervalId = setInterval(() => {
+            // Your interval logic here
+            console.log('Interval logic running...');
+        }, 1000); // Adjust the interval duration as needed
+    
+        // Fetch data only if the id has changed
+        if (id) {
+            fetchRequestData();
+        }
+        
+        // Clear the interval on component unmount
         return () => clearInterval(intervalId);
-    }, [id,intervalId]);
+    }, [id]);
+    
+    console.log(intervalId);
 
     useEffect(() => {
         const interval = setInterval(() => {
             if (isSlideshowActive) {
                 setSlideIndex((prevIndex) => (prevIndex + 1) % images.length);
             }
-        }, 6000);
+        }, 99999);
 
         setIntervalId(interval);
 
@@ -89,7 +114,7 @@ console.log(requestData);
 
 
     const homeStyle = {
-        height: '85%',
+        height: '85vh',
         display: 'flex',
         flexDirection: isMobileView ? 'column' : 'row',
         justifyContent: 'center',
@@ -102,11 +127,11 @@ console.log(requestData);
 
     const contentStyle = {
         width: isMobileView ? '100%' : '95%',
-        height: isMobileView ? '55vh' : '85vh',
+        height: isMobileView ? '85vh' : '85vh',
         border: '1px solid #ccc',
         borderRadius: 15,
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection:  'column',
         alignItems: 'flex-start',
         overflow: 'hidden',
         backgroundColor: '#F3F6FC',
@@ -133,26 +158,27 @@ console.log(requestData);
         marginTop: '20px',
         border: '1px solid blue',
         boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.1)',
+        marginBottom:isMobileView?'20px':0
     };
 
     const sliderContainerStyle = {
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
+        flexDirection:'row',
+        justifyContent: 'flex-start',
        
-        width: '90vw',
-        height: '60vh',
-        overflow: 'auto',
-       
+        width: '100%',
+        height:isMobileView?'30vh' :'60vh',
+        overflowX: 'scroll',
+        overflowY: 'hidden',
         alignItems:"flex-start",
     };
     
 
     const sliderStyle = {
+        marginTop:0,
         display: 'flex',
-        transform: isFullscreen ? 'scale(1.5)' : 'scale(1)', // Adjust scaling as needed
         transition: 'transform 0.3s ease-in-out',
-
+        width:isMobileView?"auto":"auto"
         // transition: 'transform 2s ease-in-out',
         // transform: `translateX(-${slideIndex * 100}%)`,
     };
@@ -163,12 +189,12 @@ console.log(requestData);
         flexDirection: 'row',
         justifyContent: 'center',
         marginTop:"20px",
-        width: '85%',
-        height: '100%',
+        width:isMobileView?"100%": '100%',
+        height:isMobileView?"80%": '100%',
        backgroundColor:'white',
         border:"none",
         outline:"none",
-        borderRadius:50,
+        borderRadius:isMobileView?30:50,
         boxShadow: '5px 10px 15px  rgba(0, 0, 0, 0.4)',        
     };
 
@@ -179,11 +205,11 @@ console.log(requestData);
                 <div style={contentStyle}>
                     <div style={headingStyle}>👀 Something is found !!</div>
                     <div style={mainboxStyle}>
-                        <div style={{ backgroundColor: 'transparent', height: 50, flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+                        <div style={{ backgroundColor: 'transparent', height: 50,  display: 'flex',flexDirection:isMobileView?'column': 'row', alignItems: 'center' }}>
                             <div style={{ marginRight: '20px', fontSize: 20, marginLeft: '10px' }}>🤔</div>
                             <div style={{ marginRight: '10px', fontSize: 20, fontFamily: "DMM", fontStyle: 'bold' }}>{question}</div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems:'flex-start' }}>
+                        <div style={{ display: 'flex',flexDirection:isMobileView?'column': 'row', justifyContent: 'center', alignItems:'flex-start' }}>
                             <div style={sliderContainerStyle}>
                                 <div style={sliderStyle}>
                                     {images.map((imageUrl, index) => (
@@ -192,7 +218,7 @@ console.log(requestData);
                                                 src={imageUrl}
                                                 alt={`uploaded-${index}`}
                                                 style={{
-                                                    width: '100%',
+                                                    width:isMobileView?"100%": '100%',
                                                     height: '350px',
                                                     borderRadius: 30,
                                                     
@@ -202,12 +228,12 @@ console.log(requestData);
                                     ))}
                                 </div>
                             </div>
-                            <div style={{ backgroundColor: 'transparent', width: '30%', height: '400px', marginLeft: '50px', marginRight: '50px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-                                <p style={{ color: 'grey', fontFamily: 'DMM', textAlign: 'left', fontSize: 25, marginBottom: '5px' }}>
+                            <div style={{ backgroundColor: 'transparent', width:isMobileView?'80%': '30%', height: '400px', marginLeft: '50px', marginRight: '50px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+                                <p style={{ color: 'grey', fontFamily: 'DMM', textAlign: 'left', fontSize: 25, marginBottom:isMobileView?'0px': '5px' }}>
                                     didn't get it,<br />
                                     right?
                                 </p>
-                                <p style={{ color: '#5813EA', fontFamily: 'DMM', textAlign: 'left', fontSize: 35, marginTop: '5px', fontWeight: '500', marginBottom: '5px' }}>
+                                <p style={{ color: '#5813EA', fontFamily: 'DMM', textAlign: 'left', fontSize: 35, marginTop:isMobileView?'0px': '5px', fontWeight: '500', marginBottom: '5px' }}>
                                     let's connect<br />
                                          live!!! ⚡
                                 </p>
@@ -230,7 +256,7 @@ console.log(requestData);
                                         position: 'absolute',
                                         bottom: 0,
                                         cursor: 'pointer',
-                                        marginBottom: '50px'
+                                        marginBottom:isMobileView?'100px': '50px'
                                     }}
                                 >
                                     Connect
@@ -270,10 +296,20 @@ console.log(requestData);
                         objectFit: 'contain',
                     }}
                 />
-                <button onClick={closeModal} style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '20px', color: 'blue', background: 'none', border: 'none', cursor: 'pointer',fontFamily:'DMM' }}>
-                    Close
-                </button>
-            </Modal>
+                 <button
+                                        onClick={() => setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1))}
+                                        style={{ position: 'absolute', top: '40%', left: '10px', fontSize: '50px', color: 'blue', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'DMM' }}
+                                    >
+                                        <p>{'<'}</p>
+                                    </button>
+                                    <button
+                                        onClick={() => setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)}
+                                        style={{ position: 'absolute', top: '50%', right: '0px', fontSize: '50px', color: 'blue', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'DMM' }}
+                                    >
+                                        {'>'}
+                                    </button>
+
+                </Modal>
         </>
     );
     
