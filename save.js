@@ -305,9 +305,9 @@ const handleContinue = () => {
                 <div style={contentStyle}>
                     <div style={mainboxStyle}>
                         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center"}}>
-                            <div style={{ width: '45%', height: '500px', backgroundColor: "#EEF4FE", marginTop: '20px', borderRadius: '20px', justifyContent: 'center', alignContent: 'center', alignItems: 'center', display: 'flex',...styles.leftSectionHidden  }}>
+                            <div style={{ width: '45%', height: '500px', backgroundColor: "#EEF4FE", marginTop: '20px', borderRadius: '20px', justifyContent: 'center', alignContent: 'center', alignItems: 'center', display: 'flex',...styles.leftSectionHidden,marginRight:'10px'  }}>
 
-                                <img src={Skills} alt="Logo" style={{ height: '80%', width: '80 %', }} />
+                                <img src={Skills} alt="Logo" style={{ height: '80%', width: '80%',marginRight:'50px' }} />
                             </div>
 
 

@@ -87,7 +87,7 @@ const TeamWork = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 //justifyContent: 'center',
-                height: '100vh', // Set full height of the viewport
+                height: '120vh', // Set full height of the viewport
                 background: `
                     repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255, 133, 244, 0.8) 50px, rgba(66, 133, 244, 0.8) 51px),
                     repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(66, 133, 244, 0.8) 50px, rgba(66, 133, 244, 0.8) 51px),
@@ -102,13 +102,13 @@ const TeamWork = () => {
 
             </div>
 
-            <div style={{ display: 'flex', flexDirection: isMobileView?'column':'row', marginTop: 10, gap: '100px',justifyContent:'center' ,alignContent:'center'}}>
+            <div style={{ display: 'flex', flexDirection: isMobileView?'column':'row', marginTop: 10, gap: '0px',justifyContent:'center' ,alignContent:'center'}}>
                 <video
-                    width="500"
+                    width= {isMobileView?"300":"500"}
                     height="300"
                     controls
                     poster={Logo} // Optional: Add a poster image
-                    style={{ borderRadius: '30px' }}
+                    style={{ borderRadius: '30px' ,alignSelf:'center'}}
                 >
                     
                     <source src={videoFile} type="video/mp4" />
@@ -117,7 +117,7 @@ const TeamWork = () => {
 
 
 
-                <div style={{ ...gitstyle, textAlign: 'center', gap: 30, display: 'flex', justifyContent: 'center',alignSelf:'center' }}>
+                <div style={{ ...gitstyle, textAlign: 'center', gap: 30, display: 'flex', justifyContent: 'center', }}>
                     <img src={Github} alt="Logo" style={{ height: '50px', width: '50px', alignSelf: 'center' }} />
                     <button
                         style={{
@@ -131,7 +131,7 @@ const TeamWork = () => {
                             background: '#171515',
                             color: 'white',
                             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
-                            transition: 'background 0.3s',
+                            
                             fontFamily: 'DMM',
                         }}
                         onClick={() => {
