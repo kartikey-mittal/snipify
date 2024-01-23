@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
-import React, { useEffect,useState } from 'react';
+import React, { useEffect ,useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import Image from '../assets/face.jpg';
 
-
+// s
 function CheckFace() {
     const {id} =useParams();
   let faceioInstance = null;
@@ -29,27 +30,27 @@ const navigate = useNavigate();
     }
   };
 
-  // const faceRegistration = async () => {
-  //   try {
-  //     const userInfo = await faceioInstance.enroll({
-  //       locale: "auto",
-  //       payload: {
-  //         email: "demo",
-  //         userId: "demo",
-  //         username: "demo",
-  //       },
-  //     });
-  //     console.log(userInfo);
-  //     console.log('Unique Facial ID: ', userInfo.facialId);
-  //     console.log('Enrollment Date: ', userInfo.timestamp);
-  //     console.log('Gender: ', userInfo.details.gender);
-  //     console.log('Age Approximation: ', userInfo.details.age);
-  //     navigate(`/skilled/profile/${id}`);
-  //   } catch (errorCode) {
-  //     console.log(errorCode);
-  //     handleError(errorCode);
-  //   }
-  // };
+//   const faceRegistration = async () => {
+//     try {
+//       const userInfo = await faceioInstance.enroll({
+//         locale: "auto",
+//         payload: {
+//           email: "demo",
+//           userId: "demo",
+//           username: "demo",
+//         },
+//       });
+//       console.log(userInfo);
+//       console.log('Unique Facial ID: ', userInfo.facialId);
+//       console.log('Enrollment Date: ', userInfo.timestamp);
+//       console.log('Gender: ', userInfo.details.gender);
+//       console.log('Age Approximation: ', userInfo.details.age);
+//       navigate(`/skilled/profile/${id}`);
+//     } catch (errorCode) {
+//       console.log(errorCode);
+//       handleError(errorCode);
+//     }
+//   };
 
   const faceSignIn = async () => {
     try {
@@ -58,10 +59,10 @@ const navigate = useNavigate();
         locale: "auto",
       });
       console.log(userData);
-
+      navigate(`/skilled/connect/${id}`);
       console.log('Unique Facial ID: ', userData.facialId);
       console.log('PayLoad: ', userData.payload);
-      navigate('/skilled/home')
+      
     } catch (errorCode) {
       console.log('yes');
       console.log(errorCode);
@@ -74,7 +75,7 @@ const navigate = useNavigate();
     // Handle errors as needed
     console.error('FaceIO Error:', errCode);
   };
-// *********************************************
+// ***************************************************
 const [isLeftSectionVisible, setIsLeftSectionVisible] = useState(true);
 
   useEffect(() => {
@@ -167,7 +168,7 @@ const [isLeftSectionVisible, setIsLeftSectionVisible] = useState(true);
       fontSize: 20,
     },
   };
-// ____________________________________________
+//-----------------------
   return (
     <div style={styles.container}>
       <div style={styles.leftSection}>
