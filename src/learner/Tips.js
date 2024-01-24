@@ -200,7 +200,7 @@ const Tips = () => {
 
                             </div>
                             <div style={{ backgroundColor: 'transparent', width: '30%', height: '400px', marginLeft: '50px', marginRight: '50px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-                            <p style={{ color: 'grey', fontFamily: 'DMM', textAlign: 'left', fontSize: 25, marginBottom:isMobileView?'0px': '5px' }}>
+                            <p style={{ color: 'grey', fontFamily: 'DMM', textAlign: 'left', fontSize: 25, marginBottom:isMobileView?'0px': '5px',display:isMobileView?'none':'block' }}>
                                     rate this
                                 </p>
                                 <p style={{ color: '#5813EA', fontFamily: 'DMM', textAlign: 'left', fontSize: 35, marginTop:isMobileView?'0px': '5px', fontWeight: '500', marginBottom: '5px' }}>
@@ -243,7 +243,7 @@ const Tips = () => {
                                         position: 'absolute',
                                         bottom: 0,
                                         cursor: 'pointer',
-                                        marginBottom:isMobileView?'70px': '50px',
+                                        marginBottom:isMobileView?'100px': '50px',
                                         marginLeft:isMobileView?"85%":0
                                     }}
                                 >

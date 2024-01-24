@@ -2,6 +2,8 @@
 import React, { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import Image from '../assets/face.jpg';
+
 
 
 function Face() {
@@ -171,7 +173,7 @@ const [isLeftSectionVisible, setIsLeftSectionVisible] = useState(true);
   return (
     <div style={styles.container}>
       <div style={styles.leftSection}>
-        <img
+      <img
           src={Image}
           alt="Logo"
           style={{ height: '400px', width: '550px', borderRadius: '10%', boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.4)', }}

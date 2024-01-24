@@ -23,12 +23,15 @@ const TeamWork = () => {
         };
     }, []);
 
-    const handleClick = () => {
+    function handleClick() {
         // Navigate to the '/test' route with the name as a parameter
+        console.log("login");
+
         navigate(`/login`);
     };
-    const handleClick1 = () => {
+    function handleClick1(){
         // Navigate to the '/test' route with the name as a parameter
+        console.log("signup");
         navigate(`/signup`);
     };
 
@@ -98,8 +101,8 @@ const TeamWork = () => {
         >
             <img src={Logo} alt="Logo" style={{ height: isMobileView ? '110px' : '220px', width: isMobileView ? '220px' : '440px', }} />
             <div style={{ textAlign: 'center', gap: 30, display: 'flex', flexDirection: isMobileView ? 'column' : 'row', marginTop: isMobileView ? '100px' : '0px', }}>
-                <button style={buttonStyle} onClick={() => handleClick}>already have account?<br />Login</button>
-                <button style={buttonStyle1} onClick={() => handleClick1}>new to snipify?<br />Signup</button>
+                <button style={buttonStyle} onClick={ handleClick}>already have account?<br />Login</button>
+                <button style={buttonStyle1} onClick={handleClick1}>new to snipify?<br />Signup</button>
 
             </div>
 
