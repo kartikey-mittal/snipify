@@ -102,7 +102,7 @@ const TeamWork = () => {
 
             </div>
 
-            <div style={{ display: 'flex', flexDirection: isMobileView?'column':'row', marginTop: 10, gap: '0px',justifyContent:'center' ,alignContent:'center'}}>
+            <div style={{ display: 'flex', flexDirection: isMobileView?'column':'column', marginTop: 10, gap: '0px',justifyContent:'center' ,alignContent:'center'}}>
                 <video
                     width= {isMobileView?"300":"500"}
                     height="300"
