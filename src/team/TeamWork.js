@@ -64,6 +64,7 @@ const TeamWork = () => {
     };
     const gitstyle = {
         padding: '10px 20px',
+        marginTop:"5px",
         margin: '10px',
         borderRadius: '15px',
         fontSize: 20,
@@ -77,7 +78,6 @@ const TeamWork = () => {
         transition: 'background 0.3s',
         fontFamily: 'DMM',
         height: '50px',
-        marginTop: 50
     };
 
     return (
@@ -87,7 +87,8 @@ const TeamWork = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 //justifyContent: 'center',
-                height: '120vh', // Set full height of the viewport
+                height: '100vh', // Set full height of the viewport
+                overflowY:"hidden",
                 background: `
                     repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255, 133, 244, 0.8) 50px, rgba(66, 133, 244, 0.8) 51px),
                     repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(66, 133, 244, 0.8) 50px, rgba(66, 133, 244, 0.8) 51px),
