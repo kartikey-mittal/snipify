@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import stringSimilarity from 'string-similarity';
 
-const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', "skills", 'Python', 'React',];
+const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', "C", 'Java', 'PHP'];
 
 const Home = () => {
 

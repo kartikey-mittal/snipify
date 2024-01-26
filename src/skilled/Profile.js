@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { db, collection, } from '../Firebase'
 import { getToken } from "firebase/messaging";
 import { messaging } from "../Firebase";
-const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', 'skills', 'Python', 'React'];
+const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', "C", 'Java', 'PHP'];
 const professionData = ['Student', 'Working Professional', 'Freelancer'];
 
 
