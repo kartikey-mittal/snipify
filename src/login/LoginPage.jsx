@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Logo from '../assets/snipify_ob.png'
-import { collection, getDocs, query, where, getD } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../Firebase'
 
 const LoginPage = () => {
