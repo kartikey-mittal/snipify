@@ -26,11 +26,16 @@ import Face from "./login/Face";
 import CheckFace from "./login/CheckFace";
 import Question from "./learner/Question";
 import Tips from "./learner/Tips";
+import EditorPage from "./code_editor/EditorPage";
+import CHome from "./code_editor/CHome";
+
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<TeamWork/>}   />
+        <Route path="/cc" element={<EditorPage/>}   />
+        <Route path="/cc/:roomId" element={<CHome/>}   />
         <Route path="/test" element={<TestPage/>}   />
         <Route path="/login" element={<LoginPage/>}   />
         <Route path="/signup" element={<SignUpPage/>}   />
@@ -55,6 +60,7 @@ function App() {
         <Route path="/skilled/face/:id" element={<CheckFace/>}   />
         <Route path="/question/:id" element={<Question/>}   />
         <Route path="/tips" element={<Tips/>}   />
+      
 
       </Routes>
     </div>
