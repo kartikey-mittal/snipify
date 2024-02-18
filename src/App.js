@@ -26,15 +26,12 @@ import Face from "./login/Face";
 import CheckFace from "./login/CheckFace";
 import Question from "./learner/Question";
 import Tips from "./learner/Tips";
-<<<<<<< HEAD
 import LearnerSessions from "./learner/LearnerSessions";
 import LearnerSessionCard from "./learner/LearnerSessionCard";
 import LearnerStats from "./learner/LearnerStats";
 // just for fun
-=======
 import EditorPage from "./code_editor/EditorPage";
 import CHome from "./code_editor/CHome";
->>>>>>> aa7494518f7ed176c25b61f92bbf30756e49318f
 
 function App() {
   return (

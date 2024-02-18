@@ -1,10 +1,13 @@
 import React, { useState } from "react"
 import CustomSwitch from "../components/CustomSwitch";
-import {ResponsiveContainer,BarChart,Bar,XAxis,YAxis, Tooltip} from 'recharts';
-
+import {ResponsiveContainer,RadialBar,RadialBarChart, Tooltip,Legend} from 'recharts';
+import Navbar from "../Navbar";
 const LearnerStats = () => {
 
-        const skillsData = ['C++', 'JavaScript', 'Python', 'React', 'Node.js', 'skills', 'Python', 'React'];
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
+
+
+        const skillsData = ['C++ : 8', 'JavaScript : 9', 'Python : 3', 'React : 6', 'Node.js : 9', 'C# : 8'];
         const [isLeftSectionVisible, setIsLeftSectionVisible] = useState(true);
         const [isSkillClicked, setIsSkillClicked] = useState(false);
         const initialBorderRadius = 50;
@@ -14,43 +17,53 @@ const LearnerStats = () => {
     const bgColor = "white";
     const textColor = "black";
 
-    const bardata=[
+    const data=[
         {
-        name:"Python",
-        questions:3
+        "name":"Python",
+        "questions":3,
+        "fill": "#8884d8"
     },
     {
-        name:"C",
-        questions:10
+        "name":"C",
+        "questions":10,
+        "fill": "#83a6ed"
     },
     {
-        name:"C++",
-        questions:8
+        "name":"C++",
+        "questions":8,
+        "fill": "#8dd1e1"
     },
     {
-        name:"C#",
-        questions:4
+        "name":"C#",
+        "questions":4,
+        "fill": "#82ca9d"
     },
     {
-        name:"React",
-        questions:6
+        "name":"React",
+        "questions":6,
+        "fill": "#a4de6c"
     },
     {
-        name:"JS",
-        questions:9
+        "name":"JS",
+        "questions":9,
+        "fill": "#d0ed57"
     },
 ]
 
     const homeStyle = {
-        height: '90vh',
+        height: '100%',
         display: 'flex',
         justifyContent: 'center',
-        marginTop: 20,
+        padding: 20,
+        background: `
+    repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(242, 242, 242, 0.8) 50px, rgba(242, 242, 242, 0.8) 51px),
+    repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(242, 242, 242, 0.8) 50px, rgba(242, 242, 242, 0.8)51px),
+    #ff7b6a  `,
     };
 
     const contentStyle = {
-        width: '90%',
-        height: '90vh',
+        width: isMobileView?'100%': '85%',
+        height: '85vh',
         border: '1px solid #ccc',
         borderRadius: 15,
         display: 'flex',
@@ -87,7 +100,8 @@ const LearnerStats = () => {
         display:"flex",
         flexDirection:"row",
         justifyContent:'space-between',
-        alignItems:"center"
+        alignItems:"center",
+        Fontfamily:'DMM',
     };
 
     const skillContainerStyle = {
@@ -96,6 +110,8 @@ const LearnerStats = () => {
         width: '100%',
         gap: isLeftSectionVisible ? 10 : 10,
         marginLeft: isLeftSectionVisible ? -30 : -5,
+        Fontfamily:'DMM',
+        marginTop:50
     };
 
     const skillButtonStyle = {
@@ -118,6 +134,7 @@ const LearnerStats = () => {
     
 
     const handleSkillClick = (index) => {
+        
         if (selectedSkill.includes(index)) {
             // If the skill is already selected, remove it
             setSelectedSkill((prevSkills) => prevSkills.filter((skill) => skill !== index));
@@ -139,8 +156,10 @@ const LearnerStats = () => {
 
 
     return (
-        
+       <>
+       <Navbar/>
         <div style={homeStyle}>
+            
             <div style={contentStyle}>
                 <div style={headingStyle}>
                     <div style={{
@@ -154,11 +173,12 @@ const LearnerStats = () => {
                 </div>
 
                 <div style={mainboxStyle}>
-                <div style={{width:"40%",textAlign:"left",backgroundColor:"#8883d8",height:"60vh",paddingLeft:"6%",display:"flex",flexDirection:"column",justifyContent:"center",marginLeft:"2%",borderRadius:"5%"}}>
-                      <div >
-                    <p>Total Questions Answered : 30</p>
-                    <p>Total Stars Awarded : 30</p>
-                    <p>Total Domains : 30</p>
+                <div style={{width:"50%",textAlign:"left",backgroundColor:"#F9F9F9",height:"60vh",paddingLeft:"6%",display:"flex",flexDirection:"column",justifyContent:"",marginLeft:"2%",borderRadius:"5%",border:"1px solid black",}}>
+
+                      <div style={{marginTop:50}}>
+                    <p style={{fontSize:25,fontWeight:"400",fontFamily:'DMM'}}>Total Questions Given : 30</p>
+                    <p style={{fontSize:25,fontWeight:"400",fontFamily:'DMM'}}>Total Stars Awarded : 30</p>
+                    <p style={{fontSize:25,fontWeight:"400",fontFamily:'DMM'}}>Total Domains : 30</p>
                     </div> 
                     <div style={skillContainerStyle}>
                                      {skillsData.map((skill, index) => (
@@ -169,14 +189,16 @@ const LearnerStats = () => {
                                            ...skillButtonStyle,
                                            backgroundColor: selectedSkill.includes(index) ? '#4285F4' : 'white',
                                            color: selectedSkill.includes(index) ? 'white' : 'black',
+                                           cursor:"pointer"
                                          }}
+                                         
                                        >
                                          {skill}
                                        </button>
                                      ))}
                                    </div>
                 </div>
-                <div style={{width:"40%",textAlign:"left",backgroundColor:"#B784B7",height:"60vh",display:"flex",flexDirection:"column",justifyContent:"center",marginRight:"2%",borderRadius:"5%",alignItems:"center",boxShadow: '10px 8px 10px 2px rgba(0, 0, 0, 0.1)',}}>
+                <div style={{width:"40%",textAlign:"left",height:"60vh",display:"flex",flexDirection:"column",justifyContent:"center",marginRight:"2%",borderRadius:"5%",alignItems:"center",boxShadow: '10px 8px 10px 2px rgba(0, 0, 0, 0.1)',}}>
                 <div>
                         <select value={selectedOption} onChange={handleChange} style={{width:150,height:30,marginLeft:30,cursor:"pointer",backgroundColor:"#BFEA7C",color:"#416D19",borderRadius:20,textAlign:"center",fontSize:14,border: 'none',}}>
                                 <option value="">Select an option</option>
@@ -186,13 +208,20 @@ const LearnerStats = () => {
                         </select>
                         {/* BFEA7C */}
                  </div>
-                <ResponsiveContainer width={'100%'} aspect={1.5} height='80%'>
-                        <BarChart data={bardata} width='70%' height="50%">
-                                <XAxis dataKey='name' />
-                                <Tooltip/>
-                                <YAxis />
-                                <Bar dataKey="questions" fill="#070F2B"/>
-                        </BarChart>
+                <ResponsiveContainer width={'100%'} aspect={0} height='100%'>
+                                 <RadialBarChart 
+                                width={780} 
+                                height={250} 
+                                innerRadius="10%" 
+                                outerRadius="80%" 
+                                data={data} 
+                                startAngle={180} 
+                                endAngle={0}
+                                >
+                                <RadialBar minAngle={15} label={{ fill: '#666', position: 'insideStart' }} background clockWise={true} dataKey='questions' />
+                                <Legend iconSize={10} width={80} height={200} layout='vertical' verticalAlign='middle' align="right" />
+                                <Tooltip />
+                                </RadialBarChart>
                 </ResponsiveContainer>
                     
                 </div>
@@ -200,6 +229,7 @@ const LearnerStats = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 
