@@ -7,6 +7,7 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { db, } from '../Firebase';
 import gif from '../assets/connection.gif';
 import LearnerSessionCard from "./LearnerSessionCard";
+
 const LearnerSessions = () => {
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
@@ -147,7 +148,7 @@ const LearnerSessions = () => {
                             fontWeight: 500,
                             marginLeft: 30,
                             margin: 3
-                        }}>⚡⚡Hi {skilledName} , Your Previous Sessions Are Here... </div>
+                        }}>⚡⚡Hi {skilledName} ,what's up? </div>
                       
                     </div>
 

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import CustomSwitch from "../components/CustomSwitch";
 import {ResponsiveContainer,RadialBar,RadialBarChart, Tooltip,Legend} from 'recharts';
 
-const LearnerStats = () => {
+const SkilledStats = () => {
 
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
@@ -171,11 +171,11 @@ const LearnerStats = () => {
                 </div>
 
                 <div style={mainboxStyle}>
-                <div style={{width:"50%",textAlign:"left",backgroundColor:"#a4de6c",height:"60vh",paddingLeft:"6%",display:"flex",flexDirection:"column",justifyContent:"center",marginLeft:"2%",borderRadius:"5%"}}>
+                <div style={{width:"40%",textAlign:"left",backgroundColor:"#82ca9d",height:"60vh",paddingLeft:"6%",display:"flex",flexDirection:"column",justifyContent:"center",marginLeft:"2%",borderRadius:"5%"}}>
                       <div >
-                    <p style={{fontSize:18,fontWeight:"600"}}>Total Questions Given : 30</p>
-                    <p style={{fontSize:18,fontWeight:"600"}}>Total Stars Awarded : 30</p>
-                    <p style={{fontSize:18,fontWeight:"600"}}>Total Domains : 30</p>
+                    <p style={{fontSize:18,fontWeight:"600"}}>Total Questions Answered : 30</p>
+                    <p style={{fontSize:18,fontWeight:"600"}}>Total Hours Given : 50</p>
+                    <p style={{fontSize:18,fontWeight:"600"}}>Questions Domains : </p>
                     </div> 
                     <div style={skillContainerStyle}>
                                      {skillsData.map((skill, index) => (
@@ -195,9 +195,9 @@ const LearnerStats = () => {
                                      ))}
                                    </div>
                 </div>
-                <div style={{width:"40%",textAlign:"left",height:"60vh",display:"flex",flexDirection:"column",justifyContent:"center",marginRight:"2%",borderRadius:"5%",alignItems:"center",boxShadow: '10px 8px 10px 2px rgba(0, 0, 0, 0.1)',}}>
+                <div style={{width:"50%",textAlign:"left",height:"60vh",display:"flex",flexDirection:"column",justifyContent:"center",marginRight:"2%",borderRadius:"5%",alignItems:"center",boxShadow: '10px 8px 10px 2px rgba(0, 0, 0, 0.1)',}}>
                 <div>
-                        <select value={selectedOption} onChange={handleChange} style={{width:150,height:30,marginLeft:30,cursor:"pointer",backgroundColor:"#BFEA7C",color:"#416D19",borderRadius:20,textAlign:"center",fontSize:14,border: 'none',}}>
+                        <select value={selectedOption} onChange={handleChange} style={{width:150,height:30,marginLeft:30,cursor:"pointer",backgroundColor:"#BFEA7C",color:"#416D19",borderRadius:20,textAlign:"center",fontSize:14,border: 'none',marginTop:70}}>
                                 <option value="">Select an option</option>
                                 <option value="3">Past 3 months</option>
                                 <option value="1">Past 1 month</option>
@@ -205,6 +205,7 @@ const LearnerStats = () => {
                         </select>
                         {/* BFEA7C */}
                  </div>
+                 <p style={{fontSize:18,fontWeight:'500',marginTop:30,color:"#8884d8"}}>Total Questions Solved 🚀🚀</p>
                 <ResponsiveContainer width={'100%'} aspect={0} height='100%'>
                                  <RadialBarChart 
                                 width={780} 
@@ -229,4 +230,4 @@ const LearnerStats = () => {
     );
 };
 
-export default LearnerStats;
+export default SkilledStats;
