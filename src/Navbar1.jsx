@@ -54,6 +54,7 @@ const Navbar1 = () => {
       <div style={blueContainerStyle}>
         <img src={Logo} alt="Logo" style={{height:'100%'}} /> {/* Stretch the SVG logo */}
       </div>
+      
       <div 
         style={{...buttonStyle('white'), marginLeft: 'auto', borderBottomColor: activeButton === 'red' ? '#5813EA' : 'transparent'}}
         onClick={() => setActiveButton('red')}
@@ -66,6 +67,7 @@ const Navbar1 = () => {
       >
         CodeByte
       </div>
+      
       <div 
         style={{backgroundColor:'#D9D9D9',borderRadius:'100%',height:40,width:40,marginRight:20, borderBottomColor: activeButton === 'orange' ? 'black' : 'transparent',cursor:'pointer'}}
         

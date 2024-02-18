@@ -26,6 +26,11 @@ import Face from "./login/Face";
 import CheckFace from "./login/CheckFace";
 import Question from "./learner/Question";
 import Tips from "./learner/Tips";
+import LearnerSessions from "./learner/LearnerSessions";
+import LearnerSessionCard from "./learner/LearnerSessionCard";
+import LearnerStats from "./learner/LearnerStats";
+
+
 function App() {
   return (
     <div className="App">
@@ -34,8 +39,11 @@ function App() {
         <Route path="/test" element={<TestPage/>}   />
         <Route path="/login" element={<LoginPage/>}   />
         <Route path="/signup" element={<SignUpPage/>}   />
+        <Route path="/learnersessioncard" element={<LearnerSessionCard/>}   />
+        <Route path="/learner/stats" element={<LearnerStats/>}   />
         <Route path="/skilled/profile/:id" element={<Profile/>}   />
         <Route path="/learner/facedetection" element={<FaceDetection/>}   />
+        <Route path="/learner/learnersessions" element={<LearnerSessions/>}   />
         <Route path="/learner/home" element={<Home/>}   />
         <Route path="/learner/question/:id" element={<LearnerQuestion/>}   />
         <Route path="/team/solution" element={<OldSolution/>}   />
