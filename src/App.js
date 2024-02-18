@@ -29,6 +29,7 @@ import Tips from "./learner/Tips";
 import LearnerSessions from "./learner/LearnerSessions";
 import LearnerSessionCard from "./learner/LearnerSessionCard";
 import LearnerStats from "./learner/LearnerStats";
+import SkilledStats from "./skilled/SkilledStats";
 // just for fun
 import EditorPage from "./code_editor/EditorPage";
 import CHome from "./code_editor/CHome";
@@ -45,6 +46,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage/>}   />
         <Route path="/learnersessioncard" element={<LearnerSessionCard/>}   />
         <Route path="/learner/stats" element={<LearnerStats/>}   />
+        <Route path="/skilled/stats" element={<SkilledStats/>}   />
         <Route path="/skilled/profile/:id" element={<Profile/>}   />
         <Route path="/learner/facedetection" element={<FaceDetection/>}   />
         <Route path="/learner/learnersessions" element={<LearnerSessions/>}   />

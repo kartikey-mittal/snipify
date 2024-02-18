@@ -6,6 +6,10 @@ const LearnerStats = () => {
 
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 615);
 
+    const name= localStorage.getItem("LearnerEmail");
+    console.log(name);
+
+    
 
         const skillsData = ['C++ : 8', 'JavaScript : 9', 'Python : 3', 'React : 6', 'Node.js : 9', 'C# : 8'];
         const [isLeftSectionVisible, setIsLeftSectionVisible] = useState(true);
@@ -56,9 +60,9 @@ const LearnerStats = () => {
         justifyContent: 'center',
         padding: 20,
         background: `
-    repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(242, 242, 242, 0.8) 50px, rgba(242, 242, 242, 0.8) 51px),
-    repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(242, 242, 242, 0.8) 50px, rgba(242, 242, 242, 0.8)51px),
-    #ff7b6a  `,
+        repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255, 133, 244, 0.8) 50px, rgba(66, 133, 244, 0.8) 51px),
+        repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(66, 133, 244, 0.8) 50px, rgba(66, 133, 244, 0.8) 51px),
+        #5813ea`,
     };
 
     const contentStyle = {
@@ -168,7 +172,7 @@ const LearnerStats = () => {
                         fontWeight: 500,
                         marginLeft: 30,
                         margin: 3
-                    }}>⚡⚡Hi Aviral Saxena, reshape the community!!</div>
+                    }}>⚡⚡Hi Learner Name,see your account!!</div>
                     <CustomSwitch />
                 </div>
 
@@ -198,9 +202,9 @@ const LearnerStats = () => {
                                      ))}
                                    </div>
                 </div>
-                <div style={{width:"40%",textAlign:"left",height:"60vh",display:"flex",flexDirection:"column",justifyContent:"center",marginRight:"2%",borderRadius:"5%",alignItems:"center",boxShadow: '10px 8px 10px 2px rgba(0, 0, 0, 0.1)',}}>
+                <div style={{width:"40%",textAlign:"left",height:"60vh",display:"flex",flexDirection:"column",justifyContent:"center",marginRight:"2%",borderRadius:"5%",alignItems:"center",}}>
                 <div>
-                        <select value={selectedOption} onChange={handleChange} style={{width:150,height:30,marginLeft:30,cursor:"pointer",backgroundColor:"#BFEA7C",color:"#416D19",borderRadius:20,textAlign:"center",fontSize:14,border: 'none',}}>
+                        <select value={selectedOption} onChange={handleChange} style={{width:200,height:35,marginLeft:30,cursor:"pointer",backgroundColor:"#D9D9D9",color:"#000",borderRadius:20,textAlign:"center",fontSize:20,border: 'none',}}>
                                 <option value="">Select an option</option>
                                 <option value="3">Past 3 months</option>
                                 <option value="1">Past 1 month</option>
@@ -213,7 +217,7 @@ const LearnerStats = () => {
                                 width={780} 
                                 height={250} 
                                 innerRadius="10%" 
-                                outerRadius="80%" 
+                                outerRadius="100%" 
                                 data={data} 
                                 startAngle={180} 
                                 endAngle={0}
